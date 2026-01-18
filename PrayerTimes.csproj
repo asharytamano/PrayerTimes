@@ -1,0 +1,55 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net8.0-windows</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<UseWPF>true</UseWPF>
+		<UseWindowsForms>true</UseWindowsForms>
+		<StartupObject>PrayerTimes.App</StartupObject>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Compile Remove="Infrastructure\RelayCommand.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Remove="Assets\Header\header.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Folder Include="AppCore\" />
+		<Folder Include="Assets\Audio\" />
+		<Folder Include="Assets\Data\" />
+		<Folder Include="Models\" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="Infrastructure\RelayCommand.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Adhan" Version="0.9.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Resource Include="Assets\Header\header.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Update="Properties\Settings.Designer.cs">
+			<DesignTimeSharedInput>True</DesignTimeSharedInput>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Settings.settings</DependentUpon>
+		</Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update="Properties\Settings.settings">
+			<Generator>SettingsSingleFileGenerator</Generator>
+			<LastGenOutput>Settings.Designer.cs</LastGenOutput>
+		</None>
+	</ItemGroup>
+
+</Project>
