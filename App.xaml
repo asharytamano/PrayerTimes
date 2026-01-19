@@ -2,4 +2,147 @@
              ShutdownMode="OnMainWindowClose"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Application.Resources>
+
+        <!-- Palette -->
+        <Color x:Key="ClrBg">#FFF5F7F6</Color>
+        <Color x:Key="ClrCard">#FFFFFFFF</Color>
+        <Color x:Key="ClrCardSoft">#FFF3F6F4</Color>
+        <Color x:Key="ClrBorder">#22000000</Color>
+        <Color x:Key="ClrText">#FF12201A</Color>
+        <Color x:Key="ClrTextSoft">#9912201A</Color>
+        <Color x:Key="ClrAccent">#FF1F6B3A</Color>
+        <Color x:Key="ClrGold">#FFC9A348</Color>
+        <Color x:Key="ClrParchment">#FFE6D7B8</Color>
+        <Color x:Key="ClrParchmentSoft">#FFF0E6D2</Color>
+
+        <SolidColorBrush x:Key="BgBrush" Color="{StaticResource ClrBg}" />
+        <SolidColorBrush x:Key="CardBrush" Color="{StaticResource ClrCard}" />
+        <SolidColorBrush x:Key="CardSoftBrush" Color="{StaticResource ClrCardSoft}" />
+        <SolidColorBrush x:Key="BorderBrushSoft" Color="{StaticResource ClrBorder}" />
+        <SolidColorBrush x:Key="TextBrush" Color="{StaticResource ClrText}" />
+        <SolidColorBrush x:Key="TextBrushSoft" Color="{StaticResource ClrTextSoft}" />
+        <SolidColorBrush x:Key="AccentBrush" Color="{StaticResource ClrAccent}" />
+        <SolidColorBrush x:Key="GoldBrush" Color="{StaticResource ClrGold}" />
+        <SolidColorBrush x:Key="ParchmentBrush" Color="{StaticResource ClrParchment}" />
+        <SolidColorBrush x:Key="ParchmentSoftBrush" Color="{StaticResource ClrParchmentSoft}" />
+
+        <!-- Fonts (embedded) -->
+        <!-- IMPORTANT: Assets/Fonts/*.ttf/*.otf must have Build Action = Resource -->
+        <FontFamily x:Key="TitleFont">pack://application:,,,/Assets/Fonts/#Trajan Pro</FontFamily>
+        <FontFamily x:Key="BodyFont">Segoe UI</FontFamily>
+
+        <!-- Base styles -->
+        <Style TargetType="{x:Type Window}">
+            <Setter Property="Background" Value="{DynamicResource BgBrush}" />
+            <Setter Property="FontFamily" Value="{DynamicResource BodyFont}" />
+            <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
+        </Style>
+
+        <Style TargetType="{x:Type TextBlock}">
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
+        </Style>
+
+        <Style x:Key="TitleH1" TargetType="{x:Type TextBlock}">
+            <Setter Property="FontFamily" Value="{DynamicResource TitleFont}" />
+            <Setter Property="FontSize" Value="34" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="TextOptions.TextFormattingMode" Value="Display"/>
+        </Style>
+
+        <Style x:Key="TitleH2" TargetType="{x:Type TextBlock}">
+            <Setter Property="FontFamily" Value="{DynamicResource TitleFont}" />
+            <Setter Property="FontSize" Value="22" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="TextOptions.TextFormattingMode" Value="Display"/>
+        </Style>
+
+        <!-- Controls -->
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Padding" Value="14,8" />
+            <Setter Property="MinWidth" Value="96" />
+            <Setter Property="Height" Value="36" />
+            <Setter Property="Background" Value="{DynamicResource AccentBrush}" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="10"
+                                SnapsToDevicePixels="True">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              Margin="{TemplateBinding Padding}"
+                                              TextElement.Foreground="{TemplateBinding Foreground}"
+                                              TextElement.FontWeight="{TemplateBinding FontWeight}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="0.92"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Opacity" Value="0.85"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.55"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="BtnSecondary" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="Background" Value="#FFE8EEE9"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+        </Style>
+
+        <Style TargetType="{x:Type TextBox}">
+            <Setter Property="Padding" Value="10,7" />
+            <Setter Property="MinHeight" Value="34" />
+            <Setter Property="BorderBrush" Value="#33000000" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Background" Value="White" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <Border CornerRadius="10"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Background="{TemplateBinding Background}">
+                            <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="{x:Type ComboBox}">
+            <Setter Property="Padding" Value="10,7" />
+            <Setter Property="MinHeight" Value="34" />
+        </Style>
+
+        <Style TargetType="{x:Type CheckBox}">
+            <Setter Property="Margin" Value="0,4,0,0"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
+
+        <!-- Card -->
+        <Style x:Key="Card" TargetType="{x:Type Border}">
+            <Setter Property="CornerRadius" Value="14"/>
+            <Setter Property="Padding" Value="16"/>
+            <Setter Property="Background" Value="{DynamicResource CardBrush}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderBrushSoft}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+
+        <Style x:Key="CardSoft" TargetType="{x:Type Border}" BasedOn="{StaticResource Card}">
+            <Setter Property="Background" Value="{DynamicResource CardSoftBrush}"/>
+        </Style>
+
+    </Application.Resources>
 </Application>

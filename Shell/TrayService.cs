@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Drawing;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Forms;
 using PrayerTimes.ViewModels;
@@ -32,10 +33,11 @@ namespace PrayerTimes.Shell
             _vm = vm ?? throw new ArgumentNullException(nameof(vm));
 
             _openItem = new ToolStripMenuItem("Open");
-            _settingsItem = new ToolStripMenuItem("Settings (soon)") { Enabled = false };
+            _settingsItem = new ToolStripMenuItem("Settings");
             _exitItem = new ToolStripMenuItem("Exit");
 
             _openItem.Click += (_, __) => ShowWindow();
+            _settingsItem.Click += (_, __) => OpenSettings();
             _exitItem.Click += (_, __) => ExitApp();
 
             var menu = new ContextMenuStrip();
@@ -46,7 +48,7 @@ namespace PrayerTimes.Shell
 
             _notifyIcon = new NotifyIcon
             {
-                Icon = SystemIcons.Application,   // Replace later with your green/gold app icon
+                Icon = TryGetAppIcon() ?? SystemIcons.Application,
                 Visible = true,
                 ContextMenuStrip = menu,
                 Text = BuildTooltipText()
@@ -73,9 +75,10 @@ namespace PrayerTimes.Shell
         {
             // NotifyIcon.Text max is 63 characters.
             // Keep it short and always valid.
-            var next = string.IsNullOrWhiteSpace(_vm.NextPrayer) ? "Next: --" : $"Next: {_vm.NextPrayer}";
-            var cd = string.IsNullOrWhiteSpace(_vm.Countdown) ? "" : $" • {_vm.Countdown}";
-            var text = (next + cd).Trim();
+            var next = string.IsNullOrWhiteSpace(_vm.NextPrayer) ? "Next: --" : _vm.NextPrayer.Trim();
+            var cd = string.IsNullOrWhiteSpace(_vm.Countdown) ? "" : _vm.Countdown.Trim();
+            var text = next;
+            if (!string.IsNullOrWhiteSpace(cd)) text = $"{next} • {cd}";
 
             if (text.Length > 63) text = text.Substring(0, 63);
             if (string.IsNullOrWhiteSpace(text)) text = "Prayer Times";
@@ -99,7 +102,15 @@ namespace PrayerTimes.Shell
         {
             if (_allowClose) return;
 
-            // Intercept "X" close -> hide to tray
+            // During debugging (F5), do NOT keep the process running in tray.
+            // This prevents "taskkill/bin/obj deletion" issues.
+            if (Debugger.IsAttached)
+            {
+                _allowClose = true;
+                return;
+            }
+
+            // Normal behavior: Intercept "X" close -> hide to tray
             e.Cancel = true;
             HideToTray();
         }
@@ -119,6 +130,45 @@ namespace PrayerTimes.Shell
                 }
                 catch { /* ignore */ }
             }
+        }
+
+
+        private void OpenSettings()
+        {
+            try
+            {
+                // Run on WPF UI thread
+                var disp = System.Windows.Application.Current?.Dispatcher;
+                if (disp != null)
+                {
+                    disp.Invoke(() =>
+                    {
+                        if (_vm.OpenSettingsCommand?.CanExecute(null) == true)
+                            _vm.OpenSettingsCommand.Execute(null);
+                    });
+                }
+                else
+                {
+                    if (_vm.OpenSettingsCommand?.CanExecute(null) == true)
+                        _vm.OpenSettingsCommand.Execute(null);
+                }
+            }
+            catch { /* ignore */ }
+        }
+
+        private static Icon? TryGetAppIcon()
+        {
+            try
+            {
+                var asm = System.Reflection.Assembly.GetEntryAssembly();
+                if (asm == null) return null;
+
+                var path = asm.Location;
+                if (string.IsNullOrWhiteSpace(path)) return null;
+
+                return Icon.ExtractAssociatedIcon(path);
+            }
+            catch { return null; }
         }
 
         private void ShowWindow()

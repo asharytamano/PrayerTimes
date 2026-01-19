@@ -15,7 +15,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<None Remove="Assets\Fonts\TrajanPro-Bold.otf" />
+		<None Remove="Assets\Fonts\TrajanPro-Regular.ttf" />
 		<None Remove="Assets\Header\header.png" />
+		<None Remove="Assets\Images\HabibTamano.png" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -34,7 +37,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Resource Include="Assets\Fonts\TrajanPro-Bold.otf" />
+		<Resource Include="Assets\Fonts\TrajanPro-Regular.ttf" />
 		<Resource Include="Assets\Header\header.png" />
+		<Resource Include="Assets\Images\HabibTamano.png" />
 	</ItemGroup>
 
 	<ItemGroup>
