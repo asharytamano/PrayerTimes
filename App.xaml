@@ -62,30 +62,35 @@
         <Style TargetType="{x:Type Button}">
             <Setter Property="Padding" Value="14,8" />
             <Setter Property="MinWidth" Value="96" />
-            <Setter Property="Height" Value="36" />
-            <Setter Property="Background" Value="{DynamicResource AccentBrush}" />
-            <Setter Property="Foreground" Value="White" />
-            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Height" Value="38" />
+            <Setter Property="Background" Value="{DynamicResource ParchmentSoftBrush}" />
+            <Setter Property="Foreground" Value="{DynamicResource AccentBrush}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource GoldBrush}" />
+            <Setter Property="BorderThickness" Value="2" />
             <Setter Property="Cursor" Value="Hand" />
-            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="FontFamily" Value="{DynamicResource TitleFont}" />
+            <Setter Property="FontWeight" Value="Bold" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Border Background="{TemplateBinding Background}"
-                                CornerRadius="10"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="12"
                                 SnapsToDevicePixels="True">
                             <ContentPresenter HorizontalAlignment="Center"
                                               VerticalAlignment="Center"
                                               Margin="{TemplateBinding Padding}"
                                               TextElement.Foreground="{TemplateBinding Foreground}"
-                                              TextElement.FontWeight="{TemplateBinding FontWeight}"/>
+                                              TextElement.FontWeight="{TemplateBinding FontWeight}"
+                                              TextElement.FontFamily="{TemplateBinding FontFamily}"/>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Opacity" Value="0.92"/>
+                                <Setter Property="Background" Value="{DynamicResource ParchmentBrush}"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter Property="Opacity" Value="0.85"/>
+                                <Setter Property="Opacity" Value="0.90"/>
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="False">
                                 <Setter Property="Opacity" Value="0.55"/>
@@ -96,9 +101,21 @@
             </Setter>
         </Style>
 
+        <!-- Accent button (optional for later: dark green with white text) -->
+        <Style x:Key="BtnAccent" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="Background" Value="{DynamicResource AccentBrush}" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentBrush}" />
+        </Style>
+
+
         <Style x:Key="BtnSecondary" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
-            <Setter Property="Background" Value="#FFE8EEE9"/>
+            <Setter Property="Background" Value="#FFF1F3F2"/>
             <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+            <Setter Property="BorderBrush" Value="#33000000"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="FontFamily" Value="{DynamicResource BodyFont}"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
         </Style>
 
         <Style TargetType="{x:Type TextBox}">
