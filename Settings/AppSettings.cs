@@ -17,6 +17,30 @@ namespace PrayerTimes.Settings
         public int ReminderMinutesBefore { get; set; } = 5;
         public bool AzanEnabled { get; set; } = false;
 
+        // Default voice (used when a prayer-specific voice is blank)
+        public string DefaultAzanVoice { get; set; } = "Mishary Al-Afasy";
+
+        // Per-prayer switches + optional per-prayer voice overrides
+        public bool FajrAzanEnabled { get; set; } = true;
+        public string FajrAzanVoice { get; set; } = "";
+
+        // Sunrise: no Adhan by default (common practice)
+        public bool SunriseAzanEnabled { get; set; } = false;
+        public string SunriseAzanVoice { get; set; } = "";
+
+        public bool DhuhrAzanEnabled { get; set; } = true;
+        public string DhuhrAzanVoice { get; set; } = "";
+
+        public bool AsrAzanEnabled { get; set; } = true;
+        public string AsrAzanVoice { get; set; } = "";
+
+        public bool MaghribAzanEnabled { get; set; } = true;
+        public string MaghribAzanVoice { get; set; } = "";
+
+        public bool IshaAzanEnabled { get; set; } = true;
+        public string IshaAzanVoice { get; set; } = "";
+
+
         // Timezone (Windows ID). Default is PH (UTC+8).
         public string TimeZoneId { get; set; } = "Singapore Standard Time";
 

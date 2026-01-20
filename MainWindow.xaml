@@ -3,17 +3,61 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="clr-namespace:PrayerTimes.ViewModels"
         Title="Prayer Times" Height="650" Width="900"
+        FontSize="14"
         WindowStartupLocation="CenterScreen">
     <Window.DataContext>
         <vm:MainViewModel/>
     </Window.DataContext>
 
+    <!-- Local styles for this view only -->
+    <Window.Resources>
+        <!-- Prayer-time "button card" look -->
+        <Style x:Key="PrayerTimeButton" TargetType="Button">
+            <Setter Property="Background" Value="{DynamicResource ParchmentSoftBrush}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource GoldBrush}"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Padding" Value="12,10"/>
+            <Setter Property="Margin" Value="0,8,0,0"/>
+            <Setter Property="MinHeight" Value="54"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Focusable" Value="False"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="12">
+                            <Border.Effect>
+                                <DropShadowEffect BlurRadius="10" ShadowDepth="1" Opacity="0.18"/>
+                            </Border.Effect>
+                            <ContentPresenter Margin="{TemplateBinding Padding}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="0.95"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Opacity" Value="0.88"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.55"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
     <Grid Margin="22">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="18"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="18"/>
+            <RowDefinition Height="0"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
@@ -58,18 +102,24 @@
                                        Margin="0,2,0,0"/>
                             <TextBlock Text="Alim Habib Tamano (rahimahullah)"
                                        FontFamily="{DynamicResource TitleFont}"
-                                       FontSize="20"
-                                       FontWeight="Bold"
+                                       FontSize="18"
+                                       FontWeight="SemiBold"
                                        Foreground="{DynamicResource AccentBrush}"
                                        Margin="0,1,0,0"/>
+
+                            <!-- Emphasize current location line -->
                             <TextBlock Text="{Binding TodayLabel}"
-                                       FontSize="13"
-                                       Opacity="0.75"
+                                       FontSize="17"
+                                       FontWeight="SemiBold"
+                                       Opacity="0.90"
                                        Margin="0,8,0,0"/>
                         </StackPanel>
 
                         <!-- Settings -->
-                        <Button Grid.Column="3"
+                        <StackPanel Grid.Column="3"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Top">
+                            <Button Grid.Column="3"
                                 Width="124"
                                 Height="40"
                                 VerticalAlignment="Top"
@@ -78,25 +128,53 @@
                                 BorderBrush="{DynamicResource GoldBrush}"
                                 BorderThickness="2"
                                 Command="{Binding OpenSettingsCommand}">
-                            <Button.Template>
-                                <ControlTemplate TargetType="Button">
-                                    <Border Background="{TemplateBinding Background}"
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}"
                                             BorderBrush="{TemplateBinding BorderBrush}"
                                             BorderThickness="{TemplateBinding BorderThickness}"
                                             CornerRadius="12">
-                                        <ContentPresenter HorizontalAlignment="Center"
+                                            <Border.Effect>
+                                                <DropShadowEffect BlurRadius="10" ShadowDepth="1" Opacity="0.18"/>
+                                            </Border.Effect>
+                                            <ContentPresenter HorizontalAlignment="Center"
                                                           VerticalAlignment="Center"
                                                           Margin="14,8"
                                                           RecognizesAccessKey="True"/>
-                                    </Border>
-                                </ControlTemplate>
-                            </Button.Template>
-                            <TextBlock Text="Settings"
+                                        </Border>
+                                    </ControlTemplate>
+                                </Button.Template>
+                                <TextBlock Text="Settings"
                                        FontFamily="{DynamicResource TitleFont}"
                                        FontWeight="Bold"
                                        Foreground="{DynamicResource AccentBrush}"
                                        FontSize="14"/>
-                        </Button>
+                            </Button>
+
+                            <!-- Next prayer summary (text only, QM-style) -->
+                            <TextBlock Margin="0,12,0,0"
+                                       FontSize="14"
+                                       FontWeight="SemiBold"
+                                       TextAlignment="Right"
+                                       HorizontalAlignment="Right"
+                                       Foreground="#2B2B2B"
+                                       Text="{Binding NextPrayer}"/>
+
+                            <TextBlock Margin="0,2,0,0"
+                                       FontSize="20"
+                                       FontWeight="Bold"
+                                       TextAlignment="Right"
+                                       HorizontalAlignment="Right"
+                                       Foreground="#111"
+                                       Text="{Binding Countdown}"/>
+
+                            <TextBlock Margin="0,4,0,0"
+                                       FontSize="12"
+                                       Opacity="0.75"
+                                       TextAlignment="Right"
+                                       HorizontalAlignment="Right"
+                                       Text="Tip: You can set reminder minutes in Settings."/>
+                        </StackPanel>
                     </Grid>
                 </Border>
 
@@ -106,61 +184,364 @@
         </Border>
 
         <!-- NEXT PRAYER CARD -->
-        <Border Grid.Row="2" Style="{StaticResource CardSoft}">
-            <StackPanel>
-                <TextBlock Text="{Binding NextPrayer}" FontSize="16" FontWeight="SemiBold"/>
-                <TextBlock Text="{Binding Countdown}" FontSize="26" FontWeight="Bold" Margin="0,6,0,0"/>
-                <TextBlock Text="Tip: You can set reminder minutes in Settings."
-                           Margin="0,10,0,0"
-                           FontSize="12"
-                           Opacity="0.70"/>
-            </StackPanel>
-        </Border>
+        <!-- Next card removed (moved as text under Settings button) -->
 
-        <!-- TIMES -->
-        <Border Grid.Row="4" Style="{StaticResource Card}">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="14"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
+        <!-- TIMES + ADHAN PANEL -->
+        <Grid Grid.Row="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2.2*"/>
+                <ColumnDefinition Width="18"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Row="0" Text="TODAY'S TIMES" Style="{StaticResource TitleH2}"/>
-
-                <Grid Grid.Row="2">
+            <!-- LEFT: TIMES (compact) -->
+            <Border Grid.Column="0" Style="{StaticResource Card}">
+                <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="12"/>
+                        <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="180"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
 
-                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Fajr" FontSize="15" Opacity="0.85"/>
-                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Fajr}" FontSize="16" FontWeight="SemiBold"/>
+                    <TextBlock Grid.Row="0" Text="TODAY'S TIMES" Style="{StaticResource TitleH2}"/>
 
-                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Sunrise" FontSize="15" Opacity="0.85"/>
-                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Sunrise}" FontSize="16" FontWeight="SemiBold"/>
+                    <!-- Prayer time cards -->
+                    <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                        <StackPanel>
+                            <Button Style="{StaticResource PrayerTimeButton}">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
 
-                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Dhuhr" FontSize="15" Opacity="0.85"/>
-                    <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Dhuhr}" FontSize="16" FontWeight="SemiBold"/>
+                                    <TextBlock Grid.Column="0"
+                                               Text="Fajr"
+                                               FontSize="15"
+                                               FontWeight="SemiBold"
+                                               Opacity="0.90"
+                                               VerticalAlignment="Center"/>
 
-                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Asr" FontSize="15" Opacity="0.85"/>
-                    <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Asr}" FontSize="16" FontWeight="SemiBold"/>
+                                    <Border Grid.Column="1"
+                                            Background="#FFFFFF"
+                                            BorderBrush="{DynamicResource GoldBrush}"
+                                            BorderThickness="1"
+                                            CornerRadius="999"
+                                            Padding="14,6"
+                                            VerticalAlignment="Center">
+                                        <TextBlock Text="{Binding Fajr}"
+                                                   FontSize="16"
+                                                   FontWeight="Bold"
+                                                   HorizontalAlignment="Right"/>
+                                    </Border>
+                                </Grid>
+                            </Button>
 
-                    <TextBlock Grid.Row="4" Grid.Column="0" Text="Maghrib" FontSize="15" Opacity="0.85"/>
-                    <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding Maghrib}" FontSize="16" FontWeight="SemiBold"/>
+                            <Button Style="{StaticResource PrayerTimeButton}">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
 
-                    <TextBlock Grid.Row="5" Grid.Column="0" Text="Isha" FontSize="15" Opacity="0.85"/>
-                    <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding Isha}" FontSize="16" FontWeight="SemiBold"/>
+                                    <TextBlock Grid.Column="0"
+                                               Text="Sunrise"
+                                               FontSize="15"
+                                               FontWeight="SemiBold"
+                                               Opacity="0.90"
+                                               VerticalAlignment="Center"/>
+
+                                    <Border Grid.Column="1"
+                                            Background="#FFFFFF"
+                                            BorderBrush="{DynamicResource GoldBrush}"
+                                            BorderThickness="1"
+                                            CornerRadius="999"
+                                            Padding="14,6"
+                                            VerticalAlignment="Center">
+                                        <TextBlock Text="{Binding Sunrise}"
+                                                   FontSize="16"
+                                                   FontWeight="Bold"
+                                                   HorizontalAlignment="Right"/>
+                                    </Border>
+                                </Grid>
+                            </Button>
+
+                            <Button Style="{StaticResource PrayerTimeButton}">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Grid.Column="0"
+                                               Text="Dhuhr"
+                                               FontSize="15"
+                                               FontWeight="SemiBold"
+                                               Opacity="0.90"
+                                               VerticalAlignment="Center"/>
+
+                                    <Border Grid.Column="1"
+                                            Background="#FFFFFF"
+                                            BorderBrush="{DynamicResource GoldBrush}"
+                                            BorderThickness="1"
+                                            CornerRadius="999"
+                                            Padding="14,6"
+                                            VerticalAlignment="Center">
+                                        <TextBlock Text="{Binding Dhuhr}"
+                                                   FontSize="16"
+                                                   FontWeight="Bold"
+                                                   HorizontalAlignment="Right"/>
+                                    </Border>
+                                </Grid>
+                            </Button>
+
+                            <Button Style="{StaticResource PrayerTimeButton}">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Grid.Column="0"
+                                               Text="Asr"
+                                               FontSize="15"
+                                               FontWeight="SemiBold"
+                                               Opacity="0.90"
+                                               VerticalAlignment="Center"/>
+
+                                    <Border Grid.Column="1"
+                                            Background="#FFFFFF"
+                                            BorderBrush="{DynamicResource GoldBrush}"
+                                            BorderThickness="1"
+                                            CornerRadius="999"
+                                            Padding="14,6"
+                                            VerticalAlignment="Center">
+                                        <TextBlock Text="{Binding Asr}"
+                                                   FontSize="16"
+                                                   FontWeight="Bold"
+                                                   HorizontalAlignment="Right"/>
+                                    </Border>
+                                </Grid>
+                            </Button>
+
+                            <Button Style="{StaticResource PrayerTimeButton}">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Grid.Column="0"
+                                               Text="Maghrib"
+                                               FontSize="15"
+                                               FontWeight="SemiBold"
+                                               Opacity="0.90"
+                                               VerticalAlignment="Center"/>
+
+                                    <Border Grid.Column="1"
+                                            Background="#FFFFFF"
+                                            BorderBrush="{DynamicResource GoldBrush}"
+                                            BorderThickness="1"
+                                            CornerRadius="999"
+                                            Padding="14,6"
+                                            VerticalAlignment="Center">
+                                        <TextBlock Text="{Binding Maghrib}"
+                                                   FontSize="16"
+                                                   FontWeight="Bold"
+                                                   HorizontalAlignment="Right"/>
+                                    </Border>
+                                </Grid>
+                            </Button>
+
+                            <Button Style="{StaticResource PrayerTimeButton}">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Grid.Column="0"
+                                               Text="Isha"
+                                               FontSize="15"
+                                               FontWeight="SemiBold"
+                                               Opacity="0.90"
+                                               VerticalAlignment="Center"/>
+
+                                    <Border Grid.Column="1"
+                                            Background="#FFFFFF"
+                                            BorderBrush="{DynamicResource GoldBrush}"
+                                            BorderThickness="1"
+                                            CornerRadius="999"
+                                            Padding="14,6"
+                                            VerticalAlignment="Center">
+                                        <TextBlock Text="{Binding Isha}"
+                                                   FontSize="16"
+                                                   FontWeight="Bold"
+                                                   HorizontalAlignment="Right"/>
+                                    </Border>
+                                </Grid>
+                            </Button>
+                        </StackPanel>
+                    </ScrollViewer>
                 </Grid>
-            </Grid>
-        </Border>
+            </Border>
+
+            <!-- RIGHT: ADHAN QUICK SETTINGS (QM-style per-wakt) -->
+            <Border Grid.Column="2" Style="{StaticResource CardSoft}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="14"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Text="ADHAN" Style="{StaticResource TitleH2}" Margin="0,0,0,0"/>
+
+                    <!-- Master -->
+                    <StackPanel Grid.Row="2">
+                        <CheckBox Content="Enable Adhan"
+                      IsChecked="{Binding AzanEnabled}"
+                      FontSize="13"
+                      FontWeight="SemiBold"
+                      Margin="0,0,0,10"/>
+
+                        <TextBlock Text="Default Mu’adhdhin"
+                       FontSize="12"
+                       Opacity="0.75"/>
+                        <ComboBox ItemsSource="{Binding AzanVoiceOptions}"
+                      SelectedItem="{Binding DefaultAzanVoice}"
+                      Height="34"
+                      Margin="0,6,0,0"/>
+                    </StackPanel>
+
+                    <!-- Per-wakt -->
+                    <ScrollViewer Grid.Row="4" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                        <StackPanel Margin="0,6,0,0">
+
+                            <TextBlock Text="Per prayer (override)"
+                           FontSize="12"
+                           Opacity="0.70"
+                           Margin="0,0,0,10"/>
+
+                            <!-- Fajr -->
+                            <Grid Margin="0,0,0,10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <CheckBox Grid.Column="0" Content="Fajr"
+                              IsChecked="{Binding FajrAzanEnabled}"
+                              VerticalAlignment="Center"
+                              Margin="0,0,10,0"/>
+
+                                <ComboBox Grid.Column="1"
+                              ItemsSource="{Binding AzanVoiceOptions}"
+                              SelectedItem="{Binding FajrAzanVoice}"
+                              Height="32"/>
+                            </Grid>
+
+                            <!-- Sunrise (OFF by default) -->
+                            <Grid Margin="0,0,0,10" Opacity="0.70">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <CheckBox Grid.Column="0" Content="Sunrise"
+                              IsChecked="{Binding SunriseAzanEnabled}"
+                              VerticalAlignment="Center"
+                              Margin="0,0,10,0"/>
+
+                                <ComboBox Grid.Column="1"
+                              ItemsSource="{Binding AzanVoiceOptions}"
+                              SelectedItem="{Binding SunriseAzanVoice}"
+                              Height="32"/>
+                            </Grid>
+
+                            <!-- Dhuhr -->
+                            <Grid Margin="0,0,0,10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <CheckBox Grid.Column="0" Content="Dhuhr"
+                              IsChecked="{Binding DhuhrAzanEnabled}"
+                              VerticalAlignment="Center"
+                              Margin="0,0,10,0"/>
+
+                                <ComboBox Grid.Column="1"
+                              ItemsSource="{Binding AzanVoiceOptions}"
+                              SelectedItem="{Binding DhuhrAzanVoice}"
+                              Height="32"/>
+                            </Grid>
+
+                            <!-- Asr -->
+                            <Grid Margin="0,0,0,10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <CheckBox Grid.Column="0" Content="Asr"
+                              IsChecked="{Binding AsrAzanEnabled}"
+                              VerticalAlignment="Center"
+                              Margin="0,0,10,0"/>
+
+                                <ComboBox Grid.Column="1"
+                              ItemsSource="{Binding AzanVoiceOptions}"
+                              SelectedItem="{Binding AsrAzanVoice}"
+                              Height="32"/>
+                            </Grid>
+
+                            <!-- Maghrib -->
+                            <Grid Margin="0,0,0,10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <CheckBox Grid.Column="0" Content="Maghrib"
+                              IsChecked="{Binding MaghribAzanEnabled}"
+                              VerticalAlignment="Center"
+                              Margin="0,0,10,0"/>
+
+                                <ComboBox Grid.Column="1"
+                              ItemsSource="{Binding AzanVoiceOptions}"
+                              SelectedItem="{Binding MaghribAzanVoice}"
+                              Height="32"/>
+                            </Grid>
+
+                            <!-- Isha -->
+                            <Grid Margin="0,0,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <CheckBox Grid.Column="0" Content="Isha"
+                              IsChecked="{Binding IshaAzanEnabled}"
+                              VerticalAlignment="Center"
+                              Margin="0,0,10,0"/>
+
+                                <ComboBox Grid.Column="1"
+                              ItemsSource="{Binding AzanVoiceOptions}"
+                              SelectedItem="{Binding IshaAzanVoice}"
+                              Height="32"/>
+                            </Grid>
+
+                            <TextBlock Text="Tip: Leave a prayer dropdown blank to use the Default Mu’adhdhin."
+                           FontSize="11"
+                           Opacity="0.65"
+                           Margin="0,14,0,0"/>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
+            </Border>
+
+        </Grid>
     </Grid>
 </Window>

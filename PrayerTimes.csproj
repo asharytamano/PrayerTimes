@@ -16,6 +16,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<None Remove="Assets\Audio\Hamza_Al_Majale.mp3" />
+		<None Remove="Assets\Audio\Mishary_Al-Afasy.mp3" />
+		<None Remove="Assets\Audio\Rabeh_Al_Jazairi.mp3" />
 		<None Remove="Assets\Fonts\TrajanPro-Bold.otf" />
 		<None Remove="Assets\Fonts\TrajanPro-Regular.ttf" />
 		<None Remove="Assets\Header\header.png" />
@@ -30,7 +33,6 @@
 
 	<ItemGroup>
 		<Folder Include="AppCore\" />
-		<Folder Include="Assets\Audio\" />
 		<Folder Include="Models\" />
 	</ItemGroup>
 
@@ -43,6 +45,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Resource Include="Assets\Audio\Hamza_Al_Majale.mp3" />
+		<Resource Include="Assets\Audio\Mishary_Al-Afasy.mp3" />
+		<Resource Include="Assets\Audio\Rabeh_Al_Jazairi.mp3" />
 		<Resource Include="Assets\Fonts\TrajanPro-Bold.otf" />
 		<Resource Include="Assets\Fonts\TrajanPro-Regular.ttf" />
 		<Resource Include="Assets\Header\header.png" />

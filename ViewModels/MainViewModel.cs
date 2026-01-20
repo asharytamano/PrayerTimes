@@ -8,12 +8,9 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Threading;
-
-// WinRT Location (Windows Location Services) — offline, no IP fallback.
-using Windows.Devices.Geolocation;
+using System.Windows.Media;
 
 namespace PrayerTimes.ViewModels
 {
@@ -50,22 +47,13 @@ namespace PrayerTimes.ViewModels
         public string Isha { get => _isha; private set => Set(ref _isha, value); }
 
         public ICommand OpenSettingsCommand { get; }
-        public ICommand AutoDetectLocationCommand { get; }
 
-        public string DetectStatus { get => _detectStatus; private set => Set(ref _detectStatus, value); }
-        private string _detectStatus = "";
-
+        // Draft values for Settings window (strings for safe input)
         public string DraftCityName { get => _draftCityName; set => Set(ref _draftCityName, value); }
         public string DraftLatitude { get => _draftLatitude; set => Set(ref _draftLatitude, value); }
         public string DraftLongitude { get => _draftLongitude; set => Set(ref _draftLongitude, value); }
 
-        public bool DraftUseWindowsLocationOnStartup
-        {
-            get => _draftUseWindowsLocationOnStartup;
-            set => Set(ref _draftUseWindowsLocationOnStartup, value);
-        }
-        private bool _draftUseWindowsLocationOnStartup;
-
+        // Offline location picker (searchable)
         public string LocationQuery
         {
             get => _locationQuery;
@@ -76,6 +64,8 @@ namespace PrayerTimes.ViewModels
             }
         }
 
+        // NOTE: LocationCatalogService should expose a public model type like LocationEntry or LocationItem.
+        // In CLEAN v1 we bind to whatever the service returns from Search().
         public ObservableCollection<LocationItem> LocationMatches { get; } = new();
 
         public LocationItem? SelectedLocation
@@ -109,6 +99,7 @@ namespace PrayerTimes.ViewModels
         private string _draftLatitude = "";
         private string _draftLongitude = "";
 
+        // Offline location search support
         private string _locationQuery = "";
         private LocationItem? _selectedLocation;
         private bool _draftNotificationsEnabled;
@@ -118,9 +109,14 @@ namespace PrayerTimes.ViewModels
 
         private TimeZoneInfo _tz;
 
+        // Notifications (v1 uses WinForms NotifyIcon balloon)
         private System.Windows.Forms.NotifyIcon? _notify;
         private string? _lastNotifiedKey;
 
+
+        // Adhan playback
+        private readonly MediaPlayer _azanPlayer = new();
+        private readonly HashSet<string> _azanFiredKeys = new();
         public MainViewModel()
         {
             _settings = _store.Load();
@@ -130,14 +126,8 @@ namespace PrayerTimes.ViewModels
             InitializeLocations();
 
             OpenSettingsCommand = new SimpleCommand(OpenSettings);
-            AutoDetectLocationCommand = new AsyncCommand(AutoDetectLocationAsync);
 
             Refresh();
-
-            if (_settings.UseWindowsLocationOnStartup)
-            {
-                _ = AutoDetectAndApplyToSettingsAsync();
-            }
 
             _timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
             _timer.Tick += (_, __) => Refresh();
@@ -161,7 +151,10 @@ namespace PrayerTimes.ViewModels
             NextPrayer = $"Next: {next.Name}";
             Countdown = $"In: {FormatCountdown(next.Remaining)}";
 
+            // For IPR we keep notifications optional; this call is safe even if disabled
             NotifyIfNeeded(next.Name, next.Remaining);
+
+            CheckAzanTriggers(r);
         }
 
         private void OpenSettings()
@@ -170,7 +163,6 @@ namespace PrayerTimes.ViewModels
             {
                 SeedDraftFromSettings();
                 InitializeLocations();
-                DetectStatus = "";
 
                 var win = new SettingsWindow(this)
                 {
@@ -194,8 +186,6 @@ namespace PrayerTimes.ViewModels
             DraftNotificationsEnabled = _settings.NotificationsEnabled;
             DraftReminderMinutes = _settings.ReminderMinutesBefore.ToString(CultureInfo.InvariantCulture);
 
-            DraftUseWindowsLocationOnStartup = _settings.UseWindowsLocationOnStartup;
-
             _draftMethod = DraftMethod;
             _draftMadhhab = DraftMadhhab;
         }
@@ -204,7 +194,6 @@ namespace PrayerTimes.ViewModels
         {
             SeedDraftFromSettings();
             InitializeLocations();
-            DetectStatus = "";
         }
 
         public void ApplySettingsDraft(double parsedLat, double parsedLon, int reminderMinutes)
@@ -217,13 +206,14 @@ namespace PrayerTimes.ViewModels
             _settings.NotificationsEnabled = DraftNotificationsEnabled;
             _settings.ReminderMinutesBefore = reminderMinutes;
 
-            _settings.UseWindowsLocationOnStartup = DraftUseWindowsLocationOnStartup;
-
             _store.Save(_settings);
 
+            // reset notify state so next cycle can notify correctly
             _lastNotifiedKey = null;
+
             Refresh();
 
+            // Quick sanity check: if notifications are enabled, show a small test balloon right after Save.
             if (_settings.NotificationsEnabled)
             {
                 ShowTestNotification(
@@ -233,78 +223,71 @@ namespace PrayerTimes.ViewModels
             }
         }
 
-        private async Task AutoDetectAndApplyToSettingsAsync()
+        private void CheckAzanTriggers(PrayerTimesResult r)
+        {
+            // Play within a small window after the exact time, once per prayer per day.
+            // Sunrise is OFF by default but can be enabled by the user.
+            if (!_settings.AzanEnabled) return;
+
+            var now = DateTime.Now;
+            var dateKey = now.ToString("yyyyMMdd", CultureInfo.InvariantCulture);
+
+            TryFireAzan(dateKey, "Fajr", r.Fajr, _settings.FajrAzanEnabled, ResolveVoice(_settings.FajrAzanVoice));
+            TryFireAzan(dateKey, "Sunrise", r.Sunrise, _settings.SunriseAzanEnabled, ResolveVoice(_settings.SunriseAzanVoice));
+            TryFireAzan(dateKey, "Dhuhr", r.Dhuhr, _settings.DhuhrAzanEnabled, ResolveVoice(_settings.DhuhrAzanVoice));
+            TryFireAzan(dateKey, "Asr", r.Asr, _settings.AsrAzanEnabled, ResolveVoice(_settings.AsrAzanVoice));
+            TryFireAzan(dateKey, "Maghrib", r.Maghrib, _settings.MaghribAzanEnabled, ResolveVoice(_settings.MaghribAzanVoice));
+            TryFireAzan(dateKey, "Isha", r.Isha, _settings.IshaAzanEnabled, ResolveVoice(_settings.IshaAzanVoice));
+        }
+
+        private void TryFireAzan(string dateKey, string prayerName, DateTime at, bool enabled, string voice)
+        {
+            if (!enabled) return;
+
+            var now = DateTime.Now;
+            if (now < at) return;
+            if (now > at.AddSeconds(25)) return; // avoid late triggers
+
+            var key = $"{dateKey}:{prayerName}:azan";
+            if (_azanFiredKeys.Contains(key)) return;
+
+            _azanFiredKeys.Add(key);
+            PlayAzan(voice);
+        }
+
+        private string ResolveVoice(string? perPrayerVoice)
+        {
+            var v = (perPrayerVoice ?? "").Trim();
+            if (v.Length > 0) return v;
+
+            var d = (_settings.DefaultAzanVoice ?? "").Trim();
+            return d.Length > 0 ? d : "Mishary Al-Afasy";
+        }
+
+        private void PlayAzan(string voice)
         {
             try
             {
-                var pos = await TryGetWindowsGeoAsync();
-                if (pos is null) return;
+                var file = VoiceToFileName(voice);
+                var uri = new Uri($"pack://application:,,,/Assets/Audio/{file}", UriKind.Absolute);
 
-                var lat = pos.Coordinate.Point.Position.Latitude;
-                var lon = pos.Coordinate.Point.Position.Longitude;
-
-                _settings.Latitude = lat;
-                _settings.Longitude = lon;
-
-                var nearest = _locationCatalog.FindNearest(lat, lon);
-                _settings.CityName = nearest?.DisplayName ?? "Current Location";
-
-                _store.Save(_settings);
-                Refresh();
+                _azanPlayer.Stop();
+                _azanPlayer.Open(uri);
+                _azanPlayer.Volume = 0.9;
+                _azanPlayer.Play();
             }
-            catch
-            {
-                // silent
-            }
+            catch { }
         }
 
-        private async Task AutoDetectLocationAsync()
+        private static string VoiceToFileName(string voice)
         {
-            DetectStatus = "Detecting location…";
-
-            try
+            return voice switch
             {
-                var pos = await TryGetWindowsGeoAsync();
-                if (pos is null)
-                {
-                    DetectStatus = "Location not available. Check Windows Location settings.";
-                    return;
-                }
-
-                var lat = pos.Coordinate.Point.Position.Latitude;
-                var lon = pos.Coordinate.Point.Position.Longitude;
-
-                DraftLatitude = lat.ToString(CultureInfo.InvariantCulture);
-                DraftLongitude = lon.ToString(CultureInfo.InvariantCulture);
-
-                var nearest = _locationCatalog.FindNearest(lat, lon);
-                DraftCityName = nearest?.DisplayName ?? "Current Location";
-
-                DetectStatus = "Detected. Review values then click Save.";
-            }
-            catch (UnauthorizedAccessException)
-            {
-                DetectStatus = "Permission denied. Enable Location for this device/app in Windows Settings.";
-            }
-            catch (Exception ex)
-            {
-                DetectStatus = $"Detect failed: {ex.Message}";
-            }
-        }
-
-        private static async Task<Geoposition?> TryGetWindowsGeoAsync()
-        {
-            var access = await Geolocator.RequestAccessAsync();
-            if (access != GeolocationAccessStatus.Allowed)
-                return null;
-
-            var locator = new Geolocator
-            {
-                DesiredAccuracyInMeters = 50,
-                ReportInterval = 0
+                "Hamza Al Majale" => "Hamza_Al_Majale.mp3",
+                "Rabeh Al Jazairi" => "Rabeh_Al_Jazairi.mp3",
+                "Mishary Al-Afasy" => "Mishary_Al-Afasy.mp3",
+                _ => "Mishary_Al-Afasy.mp3"
             };
-
-            return await locator.GetGeopositionAsync();
         }
 
         private void ShowTestNotification(string title, string message)
@@ -333,10 +316,12 @@ namespace PrayerTimes.ViewModels
 
             var reminder = TimeSpan.FromMinutes(Math.Max(0, _settings.ReminderMinutesBefore));
 
+            // _last can be null during startup edge-cases; keep key stable anyway
             var dateKey = (_last?.DateLocal ?? DateTime.Now).ToString("yyyyMMdd", CultureInfo.InvariantCulture);
             var key = $"{dateKey}:{nextPrayerName}";
             if (_lastNotifiedKey == key) return;
 
+            // Notify when we're within the reminder window (including exactly at prayer time).
             if (remaining <= reminder && remaining >= TimeSpan.Zero)
             {
                 var title = "Prayer Time Reminder";
@@ -393,6 +378,17 @@ namespace PrayerTimes.ViewModels
             catch { }
         }
 
+        private void SaveSettings()
+        {
+            try { _store.Save(_settings); }
+            catch { }
+        }
+
+        private void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string? name = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+
         private static TimeZoneInfo ResolveTimeZone(string tzId)
         {
             try { return TimeZoneInfo.FindSystemTimeZoneById(tzId); }
@@ -405,6 +401,9 @@ namespace PrayerTimes.ViewModels
             return $"{(int)ts.TotalHours:00}:{ts.Minutes:00}:{ts.Seconds:00}";
         }
 
+        // ----------------------------
+        // NEXT-PRAYER COMPUTATION
+        // ----------------------------
         private readonly struct NextPrayerInfo
         {
             public string Name { get; }
@@ -422,6 +421,7 @@ namespace PrayerTimes.ViewModels
         private NextPrayerInfo ComputeNextPrayer(PrayerTimesResult r)
         {
             var now = DateTime.Now;
+            // Build ordered schedule
             var schedule = new (string Name, DateTime Time)[]
             {
                 ("Fajr", r.Fajr),
@@ -432,12 +432,14 @@ namespace PrayerTimes.ViewModels
                 ("Isha", r.Isha)
             };
 
+            // Find first time strictly after now
             foreach (var item in schedule)
             {
                 if (item.Time > now)
                     return new NextPrayerInfo(item.Name, item.Time, item.Time - now);
             }
 
+            // If all passed, compute tomorrow Fajr (assume service returns "today" times; add 1 day)
             var tomorrowFajr = r.Fajr.AddDays(1);
             return new NextPrayerInfo("Fajr", tomorrowFajr, tomorrowFajr - now);
         }
@@ -462,30 +464,20 @@ namespace PrayerTimes.ViewModels
             public event EventHandler? CanExecuteChanged { add { } remove { } }
         }
 
-        private sealed class AsyncCommand : ICommand
-        {
-            private readonly Func<Task> _run;
-            private bool _isRunning;
-
-            public AsyncCommand(Func<Task> run) => _run = run;
-
-            public bool CanExecute(object? parameter) => !_isRunning;
-
-            public async void Execute(object? parameter)
-            {
-                if (_isRunning) return;
-                _isRunning = true;
-                try { await _run(); }
-                finally { _isRunning = false; }
-            }
-
-            public event EventHandler? CanExecuteChanged { add { } remove { } }
-        }
-
+        // ----------------------------
+        // OFFLINE LOCATIONS
+        // ----------------------------
         private void InitializeLocations()
         {
-            try { UpdateLocationMatches(); }
-            catch { }
+            try
+            {
+                // CLEAN v1: Load from JSON on demand; service can internally cache
+                UpdateLocationMatches();
+            }
+            catch
+            {
+                // ignore - app can still run with manual lat/lon entry
+            }
         }
 
         private void UpdateLocationMatches()
