@@ -14,6 +14,7 @@ namespace PrayerTimes.Services
     public class LocationCatalogService
     {
         private readonly string _jsonPath;
+        private List<LocationItem>? _cache;
 
         public LocationCatalogService()
         {
@@ -23,6 +24,9 @@ namespace PrayerTimes.Services
 
         public List<LocationItem> LoadLocations()
         {
+            if (_cache != null && _cache.Count > 0)
+                return _cache;
+
             try
             {
                 Debug.WriteLine($"[LocationCatalogService] JSON Path: {_jsonPath}");
@@ -30,7 +34,8 @@ namespace PrayerTimes.Services
                 if (!File.Exists(_jsonPath))
                 {
                     Debug.WriteLine("[LocationCatalogService] File not found. Using seed list.");
-                    return SeedLocations();
+                    _cache = SeedLocations();
+                    return _cache;
                 }
 
                 var json = File.ReadAllText(_jsonPath);
@@ -41,17 +46,32 @@ namespace PrayerTimes.Services
                 };
 
                 var data = JsonSerializer.Deserialize<List<LocationItem>>(json, options);
-
                 var list = data ?? new List<LocationItem>();
+
                 Debug.WriteLine($"[LocationCatalogService] Loaded locations count: {list.Count}");
 
-                // If deserialization yields empty list, keep UI usable
-                return list.Count == 0 ? SeedLocations() : list;
+                if (list.Count == 0)
+                {
+                    _cache = SeedLocations();
+                    return _cache;
+                }
+
+                // Normalize some fields defensively
+                foreach (var item in list)
+                {
+                    item.DisplayName ??= "";
+                    item.Province ??= "";
+                    item.Region ??= "";
+                }
+
+                _cache = list;
+                return _cache;
             }
             catch (Exception ex)
             {
                 Debug.WriteLine($"[LocationCatalogService] Load failed: {ex.Message}. Using seed list.");
-                return SeedLocations();
+                _cache = SeedLocations();
+                return _cache;
             }
         }
 
@@ -75,6 +95,48 @@ namespace PrayerTimes.Services
 
             Debug.WriteLine($"[LocationCatalogService] Search '{keyword}' results: {results.Count}");
             return results;
+        }
+
+        /// <summary>
+        /// Offline nearest match by straight-line distance (Haversine).
+        /// Used to propose a friendly city name after GPS detects coords.
+        /// </summary>
+        public LocationItem? FindNearest(double latitude, double longitude)
+        {
+            var all = LoadLocations();
+            if (all.Count == 0) return null;
+
+            LocationItem? best = null;
+            double bestKm = double.MaxValue;
+
+            foreach (var item in all)
+            {
+                var km = HaversineKm(latitude, longitude, item.Latitude, item.Longitude);
+                if (km < bestKm)
+                {
+                    bestKm = km;
+                    best = item;
+                }
+            }
+
+            return best;
+        }
+
+        private static double HaversineKm(double lat1, double lon1, double lat2, double lon2)
+        {
+            static double ToRad(double d) => d * (Math.PI / 180.0);
+
+            var R = 6371.0;
+            var dLat = ToRad(lat2 - lat1);
+            var dLon = ToRad(lon2 - lon1);
+
+            var a =
+                Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +
+                Math.Cos(ToRad(lat1)) * Math.Cos(ToRad(lat2)) *
+                Math.Sin(dLon / 2) * Math.Sin(dLon / 2);
+
+            var c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+            return R * c;
         }
 
         private static List<LocationItem> SeedLocations()
@@ -102,5 +164,9 @@ namespace PrayerTimes.Services
         public string Region { get; set; } = "";
         public double Latitude { get; set; }
         public double Longitude { get; set; }
+
+        // Your SettingsWindow.xaml binds to this; keep it always available.
+        public string SubText
+            => $"{Province}{(string.IsNullOrWhiteSpace(Region) ? "" : " • " + Region)} • {Latitude:0.0000}, {Longitude:0.0000}";
     }
 }

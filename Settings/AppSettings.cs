@@ -19,5 +19,9 @@ namespace PrayerTimes.Settings
 
         // Timezone (Windows ID). Default is PH (UTC+8).
         public string TimeZoneId { get; set; } = "Singapore Standard Time";
+
+        // IPR Decision A: Windows Location Services only
+        // If enabled, the app will try Windows location on startup and overwrite Lat/Lon (offline, no IP fallback).
+        public bool UseWindowsLocationOnStartup { get; set; } = false;
     }
 }
