@@ -410,10 +410,27 @@
                         <TextBlock Text="Default Mu’adhdhin"
                        FontSize="12"
                        Opacity="0.75"/>
-                        <ComboBox ItemsSource="{Binding AzanVoiceOptions}"
-                      SelectedItem="{Binding DefaultAzanVoice}"
-                      Height="34"
-                      Margin="0,6,0,0"/>
+
+                        <Grid Margin="0,6,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="8"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <ComboBox Grid.Column="0"
+                          ItemsSource="{Binding AzanVoiceOptions}"
+                          SelectedItem="{Binding DefaultAzanVoice}"
+                          Height="34"/>
+
+                            <Button Grid.Column="2"
+                        Content="Test"
+                        Command="{Binding TestAdhanCommand}"
+                        Height="34"
+                        MinWidth="70"
+                        Padding="14,0"
+                        FontWeight="SemiBold"/>
+                        </Grid>
                     </StackPanel>
 
                     <!-- Per-wakt -->

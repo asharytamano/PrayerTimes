@@ -35,6 +35,27 @@ namespace PrayerTimes.ViewModels
         private string _maghrib = "";
         private string _isha = "";
 
+        // Add DetectStatus property for diagnostics
+        private string _detectStatus = "";
+        public string DetectStatus
+        {
+            get => _detectStatus;
+            private set
+            {
+                if (_detectStatus != value)
+                {
+                    _detectStatus = value;
+                    OnPropertyChanged();
+                    Log($"DetectStatus: {value}");
+                }
+            }
+        }
+
+        private void Log(string message)
+        {
+            System.Diagnostics.Debug.WriteLine($"[PrayerTimes] {DateTime.Now:HH:mm:ss.fff}: {message}");
+        }
+
         public string TodayLabel { get => _todayLabel; private set => Set(ref _todayLabel, value); }
         public string NextPrayer { get => _nextPrayer; private set => Set(ref _nextPrayer, value); }
         public string Countdown { get => _countdown; private set => Set(ref _countdown, value); }
@@ -47,6 +68,8 @@ namespace PrayerTimes.ViewModels
         public string Isha { get => _isha; private set => Set(ref _isha, value); }
 
         public ICommand OpenSettingsCommand { get; }
+
+        public ICommand TestAdhanCommand { get; }
 
         // Draft values for Settings window (strings for safe input)
         public string DraftCityName { get => _draftCityName; set => Set(ref _draftCityName, value); }
@@ -95,6 +118,60 @@ namespace PrayerTimes.ViewModels
         public IReadOnlyList<AsrMadhhab> Madhhabs { get; } =
             new[] { AsrMadhhab.Shafi, AsrMadhhab.Hanafi };
 
+
+
+        // ----------------------------
+        // ADHAN SETTINGS (bindings for the right panel)
+        // ----------------------------
+        public IReadOnlyList<string> AzanVoiceOptions { get; } = new[]
+        {
+            "Hamza Al Majale",
+            "Rabeh Al Jazairi",
+            "Mishary Al-Afasy"
+        };
+
+        public bool AzanEnabled
+        {
+            get => _settings.AzanEnabled;
+            set
+            {
+                if (_settings.AzanEnabled == value) return;
+                _settings.AzanEnabled = value;
+                SaveSettings();
+                OnPropertyChanged();
+            }
+        }
+
+        public string DefaultAzanVoice
+        {
+            get => _settings.DefaultAzanVoice;
+            set
+            {
+                var v = (value ?? "").Trim();
+                if (string.Equals(_settings.DefaultAzanVoice, v, StringComparison.Ordinal)) return;
+                _settings.DefaultAzanVoice = v;
+                SaveSettings();
+                OnPropertyChanged();
+            }
+        }
+
+        public bool FajrAzanEnabled { get => _settings.FajrAzanEnabled; set { if (_settings.FajrAzanEnabled == value) return; _settings.FajrAzanEnabled = value; SaveSettings(); OnPropertyChanged(); } }
+        public string FajrAzanVoice { get => _settings.FajrAzanVoice; set { var v = (value ?? ""); if (_settings.FajrAzanVoice == v) return; _settings.FajrAzanVoice = v; SaveSettings(); OnPropertyChanged(); } }
+
+        public bool SunriseAzanEnabled { get => _settings.SunriseAzanEnabled; set { if (_settings.SunriseAzanEnabled == value) return; _settings.SunriseAzanEnabled = value; SaveSettings(); OnPropertyChanged(); } }
+        public string SunriseAzanVoice { get => _settings.SunriseAzanVoice; set { var v = (value ?? ""); if (_settings.SunriseAzanVoice == v) return; _settings.SunriseAzanVoice = v; SaveSettings(); OnPropertyChanged(); } }
+
+        public bool DhuhrAzanEnabled { get => _settings.DhuhrAzanEnabled; set { if (_settings.DhuhrAzanEnabled == value) return; _settings.DhuhrAzanEnabled = value; SaveSettings(); OnPropertyChanged(); } }
+        public string DhuhrAzanVoice { get => _settings.DhuhrAzanVoice; set { var v = (value ?? ""); if (_settings.DhuhrAzanVoice == v) return; _settings.DhuhrAzanVoice = v; SaveSettings(); OnPropertyChanged(); } }
+
+        public bool AsrAzanEnabled { get => _settings.AsrAzanEnabled; set { if (_settings.AsrAzanEnabled == value) return; _settings.AsrAzanEnabled = value; SaveSettings(); OnPropertyChanged(); } }
+        public string AsrAzanVoice { get => _settings.AsrAzanVoice; set { var v = (value ?? ""); if (_settings.AsrAzanVoice == v) return; _settings.AsrAzanVoice = v; SaveSettings(); OnPropertyChanged(); } }
+
+        public bool MaghribAzanEnabled { get => _settings.MaghribAzanEnabled; set { if (_settings.MaghribAzanEnabled == value) return; _settings.MaghribAzanEnabled = value; SaveSettings(); OnPropertyChanged(); } }
+        public string MaghribAzanVoice { get => _settings.MaghribAzanVoice; set { var v = (value ?? ""); if (_settings.MaghribAzanVoice == v) return; _settings.MaghribAzanVoice = v; SaveSettings(); OnPropertyChanged(); } }
+
+        public bool IshaAzanEnabled { get => _settings.IshaAzanEnabled; set { if (_settings.IshaAzanEnabled == value) return; _settings.IshaAzanEnabled = value; SaveSettings(); OnPropertyChanged(); } }
+        public string IshaAzanVoice { get => _settings.IshaAzanVoice; set { var v = (value ?? ""); if (_settings.IshaAzanVoice == v) return; _settings.IshaAzanVoice = v; SaveSettings(); OnPropertyChanged(); } }
         private string _draftCityName = "";
         private string _draftLatitude = "";
         private string _draftLongitude = "";
@@ -117,8 +194,10 @@ namespace PrayerTimes.ViewModels
         // Adhan playback
         private readonly MediaPlayer _azanPlayer = new();
         private readonly HashSet<string> _azanFiredKeys = new();
+        private string? _lastAzanDateKey;
         public MainViewModel()
         {
+            Log("MainViewModel constructor starting");
             _settings = _store.Load();
             _tz = ResolveTimeZone(_settings.TimeZoneId);
 
@@ -127,11 +206,14 @@ namespace PrayerTimes.ViewModels
 
             OpenSettingsCommand = new SimpleCommand(OpenSettings);
 
+            TestAdhanCommand = new SimpleCommand(TestAdhan);
+
             Refresh();
 
             _timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
             _timer.Tick += (_, __) => Refresh();
             _timer.Start();
+            Log("MainViewModel constructor completed");
         }
 
         private void Refresh()
@@ -174,6 +256,18 @@ namespace PrayerTimes.ViewModels
             {
                 System.Windows.MessageBox.Show(ex.Message, "Settings");
             }
+        }
+
+
+
+        private void TestAdhan()
+        {
+            Log("TestAdhan button clicked");
+            // Always allow manual testing, regardless of AzanEnabled
+            DetectStatus = "Testing Adhan audio...";
+            var voice = ResolveVoice(null);
+            Log($"Using voice: {voice}");
+            PlayAzan(voice);
         }
 
         private void SeedDraftFromSettings()
@@ -232,6 +326,14 @@ namespace PrayerTimes.ViewModels
             var now = DateTime.Now;
             var dateKey = now.ToString("yyyyMMdd", CultureInfo.InvariantCulture);
 
+
+            // Prevent unbounded growth and ensure correct behavior across midnight
+            if (!string.Equals(_lastAzanDateKey, dateKey, StringComparison.Ordinal))
+            {
+                _azanFiredKeys.Clear();
+                _lastAzanDateKey = dateKey;
+            }
+
             TryFireAzan(dateKey, "Fajr", r.Fajr, _settings.FajrAzanEnabled, ResolveVoice(_settings.FajrAzanVoice));
             TryFireAzan(dateKey, "Sunrise", r.Sunrise, _settings.SunriseAzanEnabled, ResolveVoice(_settings.SunriseAzanVoice));
             TryFireAzan(dateKey, "Dhuhr", r.Dhuhr, _settings.DhuhrAzanEnabled, ResolveVoice(_settings.DhuhrAzanVoice));
@@ -268,15 +370,89 @@ namespace PrayerTimes.ViewModels
         {
             try
             {
+                Log($"PlayAzan called with voice: {voice}");
                 var file = VoiceToFileName(voice);
-                var uri = new Uri($"pack://application:,,,/Assets/Audio/{file}", UriKind.Absolute);
+                Log($"Audio file name: {file}");
 
+                // Build a correct pack URI to locate the resource
+                var asm = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name ?? "";
+                Log($"Assembly name: {asm}");
+
+                var safeFile = Uri.EscapeDataString(file);
+
+                // Use the pack URI to find the resource
+                var packUri = new Uri($"pack://application:,,,/{asm};component/Assets/Audio/{safeFile}", UriKind.Absolute);
+                Log($"Looking for resource at: {packUri}");
+
+                // Get the resource stream
+                var info = System.Windows.Application.GetResourceStream(packUri);
+                if (info?.Stream == null)
+                {
+                    var errorMsg = $"Adhan audio not found: {file}. Check if file exists in Assets/Audio folder.";
+                    Log(errorMsg);
+                    DetectStatus = errorMsg;
+                    return;
+                }
+
+                Log($"SUCCESS: Found resource, stream length: {info.Stream.Length} bytes");
+
+                // ALWAYS extract to temp file - MediaPlayer cannot play pack URIs directly
+                // This is the fix for "Only site-of-origin pack URIs are supported for media"
+                Log("Extracting audio to temp file...");
+                var cacheDir = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "PrayerTimes", "AdhanCache");
+                System.IO.Directory.CreateDirectory(cacheDir);
+                var tempFile = System.IO.Path.Combine(cacheDir, file);
+                Log($"Temp file path: {tempFile}");
+
+                // Check if file already exists and is up-to-date
+                bool needsExtract = true;
+                if (System.IO.File.Exists(tempFile))
+                {
+                    var fileInfo = new System.IO.FileInfo(tempFile);
+                    if (fileInfo.Length == info.Stream.Length)
+                    {
+                        Log("Temp file already exists with correct size, reusing...");
+                        needsExtract = false;
+                    }
+                    else
+                    {
+                        Log($"Temp file size mismatch: {fileInfo.Length} vs {info.Stream.Length}, re-extracting...");
+                    }
+                }
+
+                if (needsExtract)
+                {
+                    // Reset stream position to beginning
+                    info.Stream.Position = 0;
+
+                    using (var fs = new System.IO.FileStream(tempFile, System.IO.FileMode.Create, System.IO.FileAccess.Write, System.IO.FileShare.Read))
+                    {
+                        info.Stream.CopyTo(fs);
+                        Log($"Copied {fs.Length} bytes to temp file");
+                    }
+                }
+
+                DetectStatus = $"Playing Adhan: {voice}";
+
+                // Set up event handlers for debugging
+                _azanPlayer.MediaOpened += (s, e) => Log("MediaPlayer: MediaOpened event fired");
+                _azanPlayer.MediaFailed += (s, e) => Log($"MediaPlayer: MediaFailed - {e.ErrorException?.Message}");
+                _azanPlayer.MediaEnded += (s, e) => Log("MediaPlayer: MediaEnded event fired");
+
+                // Play from temp file
+                Log($"Opening and playing from temp file: {tempFile}");
                 _azanPlayer.Stop();
-                _azanPlayer.Open(uri);
-                _azanPlayer.Volume = 0.9;
+                _azanPlayer.Open(new Uri(tempFile, UriKind.Absolute));
+                _azanPlayer.Volume = 1.0; // Full volume
                 _azanPlayer.Play();
+                Log("Play command sent to MediaPlayer");
             }
-            catch { }
+            catch (Exception ex)
+            {
+                DetectStatus = $"Adhan play failed: {ex.Message}";
+                Log(DetectStatus);
+                Log($"Full error: {ex}");
+            }
         }
 
         private static string VoiceToFileName(string voice)
