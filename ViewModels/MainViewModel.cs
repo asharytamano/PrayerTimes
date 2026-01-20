@@ -1,13 +1,15 @@
-﻿using System;
+﻿using PrayerTimes.Services;
+using PrayerTimes.Settings;
+using PrayerTimes.Views;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using System.Windows.Threading;
-using PrayerTimes.Services;
-using PrayerTimes.Settings;
-using PrayerTimes.Views;
 
 namespace PrayerTimes.ViewModels
 {
@@ -16,6 +18,7 @@ namespace PrayerTimes.ViewModels
         private readonly PrayerTimeService _service = new();
         private readonly DispatcherTimer _timer;
         private readonly SettingsStore _store = new();
+        private readonly LocationCatalogService _locationCatalog = new();
 
         private AppSettings _settings;
         private PrayerTimesResult? _last;
@@ -49,6 +52,36 @@ namespace PrayerTimes.ViewModels
         public string DraftLatitude { get => _draftLatitude; set => Set(ref _draftLatitude, value); }
         public string DraftLongitude { get => _draftLongitude; set => Set(ref _draftLongitude, value); }
 
+        // Offline location picker (searchable)
+        public string LocationQuery
+        {
+            get => _locationQuery;
+            set
+            {
+                Set(ref _locationQuery, value);
+                UpdateLocationMatches();
+            }
+        }
+
+        // NOTE: LocationCatalogService should expose a public model type like LocationEntry or LocationItem.
+        // In CLEAN v1 we bind to whatever the service returns from Search().
+        public ObservableCollection<LocationItem> LocationMatches { get; } = new();
+
+        public LocationItem? SelectedLocation
+        {
+            get => _selectedLocation;
+            set
+            {
+                Set(ref _selectedLocation, value);
+                if (value != null)
+                {
+                    DraftCityName = value.DisplayName;
+                    DraftLatitude = value.Latitude.ToString(CultureInfo.InvariantCulture);
+                    DraftLongitude = value.Longitude.ToString(CultureInfo.InvariantCulture);
+                }
+            }
+        }
+
         public bool DraftNotificationsEnabled { get => _draftNotificationsEnabled; set => Set(ref _draftNotificationsEnabled, value); }
         public string DraftReminderMinutes { get => _draftReminderMinutes; set => Set(ref _draftReminderMinutes, value); }
 
@@ -64,6 +97,10 @@ namespace PrayerTimes.ViewModels
         private string _draftCityName = "";
         private string _draftLatitude = "";
         private string _draftLongitude = "";
+
+        // Offline location search support
+        private string _locationQuery = "";
+        private LocationItem? _selectedLocation;
         private bool _draftNotificationsEnabled;
         private string _draftReminderMinutes = "5";
         private CalcMethod _draftMethod;
@@ -81,6 +118,7 @@ namespace PrayerTimes.ViewModels
             _tz = ResolveTimeZone(_settings.TimeZoneId);
 
             SeedDraftFromSettings();
+            InitializeLocations();
 
             OpenSettingsCommand = new SimpleCommand(OpenSettings);
 
@@ -97,17 +135,19 @@ namespace PrayerTimes.ViewModels
             _last = r;
 
             TodayLabel = $"{_settings.CityName} • {r.DateLocal:dddd, MMM dd, yyyy}";
-            Fajr = r.Fajr.ToString("hh:mm tt");
-            Sunrise = r.Sunrise.ToString("hh:mm tt");
-            Dhuhr = r.Dhuhr.ToString("hh:mm tt");
-            Asr = r.Asr.ToString("hh:mm tt");
-            Maghrib = r.Maghrib.ToString("hh:mm tt");
-            Isha = r.Isha.ToString("hh:mm tt");
+            Fajr = r.Fajr.ToString("hh:mm tt", CultureInfo.InvariantCulture);
+            Sunrise = r.Sunrise.ToString("hh:mm tt", CultureInfo.InvariantCulture);
+            Dhuhr = r.Dhuhr.ToString("hh:mm tt", CultureInfo.InvariantCulture);
+            Asr = r.Asr.ToString("hh:mm tt", CultureInfo.InvariantCulture);
+            Maghrib = r.Maghrib.ToString("hh:mm tt", CultureInfo.InvariantCulture);
+            Isha = r.Isha.ToString("hh:mm tt", CultureInfo.InvariantCulture);
 
-            NextPrayer = $"Next: {r.NextPrayerName}";
-            Countdown = $"In: {FormatCountdown(r.TimeToNextPrayer)}";
+            var next = ComputeNextPrayer(r);
+            NextPrayer = $"Next: {next.Name}";
+            Countdown = $"In: {FormatCountdown(next.Remaining)}";
 
-            NotifyIfNeeded(r);
+            // For IPR we keep notifications optional; this call is safe even if disabled
+            NotifyIfNeeded(next.Name, next.Remaining);
         }
 
         private void OpenSettings()
@@ -115,6 +155,8 @@ namespace PrayerTimes.ViewModels
             try
             {
                 SeedDraftFromSettings();
+                InitializeLocations();
+
                 var win = new SettingsWindow(this)
                 {
                     Owner = System.Windows.Application.Current?.MainWindow
@@ -144,6 +186,7 @@ namespace PrayerTimes.ViewModels
         public void DiscardSettingsDraft()
         {
             SeedDraftFromSettings();
+            InitializeLocations();
         }
 
         public void ApplySettingsDraft(double parsedLat, double parsedLon, int reminderMinutes)
@@ -164,8 +207,6 @@ namespace PrayerTimes.ViewModels
             Refresh();
 
             // Quick sanity check: if notifications are enabled, show a small test balloon right after Save.
-            // This helps confirm whether Windows is blocking notifications (Focus Assist / Notifications settings)
-            // versus a logic issue in our timer.
             if (_settings.NotificationsEnabled)
             {
                 ShowTestNotification(
@@ -188,7 +229,7 @@ namespace PrayerTimes.ViewModels
             catch { }
         }
 
-        private void NotifyIfNeeded(PrayerTimesResult r)
+        private void NotifyIfNeeded(string nextPrayerName, TimeSpan remaining)
         {
             if (!_settings.NotificationsEnabled)
             {
@@ -200,17 +241,17 @@ namespace PrayerTimes.ViewModels
             EnsureNotifyIcon();
 
             var reminder = TimeSpan.FromMinutes(Math.Max(0, _settings.ReminderMinutesBefore));
-            var remaining = r.TimeToNextPrayer;
 
-            var key = $"{r.DateLocal:yyyyMMdd}:{r.NextPrayerName}";
+            // _last can be null during startup edge-cases; keep key stable anyway
+            var dateKey = (_last?.DateLocal ?? DateTime.Now).ToString("yyyyMMdd", CultureInfo.InvariantCulture);
+            var key = $"{dateKey}:{nextPrayerName}";
             if (_lastNotifiedKey == key) return;
 
             // Notify when we're within the reminder window (including exactly at prayer time).
-            // NOTE: On Windows 10/11, Focus Assist (Do not disturb) can suppress these.
             if (remaining <= reminder && remaining >= TimeSpan.Zero)
             {
                 var title = "Prayer Time Reminder";
-                var msg = $"{r.NextPrayerName} in {FormatCountdown(remaining)}";
+                var msg = $"{nextPrayerName} in {FormatCountdown(remaining)}";
 
                 try
                 {
@@ -275,6 +316,49 @@ namespace PrayerTimes.ViewModels
             return $"{(int)ts.TotalHours:00}:{ts.Minutes:00}:{ts.Seconds:00}";
         }
 
+        // ----------------------------
+        // NEXT-PRAYER COMPUTATION
+        // ----------------------------
+        private readonly struct NextPrayerInfo
+        {
+            public string Name { get; }
+            public DateTime Time { get; }
+            public TimeSpan Remaining { get; }
+
+            public NextPrayerInfo(string name, DateTime time, TimeSpan remaining)
+            {
+                Name = name;
+                Time = time;
+                Remaining = remaining;
+            }
+        }
+
+        private NextPrayerInfo ComputeNextPrayer(PrayerTimesResult r)
+        {
+            var now = DateTime.Now;
+            // Build ordered schedule
+            var schedule = new (string Name, DateTime Time)[]
+            {
+                ("Fajr", r.Fajr),
+                ("Sunrise", r.Sunrise),
+                ("Dhuhr", r.Dhuhr),
+                ("Asr", r.Asr),
+                ("Maghrib", r.Maghrib),
+                ("Isha", r.Isha)
+            };
+
+            // Find first time strictly after now
+            foreach (var item in schedule)
+            {
+                if (item.Time > now)
+                    return new NextPrayerInfo(item.Name, item.Time, item.Time - now);
+            }
+
+            // If all passed, compute tomorrow Fajr (assume service returns "today" times; add 1 day)
+            var tomorrowFajr = r.Fajr.AddDays(1);
+            return new NextPrayerInfo("Fajr", tomorrowFajr, tomorrowFajr - now);
+        }
+
         public event PropertyChangedEventHandler? PropertyChanged;
 
         private void Set<T>(ref T field, T value, [CallerMemberName] string? name = null)
@@ -293,6 +377,33 @@ namespace PrayerTimes.ViewModels
             public void Execute(object? parameter) => _run();
 
             public event EventHandler? CanExecuteChanged { add { } remove { } }
+        }
+
+        // ----------------------------
+        // OFFLINE LOCATIONS
+        // ----------------------------
+        private void InitializeLocations()
+        {
+            try
+            {
+                // CLEAN v1: Load from JSON on demand; service can internally cache
+                UpdateLocationMatches();
+            }
+            catch
+            {
+                // ignore - app can still run with manual lat/lon entry
+            }
+        }
+
+        private void UpdateLocationMatches()
+        {
+            LocationMatches.Clear();
+
+            var q = (LocationQuery ?? "").Trim();
+            if (q.Length < 2) return;
+
+            foreach (var item in _locationCatalog.Search(q).Take(50))
+                LocationMatches.Add(item);
         }
     }
 }

@@ -1,0 +1,2459 @@
+[
+  {
+    "displayName": "Alaminos, Region I",
+    "province": "",
+    "region": "Region I",
+    "latitude": 16.1556,
+    "longitude": 119.9807
+  },
+  {
+    "displayName": "Angeles, Region III",
+    "province": "",
+    "region": "Region III",
+    "latitude": 15.145,
+    "longitude": 120.5847
+  },
+  {
+    "displayName": "Antipolo, Region IV-A",
+    "province": "",
+    "region": "Region IV-A",
+    "latitude": 14.5842,
+    "longitude": 121.1763
+  },
+  {
+    "displayName": "Bacolod, Region VI",
+    "province": "",
+    "region": "Region VI",
+    "latitude": 10.6765,
+    "longitude": 122.9509
+  },
+  {
+    "displayName": "Bacoor, Region IV-A",
+    "province": "",
+    "region": "Region IV-A",
+    "latitude": 14.4591,
+    "longitude": 120.9268
+  },
+  {
+    "displayName": "Bago, Region VI",
+    "province": "",
+    "region": "Region VI",
+    "latitude": 10.5388,
+    "longitude": 122.8385
+  },
+  {
+    "displayName": "Baguio, CAR",
+    "province": "",
+    "region": "CAR",
+    "latitude": 16.4023,
+    "longitude": 120.596
+  },
+  {
+    "displayName": "Bais, Region VII",
+    "province": "",
+    "region": "Region VII",
+    "latitude": 9.5911,
+    "longitude": 123.1225
+  },
+  {
+    "displayName": "Balanga, Region III",
+    "province": "",
+    "region": "Region III",
+    "latitude": 14.676,
+    "longitude": 120.5361
+  },
+  {
+    "displayName": "Bangued, CAR",
+    "province": "",
+    "region": "CAR",
+    "latitude": 17.5961,
+    "longitude": 120.6189
+  },
+  {
+    "displayName": "Batac, Region I",
+    "province": "",
+    "region": "Region I",
+    "latitude": 18.0554,
+    "longitude": 120.5649
+  },
+  {
+    "displayName": "Batangas City, Region IV-A",
+    "province": "",
+    "region": "Region IV-A",
+    "latitude": 13.7565,
+    "longitude": 121.0583
+  },
+  {
+    "displayName": "Bayawan, Region VII",
+    "province": "",
+    "region": "Region VII",
+    "latitude": 9.3644,
+    "longitude": 122.8042
+  },
+  {
+    "displayName": "Baybay, Region VIII",
+    "province": "",
+    "region": "Region VIII",
+    "latitude": 10.6833,
+    "longitude": 124.8
+  },
+  {
+    "displayName": "Bayugan, Region XIII",
+    "province": "",
+    "region": "Region XIII",
+    "latitude": 8.7147,
+    "longitude": 125.7481
+  },
+  {
+    "displayName": "Bislig, Region XIII",
+    "province": "",
+    "region": "Region XIII",
+    "latitude": 8.2167,
+    "longitude": 126.3167
+  },
+  {
+    "displayName": "Biñan, Region IV-A",
+    "province": "",
+    "region": "Region IV-A",
+    "latitude": 14.3426,
+    "longitude": 121.0807
+  },
+  {
+    "displayName": "Bocaue, Region III",
+    "province": "",
+    "region": "Region III",
+    "latitude": 14.8,
+    "longitude": 120.9333
+  },
+  {
+    "displayName": "Bogo, Region VII",
+    "province": "",
+    "region": "Region VII",
+    "latitude": 11.05,
+    "longitude": 124.0
+  },
+  {
+    "displayName": "Borongan, Region VIII",
+    "province": "",
+    "region": "Region VIII",
+    "latitude": 11.6083,
+    "longitude": 125.4319
+  },
+  {
+    "displayName": "Butuan, Region XIII",
+    "province": "",
+    "region": "Region XIII",
+    "latitude": 8.9475,
+    "longitude": 125.5406
+  },
+  {
+    "displayName": "Cabadbaran, Region XIII",
+    "province": "",
+    "region": "Region XIII",
+    "latitude": 9.1228,
+    "longitude": 125.5347
+  },
+  {
+    "displayName": "Cabanatuan, Region III",
+    "province": "",
+    "region": "Region III",
+    "latitude": 15.4905,
+    "longitude": 120.9679
+  },
+  {
+    "displayName": "Cabuyao, Region IV-A",
+    "province": "",
+    "region": "Region IV-A",
+    "latitude": 14.2454,
+    "longitude": 121.1091
+  },
+  {
+    "displayName": "Cadiz, Region VI",
+    "province": "",
+    "region": "Region VI",
+    "latitude": 10.95,
+    "longitude": 123.2833
+  },
+  {
+    "displayName": "Cagayan de Oro, Region X",
+    "province": "",
+    "region": "Region X",
+    "latitude": 8.4542,
+    "longitude": 124.6319
+  },
+  {
+    "displayName": "Calamba, Region IV-A",
+    "province": "",
+    "region": "Region IV-A",
+    "latitude": 14.2117,
+    "longitude": 121.1652
+  },
+  {
+    "displayName": "Calapan, MIMAROPA",
+    "province": "",
+    "region": "MIMAROPA",
+    "latitude": 13.4117,
+    "longitude": 121.1803
+  },
+  {
+    "displayName": "Calbayog, Region VIII",
+    "province": "",
+    "region": "Region VIII",
+    "latitude": 12.0667,
+    "longitude": 124.6
+  },
+  {
+    "displayName": "Candon, Region I",
+    "province": "",
+    "region": "Region I",
+    "latitude": 17.1947,
+    "longitude": 120.4514
+  },
+  {
+    "displayName": "Canlaon, Region VII",
+    "province": "",
+    "region": "Region VII",
+    "latitude": 10.3833,
+    "longitude": 123.2167
+  },
+  {
+    "displayName": "Carcar, Region VII",
+    "province": "",
+    "region": "Region VII",
+    "latitude": 10.1167,
+    "longitude": 123.6333
+  },
+  {
+    "displayName": "Catbalogan, Region VIII",
+    "province": "",
+    "region": "Region VIII",
+    "latitude": 11.7833,
+    "longitude": 124.8833
+  },
+  {
+    "displayName": "Cauayan, Region II",
+    "province": "",
+    "region": "Region II",
+    "latitude": 16.7725,
+    "longitude": 121.7833
+  },
+  {
+    "displayName": "Cavite City, Region IV-A",
+    "province": "",
+    "region": "Region IV-A",
+    "latitude": 14.4791,
+    "longitude": 120.897
+  },
+  {
+    "displayName": "Cebu City, Region VII",
+    "province": "",
+    "region": "Region VII",
+    "latitude": 10.3157,
+    "longitude": 123.8854
+  },
+  {
+    "displayName": "Cotabato City, BARMM",
+    "province": "",
+    "region": "BARMM",
+    "latitude": 7.2167,
+    "longitude": 124.25
+  },
+  {
+    "displayName": "Dagupan, Region I",
+    "province": "",
+    "region": "Region I",
+    "latitude": 16.043,
+    "longitude": 120.3332
+  },
+  {
+    "displayName": "Danao, Region VII",
+    "province": "",
+    "region": "Region VII",
+    "latitude": 10.5333,
+    "longitude": 123.9333
+  },
+  {
+    "displayName": "Dapitan, Region IX",
+    "province": "",
+    "region": "Region IX",
+    "latitude": 8.6572,
+    "longitude": 123.4328
+  },
+  {
+    "displayName": "Dasmarinas, Region IV-A",
+    "province": "",
+    "region": "Region IV-A",
+    "latitude": 14.3294,
+    "longitude": 120.9367
+  },
+  {
+    "displayName": "Davao City, Region XI",
+    "province": "",
+    "region": "Region XI",
+    "latitude": 7.0667,
+    "longitude": 125.6
+  },
+  {
+    "displayName": "Digos, Region XI",
+    "province": "",
+    "region": "Region XI",
+    "latitude": 6.75,
+    "longitude": 125.35
+  },
+  {
+    "displayName": "Dipolog, Region IX",
+    "province": "",
+    "region": "Region IX",
+    "latitude": 8.5881,
+    "longitude": 123.3414
+  },
+  {
+    "displayName": "Dumaguete, Region VII",
+    "province": "",
+    "region": "Region VII",
+    "latitude": 9.3103,
+    "longitude": 123.3081
+  },
+  {
+    "displayName": "El Salvador, Region X",
+    "province": "",
+    "region": "Region X",
+    "latitude": 8.5667,
+    "longitude": 124.5167
+  },
+  {
+    "displayName": "Escalante, Region VI",
+    "province": "",
+    "region": "Region VI",
+    "latitude": 10.8403,
+    "longitude": 123.4992
+  },
+  {
+    "displayName": "Gapan, Region III",
+    "province": "",
+    "region": "Region III",
+    "latitude": 15.3075,
+    "longitude": 120.9464
+  },
+  {
+    "displayName": "General Santos, Region XII",
+    "province": "",
+    "region": "Region XII",
+    "latitude": 6.1167,
+    "longitude": 125.1667
+  },
+  {
+    "displayName": "General Trias, Region IV-A",
+    "province": "",
+    "region": "Region IV-A",
+    "latitude": 14.3839,
+    "longitude": 120.8815
+  },
+  {
+    "displayName": "Gingoog, Region X",
+    "province": "",
+    "region": "Region X",
+    "latitude": 8.8167,
+    "longitude": 125.1
+  },
+  {
+    "displayName": "Guihulngan, Region VII",
+    "province": "",
+    "region": "Region VII",
+    "latitude": 10.1167,
+    "longitude": 123.2667
+  },
+  {
+    "displayName": "Himamaylan, Region VI",
+    "province": "",
+    "region": "Region VI",
+    "latitude": 10.1,
+    "longitude": 122.8667
+  },
+  {
+    "displayName": "Ilagan, Region II",
+    "province": "",
+    "region": "Region II",
+    "latitude": 17.1485,
+    "longitude": 121.8892
+  },
+  {
+    "displayName": "Iligan, Region X",
+    "province": "",
+    "region": "Region X",
+    "latitude": 8.2333,
+    "longitude": 124.25
+  },
+  {
+    "displayName": "Iloilo City, Region VI",
+    "province": "",
+    "region": "Region VI",
+    "latitude": 10.7202,
+    "longitude": 122.5621
+  },
+  {
+    "displayName": "Imus, Region IV-A",
+    "province": "",
+    "region": "Region IV-A",
+    "latitude": 14.4297,
+    "longitude": 120.9367
+  },
+  {
+    "displayName": "Iriga, Region V",
+    "province": "",
+    "region": "Region V",
+    "latitude": 13.4232,
+    "longitude": 123.4125
+  },
+  {
+    "displayName": "Isabela, Region IX",
+    "province": "",
+    "region": "Region IX",
+    "latitude": 6.7083,
+    "longitude": 121.9708
+  },
+  {
+    "displayName": "Island Garden City of Samal, Region XI",
+    "province": "",
+    "region": "Region XI",
+    "latitude": 7.05,
+    "longitude": 125.7333
+  },
+  {
+    "displayName": "Kabankalan, Region VI",
+    "province": "",
+    "region": "Region VI",
+    "latitude": 9.9889,
+    "longitude": 122.8122
+  },
+  {
+    "displayName": "Kidapawan, Region XII",
+    "province": "",
+    "region": "Region XII",
+    "latitude": 7.0083,
+    "longitude": 125.0894
+  },
+  {
+    "displayName": "Koronadal, Region XII",
+    "province": "",
+    "region": "Region XII",
+    "latitude": 6.5,
+    "longitude": 124.85
+  },
+  {
+    "displayName": "La Carlota, Region VI",
+    "province": "",
+    "region": "Region VI",
+    "latitude": 10.423,
+    "longitude": 122.921
+  },
+  {
+    "displayName": "Lamitan, BARMM",
+    "province": "",
+    "region": "BARMM",
+    "latitude": 6.65,
+    "longitude": 122.1333
+  },
+  {
+    "displayName": "Laoag, Region I",
+    "province": "",
+    "region": "Region I",
+    "latitude": 18.1978,
+    "longitude": 120.5957
+  },
+  {
+    "displayName": "Lapu-Lapu, Region VII",
+    "province": "",
+    "region": "Region VII",
+    "latitude": 10.3103,
+    "longitude": 123.9494
+  },
+  {
+    "displayName": "Legazpi, Region V",
+    "province": "",
+    "region": "Region V",
+    "latitude": 13.1392,
+    "longitude": 123.744
+  },
+  {
+    "displayName": "Ligao, Region V",
+    "province": "",
+    "region": "Region V",
+    "latitude": 13.2169,
+    "longitude": 123.5192
+  },
+  {
+    "displayName": "Lipa, Region IV-A",
+    "province": "",
+    "region": "Region IV-A",
+    "latitude": 13.9416,
+    "longitude": 121.1623
+  },
+  {
+    "displayName": "Lucena, Region IV-A",
+    "province": "",
+    "region": "Region IV-A",
+    "latitude": 13.9377,
+    "longitude": 121.617
+  },
+  {
+    "displayName": "Maasin, Region VIII",
+    "province": "",
+    "region": "Region VIII",
+    "latitude": 10.1333,
+    "longitude": 124.85
+  },
+  {
+    "displayName": "Mabalacat, Region III",
+    "province": "",
+    "region": "Region III",
+    "latitude": 15.2155,
+    "longitude": 120.5833
+  },
+  {
+    "displayName": "Malaybalay, Region X",
+    "province": "",
+    "region": "Region X",
+    "latitude": 8.1575,
+    "longitude": 125.1278
+  },
+  {
+    "displayName": "Malolos, Region III",
+    "province": "",
+    "region": "Region III",
+    "latitude": 14.8415,
+    "longitude": 120.8114
+  },
+  {
+    "displayName": "Mandaue, Region VII",
+    "province": "",
+    "region": "Region VII",
+    "latitude": 10.3333,
+    "longitude": 123.9333
+  },
+  {
+    "displayName": "Marawi, BARMM",
+    "province": "",
+    "region": "BARMM",
+    "latitude": 8.0,
+    "longitude": 124.3
+  },
+  {
+    "displayName": "Masbate City, Region V",
+    "province": "",
+    "region": "Region V",
+    "latitude": 12.3687,
+    "longitude": 123.6225
+  },
+  {
+    "displayName": "Mati, Region XI",
+    "province": "",
+    "region": "Region XI",
+    "latitude": 6.95,
+    "longitude": 126.2333
+  },
+  {
+    "displayName": "Meycauayan, Region III",
+    "province": "",
+    "region": "Region III",
+    "latitude": 14.7369,
+    "longitude": 120.9605
+  },
+  {
+    "displayName": "Muñoz, Region III",
+    "province": "",
+    "region": "Region III",
+    "latitude": 15.7161,
+    "longitude": 120.9031
+  },
+  {
+    "displayName": "Naga, Region V",
+    "province": "",
+    "region": "Region V",
+    "latitude": 13.6192,
+    "longitude": 123.1814
+  },
+  {
+    "displayName": "Naga, Region VII",
+    "province": "",
+    "region": "Region VII",
+    "latitude": 10.2167,
+    "longitude": 123.75
+  },
+  {
+    "displayName": "Naval, Region VIII",
+    "province": "",
+    "region": "Region VIII",
+    "latitude": 11.5833,
+    "longitude": 124.45
+  },
+  {
+    "displayName": "Olongapo, Region III",
+    "province": "",
+    "region": "Region III",
+    "latitude": 14.8386,
+    "longitude": 120.2829
+  },
+  {
+    "displayName": "Ormoc, Region VIII",
+    "province": "",
+    "region": "Region VIII",
+    "latitude": 11.0061,
+    "longitude": 124.6075
+  },
+  {
+    "displayName": "Oroquieta, Region X",
+    "province": "",
+    "region": "Region X",
+    "latitude": 8.4833,
+    "longitude": 123.8
+  },
+  {
+    "displayName": "Ozamiz, Region X",
+    "province": "",
+    "region": "Region X",
+    "latitude": 8.15,
+    "longitude": 123.85
+  },
+  {
+    "displayName": "Pagadian, Region IX",
+    "province": "",
+    "region": "Region IX",
+    "latitude": 7.8258,
+    "longitude": 123.437
+  },
+  {
+    "displayName": "Palayan, Region III",
+    "province": "",
+    "region": "Region III",
+    "latitude": 15.5415,
+    "longitude": 121.084
+  },
+  {
+    "displayName": "Panabo, Region XI",
+    "province": "",
+    "region": "Region XI",
+    "latitude": 7.3,
+    "longitude": 125.6833
+  },
+  {
+    "displayName": "Paniqui, Region III",
+    "province": "",
+    "region": "Region III",
+    "latitude": 15.6689,
+    "longitude": 120.5806
+  },
+  {
+    "displayName": "Passi, Region VI",
+    "province": "",
+    "region": "Region VI",
+    "latitude": 11.1078,
+    "longitude": 122.6419
+  },
+  {
+    "displayName": "Puerto Princesa, MIMAROPA",
+    "province": "",
+    "region": "MIMAROPA",
+    "latitude": 9.7392,
+    "longitude": 118.7353
+  },
+  {
+    "displayName": "Roxas, Region VI",
+    "province": "",
+    "region": "Region VI",
+    "latitude": 11.5833,
+    "longitude": 122.75
+  },
+  {
+    "displayName": "Sagay, Region VI",
+    "province": "",
+    "region": "Region VI",
+    "latitude": 10.89,
+    "longitude": 123.41
+  },
+  {
+    "displayName": "San Carlos, Region I",
+    "province": "",
+    "region": "Region I",
+    "latitude": 15.9284,
+    "longitude": 120.3487
+  },
+  {
+    "displayName": "San Carlos, Region VI",
+    "province": "",
+    "region": "Region VI",
+    "latitude": 10.4929,
+    "longitude": 123.4092
+  },
+  {
+    "displayName": "San Fernando, Region I",
+    "province": "",
+    "region": "Region I",
+    "latitude": 16.6154,
+    "longitude": 120.3166
+  },
+  {
+    "displayName": "San Fernando, Region III",
+    "province": "",
+    "region": "Region III",
+    "latitude": 15.0309,
+    "longitude": 120.6855
+  },
+  {
+    "displayName": "San Jose del Monte, Region III",
+    "province": "",
+    "region": "Region III",
+    "latitude": 14.8139,
+    "longitude": 121.0453
+  },
+  {
+    "displayName": "San Jose, Region III",
+    "province": "",
+    "region": "Region III",
+    "latitude": 15.7905,
+    "longitude": 121.0003
+  },
+  {
+    "displayName": "San Pablo, Region IV-A",
+    "province": "",
+    "region": "Region IV-A",
+    "latitude": 14.0703,
+    "longitude": 121.3256
+  },
+  {
+    "displayName": "San Pedro, Region IV-A",
+    "province": "",
+    "region": "Region IV-A",
+    "latitude": 14.3648,
+    "longitude": 121.0555
+  },
+  {
+    "displayName": "Santa Rosa, Region IV-A",
+    "province": "",
+    "region": "Region IV-A",
+    "latitude": 14.3125,
+    "longitude": 121.1113
+  },
+  {
+    "displayName": "Santiago, Region II",
+    "province": "",
+    "region": "Region II",
+    "latitude": 16.6837,
+    "longitude": 121.5497
+  },
+  {
+    "displayName": "Santo Tomas, Region III",
+    "province": "",
+    "region": "Region III",
+    "latitude": 14.0833,
+    "longitude": 121.1833
+  },
+  {
+    "displayName": "Silay, Region VI",
+    "province": "",
+    "region": "Region VI",
+    "latitude": 10.8,
+    "longitude": 122.9667
+  },
+  {
+    "displayName": "Sipalay, Region VI",
+    "province": "",
+    "region": "Region VI",
+    "latitude": 9.7519,
+    "longitude": 122.4044
+  },
+  {
+    "displayName": "Sorsogon City, Region V",
+    "province": "",
+    "region": "Region V",
+    "latitude": 12.974,
+    "longitude": 123.9931
+  },
+  {
+    "displayName": "Surigao City, Region XIII",
+    "province": "",
+    "region": "Region XIII",
+    "latitude": 9.7833,
+    "longitude": 125.4833
+  },
+  {
+    "displayName": "Tabaco, Region V",
+    "province": "",
+    "region": "Region V",
+    "latitude": 13.3575,
+    "longitude": 123.7304
+  },
+  {
+    "displayName": "Tabuk, CAR",
+    "province": "",
+    "region": "CAR",
+    "latitude": 17.4181,
+    "longitude": 121.4429
+  },
+  {
+    "displayName": "Tacloban, Region VIII",
+    "province": "",
+    "region": "Region VIII",
+    "latitude": 11.2433,
+    "longitude": 125.0049
+  },
+  {
+    "displayName": "Tacurong, Region XII",
+    "province": "",
+    "region": "Region XII",
+    "latitude": 6.6833,
+    "longitude": 124.6667
+  },
+  {
+    "displayName": "Tagaytay, Region IV-A",
+    "province": "",
+    "region": "Region IV-A",
+    "latitude": 14.1012,
+    "longitude": 120.9325
+  },
+  {
+    "displayName": "Tagbilaran, Region VII",
+    "province": "",
+    "region": "Region VII",
+    "latitude": 9.65,
+    "longitude": 123.85
+  },
+  {
+    "displayName": "Tagum, Region XI",
+    "province": "",
+    "region": "Region XI",
+    "latitude": 7.4478,
+    "longitude": 125.8078
+  },
+  {
+    "displayName": "Talisay, Region VI",
+    "province": "",
+    "region": "Region VI",
+    "latitude": 10.7383,
+    "longitude": 122.9667
+  },
+  {
+    "displayName": "Talisay, Region VII",
+    "province": "",
+    "region": "Region VII",
+    "latitude": 10.25,
+    "longitude": 123.8333
+  },
+  {
+    "displayName": "Tanauan, Region IV-A",
+    "province": "",
+    "region": "Region IV-A",
+    "latitude": 14.0864,
+    "longitude": 121.1498
+  },
+  {
+    "displayName": "Tandag, Region XIII",
+    "province": "",
+    "region": "Region XIII",
+    "latitude": 9.0667,
+    "longitude": 126.1833
+  },
+  {
+    "displayName": "Tangub, Region X",
+    "province": "",
+    "region": "Region X",
+    "latitude": 8.0667,
+    "longitude": 123.75
+  },
+  {
+    "displayName": "Tanjay, Region VII",
+    "province": "",
+    "region": "Region VII",
+    "latitude": 9.5167,
+    "longitude": 123.1583
+  },
+  {
+    "displayName": "Tarlac City, Region III",
+    "province": "",
+    "region": "Region III",
+    "latitude": 15.4869,
+    "longitude": 120.5988
+  },
+  {
+    "displayName": "Tayabas, Region IV-A",
+    "province": "",
+    "region": "Region IV-A",
+    "latitude": 14.0226,
+    "longitude": 121.5916
+  },
+  {
+    "displayName": "Toledo, Region VII",
+    "province": "",
+    "region": "Region VII",
+    "latitude": 10.3833,
+    "longitude": 123.65
+  },
+  {
+    "displayName": "Trece Martires, Region IV-A",
+    "province": "",
+    "region": "Region IV-A",
+    "latitude": 14.2832,
+    "longitude": 120.8672
+  },
+  {
+    "displayName": "Tuguegarao, Region II",
+    "province": "",
+    "region": "Region II",
+    "latitude": 17.6138,
+    "longitude": 121.7269
+  },
+  {
+    "displayName": "Urdaneta, Region I",
+    "province": "",
+    "region": "Region I",
+    "latitude": 15.9761,
+    "longitude": 120.5711
+  },
+  {
+    "displayName": "Valencia, Region X",
+    "province": "",
+    "region": "Region X",
+    "latitude": 7.9,
+    "longitude": 125.0833
+  },
+  {
+    "displayName": "Victorias, Region VI",
+    "province": "",
+    "region": "Region VI",
+    "latitude": 10.9,
+    "longitude": 123.0667
+  },
+  {
+    "displayName": "Vigan, Region I",
+    "province": "",
+    "region": "Region I",
+    "latitude": 17.5747,
+    "longitude": 120.3869
+  },
+  {
+    "displayName": "Zamboanga City, Region IX",
+    "province": "",
+    "region": "Region IX",
+    "latitude": 6.9214,
+    "longitude": 122.079
+  },
+  {
+    "displayName": "Abra (Province), CAR",
+    "province": "Abra",
+    "region": "CAR",
+    "latitude": 17.5989,
+    "longitude": 120.7178
+  },
+  {
+    "displayName": "Agusan del Norte (Province), Region XIII",
+    "province": "Agusan del Norte",
+    "region": "Region XIII",
+    "latitude": 8.9486,
+    "longitude": 125.5408
+  },
+  {
+    "displayName": "Agusan del Sur (Province), Region XIII",
+    "province": "Agusan del Sur",
+    "region": "Region XIII",
+    "latitude": 8.6072,
+    "longitude": 125.9172
+  },
+  {
+    "displayName": "Aklan (Province), Region VI",
+    "province": "Aklan",
+    "region": "Region VI",
+    "latitude": 11.7061,
+    "longitude": 122.3644
+  },
+  {
+    "displayName": "Albay (Province), Region V",
+    "province": "Albay",
+    "region": "Region V",
+    "latitude": 13.1333,
+    "longitude": 123.7333
+  },
+  {
+    "displayName": "Antique (Province), Region VI",
+    "province": "Antique",
+    "region": "Region VI",
+    "latitude": 10.7431,
+    "longitude": 121.9411
+  },
+  {
+    "displayName": "Apayao (Province), CAR",
+    "province": "Apayao",
+    "region": "CAR",
+    "latitude": 18.0167,
+    "longitude": 121.1833
+  },
+  {
+    "displayName": "Aurora (Province), Region III",
+    "province": "Aurora",
+    "region": "Region III",
+    "latitude": 15.7583,
+    "longitude": 121.5625
+  },
+  {
+    "displayName": "Akbar, Basilan",
+    "province": "Basilan",
+    "region": "BARMM",
+    "latitude": 6.6333,
+    "longitude": 122.2333
+  },
+  {
+    "displayName": "Al-Barka, Basilan",
+    "province": "Basilan",
+    "region": "BARMM",
+    "latitude": 6.4833,
+    "longitude": 122.1833
+  },
+  {
+    "displayName": "Basilan (Province), BARMM",
+    "province": "Basilan",
+    "region": "BARMM",
+    "latitude": 6.6492,
+    "longitude": 121.97
+  },
+  {
+    "displayName": "Hadji Mohammad Ajul, Basilan",
+    "province": "Basilan",
+    "region": "BARMM",
+    "latitude": 6.6,
+    "longitude": 122.2833
+  },
+  {
+    "displayName": "Hadji Muhtamad, Basilan",
+    "province": "Basilan",
+    "region": "BARMM",
+    "latitude": 6.5667,
+    "longitude": 122.2
+  },
+  {
+    "displayName": "Isabela City, Basilan",
+    "province": "Basilan",
+    "region": "BARMM",
+    "latitude": 6.6492,
+    "longitude": 121.97
+  },
+  {
+    "displayName": "Lamitan, Basilan",
+    "province": "Basilan",
+    "region": "BARMM",
+    "latitude": 6.65,
+    "longitude": 122.1333
+  },
+  {
+    "displayName": "Lantawan, Basilan",
+    "province": "Basilan",
+    "region": "BARMM",
+    "latitude": 6.65,
+    "longitude": 121.9333
+  },
+  {
+    "displayName": "Maluso, Basilan",
+    "province": "Basilan",
+    "region": "BARMM",
+    "latitude": 6.55,
+    "longitude": 121.8833
+  },
+  {
+    "displayName": "Sumisip, Basilan",
+    "province": "Basilan",
+    "region": "BARMM",
+    "latitude": 6.4167,
+    "longitude": 122.1167
+  },
+  {
+    "displayName": "Tabuan-Lasa, Basilan",
+    "province": "Basilan",
+    "region": "BARMM",
+    "latitude": 6.3667,
+    "longitude": 121.5167
+  },
+  {
+    "displayName": "Tipo-Tipo, Basilan",
+    "province": "Basilan",
+    "region": "BARMM",
+    "latitude": 6.5333,
+    "longitude": 122.1667
+  },
+  {
+    "displayName": "Tuburan, Basilan",
+    "province": "Basilan",
+    "region": "BARMM",
+    "latitude": 6.6333,
+    "longitude": 122.2667
+  },
+  {
+    "displayName": "Ungkaya Pukan, Basilan",
+    "province": "Basilan",
+    "region": "BARMM",
+    "latitude": 6.5333,
+    "longitude": 122.1333
+  },
+  {
+    "displayName": "Bataan (Province), Region III",
+    "province": "Bataan",
+    "region": "Region III",
+    "latitude": 14.6833,
+    "longitude": 120.5333
+  },
+  {
+    "displayName": "Batanes (Province), Region II",
+    "province": "Batanes",
+    "region": "Region II",
+    "latitude": 20.4486,
+    "longitude": 121.9703
+  },
+  {
+    "displayName": "Batangas (Province), Region IV-A",
+    "province": "Batangas",
+    "region": "Region IV-A",
+    "latitude": 13.7565,
+    "longitude": 121.0583
+  },
+  {
+    "displayName": "Benguet (Province), CAR",
+    "province": "Benguet",
+    "region": "CAR",
+    "latitude": 16.4625,
+    "longitude": 120.5875
+  },
+  {
+    "displayName": "Biliran (Province), Region VIII",
+    "province": "Biliran",
+    "region": "Region VIII",
+    "latitude": 11.5833,
+    "longitude": 124.45
+  },
+  {
+    "displayName": "Bohol (Province), Region VII",
+    "province": "Bohol",
+    "region": "Region VII",
+    "latitude": 9.65,
+    "longitude": 123.85
+  },
+  {
+    "displayName": "Bukidnon (Province), Region X",
+    "province": "Bukidnon",
+    "region": "Region X",
+    "latitude": 8.1575,
+    "longitude": 125.1278
+  },
+  {
+    "displayName": "Bulacan (Province), Region III",
+    "province": "Bulacan",
+    "region": "Region III",
+    "latitude": 14.8415,
+    "longitude": 120.8114
+  },
+  {
+    "displayName": "Cagayan (Province), Region II",
+    "province": "Cagayan",
+    "region": "Region II",
+    "latitude": 17.6138,
+    "longitude": 121.7269
+  },
+  {
+    "displayName": "Camarines Norte (Province), Region V",
+    "province": "Camarines Norte",
+    "region": "Region V",
+    "latitude": 14.1167,
+    "longitude": 122.95
+  },
+  {
+    "displayName": "Camarines Sur (Province), Region V",
+    "province": "Camarines Sur",
+    "region": "Region V",
+    "latitude": 13.5833,
+    "longitude": 123.3
+  },
+  {
+    "displayName": "Camiguin (Province), Region X",
+    "province": "Camiguin",
+    "region": "Region X",
+    "latitude": 9.25,
+    "longitude": 124.7167
+  },
+  {
+    "displayName": "Capiz (Province), Region VI",
+    "province": "Capiz",
+    "region": "Region VI",
+    "latitude": 11.5833,
+    "longitude": 122.75
+  },
+  {
+    "displayName": "Catanduanes (Province), Region V",
+    "province": "Catanduanes",
+    "region": "Region V",
+    "latitude": 13.5833,
+    "longitude": 124.2333
+  },
+  {
+    "displayName": "Cavite (Province), Region IV-A",
+    "province": "Cavite",
+    "region": "Region IV-A",
+    "latitude": 14.4297,
+    "longitude": 120.9367
+  },
+  {
+    "displayName": "Cebu (Province), Region VII",
+    "province": "Cebu",
+    "region": "Region VII",
+    "latitude": 10.3157,
+    "longitude": 123.8854
+  },
+  {
+    "displayName": "Cotabato (Province), Region XII",
+    "province": "Cotabato",
+    "region": "Region XII",
+    "latitude": 7.0083,
+    "longitude": 125.0894
+  },
+  {
+    "displayName": "Davao Occidental (Province), Region XI",
+    "province": "Davao Occidental",
+    "region": "Region XI",
+    "latitude": 6.4,
+    "longitude": 125.6
+  },
+  {
+    "displayName": "Davao Oriental (Province), Region XI",
+    "province": "Davao Oriental",
+    "region": "Region XI",
+    "latitude": 6.95,
+    "longitude": 126.2333
+  },
+  {
+    "displayName": "Davao de Oro (Province), Region XI",
+    "province": "Davao de Oro",
+    "region": "Region XI",
+    "latitude": 7.6078,
+    "longitude": 125.9664
+  },
+  {
+    "displayName": "Davao del Norte (Province), Region XI",
+    "province": "Davao del Norte",
+    "region": "Region XI",
+    "latitude": 7.4478,
+    "longitude": 125.8078
+  },
+  {
+    "displayName": "Davao del Sur (Province), Region XI",
+    "province": "Davao del Sur",
+    "region": "Region XI",
+    "latitude": 6.75,
+    "longitude": 125.35
+  },
+  {
+    "displayName": "Dinagat Islands (Province), Region XIII",
+    "province": "Dinagat Islands",
+    "region": "Region XIII",
+    "latitude": 9.9969,
+    "longitude": 125.5831
+  },
+  {
+    "displayName": "Eastern Samar (Province), Region VIII",
+    "province": "Eastern Samar",
+    "region": "Region VIII",
+    "latitude": 11.6083,
+    "longitude": 125.4319
+  },
+  {
+    "displayName": "Guimaras (Province), Region VI",
+    "province": "Guimaras",
+    "region": "Region VI",
+    "latitude": 10.6,
+    "longitude": 122.6
+  },
+  {
+    "displayName": "Ifugao (Province), CAR",
+    "province": "Ifugao",
+    "region": "CAR",
+    "latitude": 16.8,
+    "longitude": 121.1
+  },
+  {
+    "displayName": "Ilocos Norte (Province), Region I",
+    "province": "Ilocos Norte",
+    "region": "Region I",
+    "latitude": 18.1978,
+    "longitude": 120.5957
+  },
+  {
+    "displayName": "Ilocos Sur (Province), Region I",
+    "province": "Ilocos Sur",
+    "region": "Region I",
+    "latitude": 17.5747,
+    "longitude": 120.3869
+  },
+  {
+    "displayName": "Iloilo (Province), Region VI",
+    "province": "Iloilo",
+    "region": "Region VI",
+    "latitude": 10.7202,
+    "longitude": 122.5621
+  },
+  {
+    "displayName": "Isabela (Province), Region II",
+    "province": "Isabela",
+    "region": "Region II",
+    "latitude": 17.1485,
+    "longitude": 121.8892
+  },
+  {
+    "displayName": "Kalinga (Province), CAR",
+    "province": "Kalinga",
+    "region": "CAR",
+    "latitude": 17.4181,
+    "longitude": 121.4429
+  },
+  {
+    "displayName": "La Union (Province), Region I",
+    "province": "La Union",
+    "region": "Region I",
+    "latitude": 16.6154,
+    "longitude": 120.3166
+  },
+  {
+    "displayName": "Laguna (Province), Region IV-A",
+    "province": "Laguna",
+    "region": "Region IV-A",
+    "latitude": 14.2833,
+    "longitude": 121.4167
+  },
+  {
+    "displayName": "Lanao del Norte (Province), Region X",
+    "province": "Lanao del Norte",
+    "region": "Region X",
+    "latitude": 8.05,
+    "longitude": 123.8
+  },
+  {
+    "displayName": "Bacolod-Kalawi, Lanao del Sur",
+    "province": "Lanao del Sur",
+    "region": "BARMM",
+    "latitude": 7.85,
+    "longitude": 124.1333
+  },
+  {
+    "displayName": "Balabagan, Lanao del Sur",
+    "province": "Lanao del Sur",
+    "region": "BARMM",
+    "latitude": 7.5333,
+    "longitude": 124.1167
+  },
+  {
+    "displayName": "Balindong, Lanao del Sur",
+    "province": "Lanao del Sur",
+    "region": "BARMM",
+    "latitude": 7.9167,
+    "longitude": 124.2
+  },
+  {
+    "displayName": "Bayang, Lanao del Sur",
+    "province": "Lanao del Sur",
+    "region": "BARMM",
+    "latitude": 7.8,
+    "longitude": 124.1833
+  },
+  {
+    "displayName": "Binidayan, Lanao del Sur",
+    "province": "Lanao del Sur",
+    "region": "BARMM",
+    "latitude": 7.8167,
+    "longitude": 124.1667
+  },
+  {
+    "displayName": "Buadiposo-Buntong, Lanao del Sur",
+    "province": "Lanao del Sur",
+    "region": "BARMM",
+    "latitude": 7.9667,
+    "longitude": 124.3833
+  },
+  {
+    "displayName": "Bubong, Lanao del Sur",
+    "province": "Lanao del Sur",
+    "region": "BARMM",
+    "latitude": 7.9167,
+    "longitude": 124.4833
+  },
+  {
+    "displayName": "Bumbaran, Lanao del Sur",
+    "province": "Lanao del Sur",
+    "region": "BARMM",
+    "latitude": 7.8,
+    "longitude": 124.65
+  },
+  {
+    "displayName": "Butig, Lanao del Sur",
+    "province": "Lanao del Sur",
+    "region": "BARMM",
+    "latitude": 7.7167,
+    "longitude": 124.3
+  },
+  {
+    "displayName": "Calanogas, Lanao del Sur",
+    "province": "Lanao del Sur",
+    "region": "BARMM",
+    "latitude": 7.75,
+    "longitude": 124.1
+  },
+  {
+    "displayName": "Ditsaan-Ramain, Lanao del Sur",
+    "province": "Lanao del Sur",
+    "region": "BARMM",
+    "latitude": 8.0333,
+    "longitude": 124.35
+  },
+  {
+    "displayName": "Ganassi, Lanao del Sur",
+    "province": "Lanao del Sur",
+    "region": "BARMM",
+    "latitude": 7.8333,
+    "longitude": 124.1
+  },
+  {
+    "displayName": "Kapai, Lanao del Sur",
+    "province": "Lanao del Sur",
+    "region": "BARMM",
+    "latitude": 7.9167,
+    "longitude": 124.4
+  },
+  {
+    "displayName": "Kapatagan, Lanao del Sur",
+    "province": "Lanao del Sur",
+    "region": "BARMM",
+    "latitude": 7.9,
+    "longitude": 124.7
+  },
+  {
+    "displayName": "Lanao del Sur (Province), BARMM",
+    "province": "Lanao del Sur",
+    "region": "BARMM",
+    "latitude": 8.0,
+    "longitude": 124.3
+  },
+  {
+    "displayName": "Lumba-Bayabao, Lanao del Sur",
+    "province": "Lanao del Sur",
+    "region": "BARMM",
+    "latitude": 7.8833,
+    "longitude": 124.3833
+  },
+  {
+    "displayName": "Lumbaca-Unayan, Lanao del Sur",
+    "province": "Lanao del Sur",
+    "region": "BARMM",
+    "latitude": 7.7833,
+    "longitude": 124.2833
+  },
+  {
+    "displayName": "Lumbatan, Lanao del Sur",
+    "province": "Lanao del Sur",
+    "region": "BARMM",
+    "latitude": 7.7833,
+    "longitude": 124.25
+  },
+  {
+    "displayName": "Lumbayanague, Lanao del Sur",
+    "province": "Lanao del Sur",
+    "region": "BARMM",
+    "latitude": 7.7833,
+    "longitude": 124.2833
+  },
+  {
+    "displayName": "Madalum, Lanao del Sur",
+    "province": "Lanao del Sur",
+    "region": "BARMM",
+    "latitude": 7.8667,
+    "longitude": 124.1167
+  },
+  {
+    "displayName": "Madamba, Lanao del Sur",
+    "province": "Lanao del Sur",
+    "region": "BARMM",
+    "latitude": 7.8833,
+    "longitude": 124.0667
+  },
+  {
+    "displayName": "Maguing, Lanao del Sur",
+    "province": "Lanao del Sur",
+    "region": "BARMM",
+    "latitude": 7.9,
+    "longitude": 124.4
+  },
+  {
+    "displayName": "Malabang, Lanao del Sur",
+    "province": "Lanao del Sur",
+    "region": "BARMM",
+    "latitude": 7.5833,
+    "longitude": 124.0667
+  },
+  {
+    "displayName": "Marantao, Lanao del Sur",
+    "province": "Lanao del Sur",
+    "region": "BARMM",
+    "latitude": 7.95,
+    "longitude": 124.2333
+  },
+  {
+    "displayName": "Marawi, Lanao del Sur",
+    "province": "Lanao del Sur",
+    "region": "BARMM",
+    "latitude": 8.0,
+    "longitude": 124.3
+  },
+  {
+    "displayName": "Masiu, Lanao del Sur",
+    "province": "Lanao del Sur",
+    "region": "BARMM",
+    "latitude": 7.8167,
+    "longitude": 124.3167
+  },
+  {
+    "displayName": "Mulondo, Lanao del Sur",
+    "province": "Lanao del Sur",
+    "region": "BARMM",
+    "latitude": 7.9333,
+    "longitude": 124.3833
+  },
+  {
+    "displayName": "Ngapunaw, Lanao del Sur",
+    "province": "Lanao del Sur",
+    "region": "BARMM",
+    "latitude": 7.85,
+    "longitude": 124.25
+  },
+  {
+    "displayName": "Pagayawan, Lanao del Sur",
+    "province": "Lanao del Sur",
+    "region": "BARMM",
+    "latitude": 7.7333,
+    "longitude": 124.1167
+  },
+  {
+    "displayName": "Piagapo, Lanao del Sur",
+    "province": "Lanao del Sur",
+    "region": "BARMM",
+    "latitude": 8.0,
+    "longitude": 124.1833
+  },
+  {
+    "displayName": "Picong, Lanao del Sur",
+    "province": "Lanao del Sur",
+    "region": "BARMM",
+    "latitude": 7.6833,
+    "longitude": 123.95
+  },
+  {
+    "displayName": "Poona Bayabao, Lanao del Sur",
+    "province": "Lanao del Sur",
+    "region": "BARMM",
+    "latitude": 7.8667,
+    "longitude": 124.35
+  },
+  {
+    "displayName": "Pualas, Lanao del Sur",
+    "province": "Lanao del Sur",
+    "region": "BARMM",
+    "latitude": 7.8167,
+    "longitude": 124.0667
+  },
+  {
+    "displayName": "Saguiaran, Lanao del Sur",
+    "province": "Lanao del Sur",
+    "region": "BARMM",
+    "latitude": 8.0333,
+    "longitude": 124.2667
+  },
+  {
+    "displayName": "Sultan Dumalondong, Lanao del Sur",
+    "province": "Lanao del Sur",
+    "region": "BARMM",
+    "latitude": 7.65,
+    "longitude": 124.2667
+  },
+  {
+    "displayName": "Tagoloan II, Lanao del Sur",
+    "province": "Lanao del Sur",
+    "region": "BARMM",
+    "latitude": 7.8333,
+    "longitude": 124.3167
+  },
+  {
+    "displayName": "Tamparan, Lanao del Sur",
+    "province": "Lanao del Sur",
+    "region": "BARMM",
+    "latitude": 7.8833,
+    "longitude": 124.3333
+  },
+  {
+    "displayName": "Taraka, Lanao del Sur",
+    "province": "Lanao del Sur",
+    "region": "BARMM",
+    "latitude": 7.9,
+    "longitude": 124.35
+  },
+  {
+    "displayName": "Tubaran, Lanao del Sur",
+    "province": "Lanao del Sur",
+    "region": "BARMM",
+    "latitude": 7.7167,
+    "longitude": 124.1667
+  },
+  {
+    "displayName": "Tugaya, Lanao del Sur",
+    "province": "Lanao del Sur",
+    "region": "BARMM",
+    "latitude": 7.8833,
+    "longitude": 124.1667
+  },
+  {
+    "displayName": "Wao, Lanao del Sur",
+    "province": "Lanao del Sur",
+    "region": "BARMM",
+    "latitude": 7.65,
+    "longitude": 124.7333
+  },
+  {
+    "displayName": "Leyte (Province), Region VIII",
+    "province": "Leyte",
+    "region": "Region VIII",
+    "latitude": 11.2433,
+    "longitude": 125.0049
+  },
+  {
+    "displayName": "Barira, Maguindanao del Norte",
+    "province": "Maguindanao del Norte",
+    "region": "BARMM",
+    "latitude": 7.4667,
+    "longitude": 124.3167
+  },
+  {
+    "displayName": "Buldon, Maguindanao del Norte",
+    "province": "Maguindanao del Norte",
+    "region": "BARMM",
+    "latitude": 7.5167,
+    "longitude": 124.3667
+  },
+  {
+    "displayName": "Datu Blah T. Sinsuat, Maguindanao del Norte",
+    "province": "Maguindanao del Norte",
+    "region": "BARMM",
+    "latitude": 7.1333,
+    "longitude": 124.1833
+  },
+  {
+    "displayName": "Datu Odin Sinsuat, Maguindanao del Norte",
+    "province": "Maguindanao del Norte",
+    "region": "BARMM",
+    "latitude": 7.1833,
+    "longitude": 124.2167
+  },
+  {
+    "displayName": "Kabuntalan, Maguindanao del Norte",
+    "province": "Maguindanao del Norte",
+    "region": "BARMM",
+    "latitude": 7.1167,
+    "longitude": 124.3833
+  },
+  {
+    "displayName": "Maguindanao del Norte (Province), BARMM",
+    "province": "Maguindanao del Norte",
+    "region": "BARMM",
+    "latitude": 7.1833,
+    "longitude": 124.2167
+  },
+  {
+    "displayName": "Matanog, Maguindanao del Norte",
+    "province": "Maguindanao del Norte",
+    "region": "BARMM",
+    "latitude": 7.4667,
+    "longitude": 124.25
+  },
+  {
+    "displayName": "Northern Kabuntalan, Maguindanao del Norte",
+    "province": "Maguindanao del Norte",
+    "region": "BARMM",
+    "latitude": 7.2,
+    "longitude": 124.4667
+  },
+  {
+    "displayName": "Parang, Maguindanao del Norte",
+    "province": "Maguindanao del Norte",
+    "region": "BARMM",
+    "latitude": 7.3667,
+    "longitude": 124.2667
+  },
+  {
+    "displayName": "Sultan Kudarat, Maguindanao del Norte",
+    "province": "Maguindanao del Norte",
+    "region": "BARMM",
+    "latitude": 7.2333,
+    "longitude": 124.25
+  },
+  {
+    "displayName": "Sultan Mastura, Maguindanao del Norte",
+    "province": "Maguindanao del Norte",
+    "region": "BARMM",
+    "latitude": 7.3,
+    "longitude": 124.2833
+  },
+  {
+    "displayName": "Talitay, Maguindanao del Norte",
+    "province": "Maguindanao del Norte",
+    "region": "BARMM",
+    "latitude": 7.0333,
+    "longitude": 124.3333
+  },
+  {
+    "displayName": "Upi, Maguindanao del Norte",
+    "province": "Maguindanao del Norte",
+    "region": "BARMM",
+    "latitude": 7.0333,
+    "longitude": 124.1667
+  },
+  {
+    "displayName": "Ampatuan, Maguindanao del Sur",
+    "province": "Maguindanao del Sur",
+    "region": "BARMM",
+    "latitude": 6.8667,
+    "longitude": 124.4667
+  },
+  {
+    "displayName": "Buluan, Maguindanao del Sur",
+    "province": "Maguindanao del Sur",
+    "region": "BARMM",
+    "latitude": 6.7167,
+    "longitude": 124.7833
+  },
+  {
+    "displayName": "Datu Abdullah Sangki, Maguindanao del Sur",
+    "province": "Maguindanao del Sur",
+    "region": "BARMM",
+    "latitude": 6.8,
+    "longitude": 124.7
+  },
+  {
+    "displayName": "Datu Anggal Midtimbang, Maguindanao del Sur",
+    "province": "Maguindanao del Sur",
+    "region": "BARMM",
+    "latitude": 6.95,
+    "longitude": 124.4833
+  },
+  {
+    "displayName": "Datu Hoffer Ampatuan, Maguindanao del Sur",
+    "province": "Maguindanao del Sur",
+    "region": "BARMM",
+    "latitude": 6.8833,
+    "longitude": 124.4
+  },
+  {
+    "displayName": "Datu Montawal, Maguindanao del Sur",
+    "province": "Maguindanao del Sur",
+    "region": "BARMM",
+    "latitude": 7.0833,
+    "longitude": 124.75
+  },
+  {
+    "displayName": "Datu Paglas, Maguindanao del Sur",
+    "province": "Maguindanao del Sur",
+    "region": "BARMM",
+    "latitude": 6.7667,
+    "longitude": 124.85
+  },
+  {
+    "displayName": "Datu Piang, Maguindanao del Sur",
+    "province": "Maguindanao del Sur",
+    "region": "BARMM",
+    "latitude": 7.0333,
+    "longitude": 124.5
+  },
+  {
+    "displayName": "Datu Salibo, Maguindanao del Sur",
+    "province": "Maguindanao del Sur",
+    "region": "BARMM",
+    "latitude": 6.9833,
+    "longitude": 124.4667
+  },
+  {
+    "displayName": "Datu Saudi-Ampatuan, Maguindanao del Sur",
+    "province": "Maguindanao del Sur",
+    "region": "BARMM",
+    "latitude": 6.9667,
+    "longitude": 124.4333
+  },
+  {
+    "displayName": "Datu Unsay, Maguindanao del Sur",
+    "province": "Maguindanao del Sur",
+    "region": "BARMM",
+    "latitude": 6.9167,
+    "longitude": 124.4167
+  },
+  {
+    "displayName": "General Salipada K. Pendatun, Maguindanao del Sur",
+    "province": "Maguindanao del Sur",
+    "region": "BARMM",
+    "latitude": 6.8167,
+    "longitude": 124.8167
+  },
+  {
+    "displayName": "Guindulungan, Maguindanao del Sur",
+    "province": "Maguindanao del Sur",
+    "region": "BARMM",
+    "latitude": 6.9667,
+    "longitude": 124.35
+  },
+  {
+    "displayName": "Maguindanao del Sur (Province), BARMM",
+    "province": "Maguindanao del Sur",
+    "region": "BARMM",
+    "latitude": 6.7167,
+    "longitude": 124.7833
+  },
+  {
+    "displayName": "Mamasapano, Maguindanao del Sur",
+    "province": "Maguindanao del Sur",
+    "region": "BARMM",
+    "latitude": 6.8833,
+    "longitude": 124.5
+  },
+  {
+    "displayName": "Mangudadatu, Maguindanao del Sur",
+    "province": "Maguindanao del Sur",
+    "region": "BARMM",
+    "latitude": 6.6833,
+    "longitude": 124.8
+  },
+  {
+    "displayName": "Pagalungan, Maguindanao del Sur",
+    "province": "Maguindanao del Sur",
+    "region": "BARMM",
+    "latitude": 7.0667,
+    "longitude": 124.7
+  },
+  {
+    "displayName": "Paglat, Maguindanao del Sur",
+    "province": "Maguindanao del Sur",
+    "region": "BARMM",
+    "latitude": 6.7833,
+    "longitude": 124.7833
+  },
+  {
+    "displayName": "Pandag, Maguindanao del Sur",
+    "province": "Maguindanao del Sur",
+    "region": "BARMM",
+    "latitude": 6.75,
+    "longitude": 124.7833
+  },
+  {
+    "displayName": "Rajah Buayan, Maguindanao del Sur",
+    "province": "Maguindanao del Sur",
+    "region": "BARMM",
+    "latitude": 6.9,
+    "longitude": 124.55
+  },
+  {
+    "displayName": "Shariff Aguak, Maguindanao del Sur",
+    "province": "Maguindanao del Sur",
+    "region": "BARMM",
+    "latitude": 6.8667,
+    "longitude": 124.4333
+  },
+  {
+    "displayName": "Shariff Saydona Mustapha, Maguindanao del Sur",
+    "province": "Maguindanao del Sur",
+    "region": "BARMM",
+    "latitude": 6.9833,
+    "longitude": 124.4833
+  },
+  {
+    "displayName": "South Upi, Maguindanao del Sur",
+    "province": "Maguindanao del Sur",
+    "region": "BARMM",
+    "latitude": 6.85,
+    "longitude": 124.15
+  },
+  {
+    "displayName": "Sultan sa Barongis, Maguindanao del Sur",
+    "province": "Maguindanao del Sur",
+    "region": "BARMM",
+    "latitude": 6.8,
+    "longitude": 124.6333
+  },
+  {
+    "displayName": "Talayan, Maguindanao del Sur",
+    "province": "Maguindanao del Sur",
+    "region": "BARMM",
+    "latitude": 6.9833,
+    "longitude": 124.3667
+  },
+  {
+    "displayName": "Marinduque (Province), MIMAROPA",
+    "province": "Marinduque",
+    "region": "MIMAROPA",
+    "latitude": 13.45,
+    "longitude": 121.8333
+  },
+  {
+    "displayName": "Masbate (Province), Region V",
+    "province": "Masbate",
+    "region": "Region V",
+    "latitude": 12.3687,
+    "longitude": 123.6225
+  },
+  {
+    "displayName": "Caloocan, NCR",
+    "province": "Metro Manila",
+    "region": "NCR",
+    "latitude": 14.6546,
+    "longitude": 120.9843
+  },
+  {
+    "displayName": "Las Piñas, NCR",
+    "province": "Metro Manila",
+    "region": "NCR",
+    "latitude": 14.4506,
+    "longitude": 120.9828
+  },
+  {
+    "displayName": "Makati, NCR",
+    "province": "Metro Manila",
+    "region": "NCR",
+    "latitude": 14.5547,
+    "longitude": 121.0244
+  },
+  {
+    "displayName": "Malabon, NCR",
+    "province": "Metro Manila",
+    "region": "NCR",
+    "latitude": 14.6626,
+    "longitude": 120.9562
+  },
+  {
+    "displayName": "Mandaluyong, NCR",
+    "province": "Metro Manila",
+    "region": "NCR",
+    "latitude": 14.5794,
+    "longitude": 121.0359
+  },
+  {
+    "displayName": "Manila, NCR",
+    "province": "Metro Manila",
+    "region": "NCR",
+    "latitude": 14.5995,
+    "longitude": 120.9842
+  },
+  {
+    "displayName": "Marikina, NCR",
+    "province": "Metro Manila",
+    "region": "NCR",
+    "latitude": 14.6507,
+    "longitude": 121.1029
+  },
+  {
+    "displayName": "Metro Manila (Province), NCR",
+    "province": "Metro Manila",
+    "region": "NCR",
+    "latitude": 14.5995,
+    "longitude": 120.9842
+  },
+  {
+    "displayName": "Muntinlupa, NCR",
+    "province": "Metro Manila",
+    "region": "NCR",
+    "latitude": 14.4086,
+    "longitude": 121.0405
+  },
+  {
+    "displayName": "Navotas, NCR",
+    "province": "Metro Manila",
+    "region": "NCR",
+    "latitude": 14.6686,
+    "longitude": 120.9402
+  },
+  {
+    "displayName": "Parañaque, NCR",
+    "province": "Metro Manila",
+    "region": "NCR",
+    "latitude": 14.4793,
+    "longitude": 120.9969
+  },
+  {
+    "displayName": "Pasay, NCR",
+    "province": "Metro Manila",
+    "region": "NCR",
+    "latitude": 14.5378,
+    "longitude": 121.0014
+  },
+  {
+    "displayName": "Pasig, NCR",
+    "province": "Metro Manila",
+    "region": "NCR",
+    "latitude": 14.5764,
+    "longitude": 121.0851
+  },
+  {
+    "displayName": "Quezon City, NCR",
+    "province": "Metro Manila",
+    "region": "NCR",
+    "latitude": 14.676,
+    "longitude": 121.0437
+  },
+  {
+    "displayName": "San Juan, NCR",
+    "province": "Metro Manila",
+    "region": "NCR",
+    "latitude": 14.6037,
+    "longitude": 121.0314
+  },
+  {
+    "displayName": "Taguig, NCR",
+    "province": "Metro Manila",
+    "region": "NCR",
+    "latitude": 14.5176,
+    "longitude": 121.0509
+  },
+  {
+    "displayName": "Valenzuela, NCR",
+    "province": "Metro Manila",
+    "region": "NCR",
+    "latitude": 14.7004,
+    "longitude": 120.9839
+  },
+  {
+    "displayName": "Misamis Occidental (Province), Region X",
+    "province": "Misamis Occidental",
+    "region": "Region X",
+    "latitude": 8.4833,
+    "longitude": 123.8
+  },
+  {
+    "displayName": "Misamis Oriental (Province), Region X",
+    "province": "Misamis Oriental",
+    "region": "Region X",
+    "latitude": 8.4542,
+    "longitude": 124.6319
+  },
+  {
+    "displayName": "Mountain Province (Province), CAR",
+    "province": "Mountain Province",
+    "region": "CAR",
+    "latitude": 17.0917,
+    "longitude": 120.975
+  },
+  {
+    "displayName": "Negros Occidental (Province), Region VI",
+    "province": "Negros Occidental",
+    "region": "Region VI",
+    "latitude": 10.6765,
+    "longitude": 122.9509
+  },
+  {
+    "displayName": "Negros Oriental (Province), Region VII",
+    "province": "Negros Oriental",
+    "region": "Region VII",
+    "latitude": 9.3103,
+    "longitude": 123.3081
+  },
+  {
+    "displayName": "Northern Samar (Province), Region VIII",
+    "province": "Northern Samar",
+    "region": "Region VIII",
+    "latitude": 12.5,
+    "longitude": 124.6333
+  },
+  {
+    "displayName": "Nueva Ecija (Province), Region III",
+    "province": "Nueva Ecija",
+    "region": "Region III",
+    "latitude": 15.5415,
+    "longitude": 121.084
+  },
+  {
+    "displayName": "Nueva Vizcaya (Province), Region II",
+    "province": "Nueva Vizcaya",
+    "region": "Region II",
+    "latitude": 16.4833,
+    "longitude": 121.15
+  },
+  {
+    "displayName": "Occidental Mindoro (Province), MIMAROPA",
+    "province": "Occidental Mindoro",
+    "region": "MIMAROPA",
+    "latitude": 13.2233,
+    "longitude": 120.5961
+  },
+  {
+    "displayName": "Oriental Mindoro (Province), MIMAROPA",
+    "province": "Oriental Mindoro",
+    "region": "MIMAROPA",
+    "latitude": 13.4117,
+    "longitude": 121.1803
+  },
+  {
+    "displayName": "Palawan (Province), MIMAROPA",
+    "province": "Palawan",
+    "region": "MIMAROPA",
+    "latitude": 9.7392,
+    "longitude": 118.7353
+  },
+  {
+    "displayName": "Pampanga (Province), Region III",
+    "province": "Pampanga",
+    "region": "Region III",
+    "latitude": 15.0309,
+    "longitude": 120.6855
+  },
+  {
+    "displayName": "Pangasinan (Province), Region I",
+    "province": "Pangasinan",
+    "region": "Region I",
+    "latitude": 16.0167,
+    "longitude": 120.2333
+  },
+  {
+    "displayName": "Quezon (Province), Region IV-A",
+    "province": "Quezon",
+    "region": "Region IV-A",
+    "latitude": 13.9377,
+    "longitude": 121.617
+  },
+  {
+    "displayName": "Quirino (Province), Region II",
+    "province": "Quirino",
+    "region": "Region II",
+    "latitude": 16.5833,
+    "longitude": 121.5
+  },
+  {
+    "displayName": "Rizal (Province), Region IV-A",
+    "province": "Rizal",
+    "region": "Region IV-A",
+    "latitude": 14.5842,
+    "longitude": 121.1763
+  },
+  {
+    "displayName": "Romblon (Province), MIMAROPA",
+    "province": "Romblon",
+    "region": "MIMAROPA",
+    "latitude": 12.5833,
+    "longitude": 122.2667
+  },
+  {
+    "displayName": "Samar (Province), Region VIII",
+    "province": "Samar",
+    "region": "Region VIII",
+    "latitude": 11.7833,
+    "longitude": 124.8833
+  },
+  {
+    "displayName": "Sarangani (Province), Region XII",
+    "province": "Sarangani",
+    "region": "Region XII",
+    "latitude": 5.9167,
+    "longitude": 125.2833
+  },
+  {
+    "displayName": "Siquijor (Province), Region VII",
+    "province": "Siquijor",
+    "region": "Region VII",
+    "latitude": 9.1833,
+    "longitude": 123.55
+  },
+  {
+    "displayName": "Sorsogon (Province), Region V",
+    "province": "Sorsogon",
+    "region": "Region V",
+    "latitude": 12.974,
+    "longitude": 123.9931
+  },
+  {
+    "displayName": "South Cotabato (Province), Region XII",
+    "province": "South Cotabato",
+    "region": "Region XII",
+    "latitude": 6.5,
+    "longitude": 124.85
+  },
+  {
+    "displayName": "Southern Leyte (Province), Region VIII",
+    "province": "Southern Leyte",
+    "region": "Region VIII",
+    "latitude": 10.1333,
+    "longitude": 124.85
+  },
+  {
+    "displayName": "Sultan Kudarat (Province), Region XII",
+    "province": "Sultan Kudarat",
+    "region": "Region XII",
+    "latitude": 6.6333,
+    "longitude": 124.6
+  },
+  {
+    "displayName": "Hadji Panglima Tahil, Sulu",
+    "province": "Sulu",
+    "region": "BARMM",
+    "latitude": 6.1667,
+    "longitude": 120.9167
+  },
+  {
+    "displayName": "Indanan, Sulu",
+    "province": "Sulu",
+    "region": "BARMM",
+    "latitude": 6.0,
+    "longitude": 120.9667
+  },
+  {
+    "displayName": "Jolo, Sulu",
+    "province": "Sulu",
+    "region": "BARMM",
+    "latitude": 6.0542,
+    "longitude": 121.0008
+  },
+  {
+    "displayName": "Kalingalan Caluang, Sulu",
+    "province": "Sulu",
+    "region": "BARMM",
+    "latitude": 5.8833,
+    "longitude": 121.2667
+  },
+  {
+    "displayName": "Lugus, Sulu",
+    "province": "Sulu",
+    "region": "BARMM",
+    "latitude": 5.7,
+    "longitude": 120.8167
+  },
+  {
+    "displayName": "Luuk, Sulu",
+    "province": "Sulu",
+    "region": "BARMM",
+    "latitude": 5.9667,
+    "longitude": 121.3167
+  },
+  {
+    "displayName": "Maimbung, Sulu",
+    "province": "Sulu",
+    "region": "BARMM",
+    "latitude": 5.9333,
+    "longitude": 121.0333
+  },
+  {
+    "displayName": "Old Panamao, Sulu",
+    "province": "Sulu",
+    "region": "BARMM",
+    "latitude": 5.9833,
+    "longitude": 121.2333
+  },
+  {
+    "displayName": "Omar, Sulu",
+    "province": "Sulu",
+    "region": "BARMM",
+    "latitude": 5.9833,
+    "longitude": 121.3833
+  },
+  {
+    "displayName": "Pandami, Sulu",
+    "province": "Sulu",
+    "region": "BARMM",
+    "latitude": 5.5333,
+    "longitude": 120.75
+  },
+  {
+    "displayName": "Panglima Estino, Sulu",
+    "province": "Sulu",
+    "region": "BARMM",
+    "latitude": 5.9667,
+    "longitude": 121.2
+  },
+  {
+    "displayName": "Pangutaran, Sulu",
+    "province": "Sulu",
+    "region": "BARMM",
+    "latitude": 6.3,
+    "longitude": 120.5833
+  },
+  {
+    "displayName": "Parang, Sulu",
+    "province": "Sulu",
+    "region": "BARMM",
+    "latitude": 5.9167,
+    "longitude": 120.9167
+  },
+  {
+    "displayName": "Pata, Sulu",
+    "province": "Sulu",
+    "region": "BARMM",
+    "latitude": 5.8167,
+    "longitude": 121.15
+  },
+  {
+    "displayName": "Patikul, Sulu",
+    "province": "Sulu",
+    "region": "BARMM",
+    "latitude": 6.0833,
+    "longitude": 121.1
+  },
+  {
+    "displayName": "Siasi, Sulu",
+    "province": "Sulu",
+    "region": "BARMM",
+    "latitude": 5.55,
+    "longitude": 120.8167
+  },
+  {
+    "displayName": "Sulu (Province), BARMM",
+    "province": "Sulu",
+    "region": "BARMM",
+    "latitude": 6.0542,
+    "longitude": 121.0008
+  },
+  {
+    "displayName": "Talipao, Sulu",
+    "province": "Sulu",
+    "region": "BARMM",
+    "latitude": 5.9833,
+    "longitude": 121.1167
+  },
+  {
+    "displayName": "Tapul, Sulu",
+    "province": "Sulu",
+    "region": "BARMM",
+    "latitude": 5.7167,
+    "longitude": 120.8833
+  },
+  {
+    "displayName": "Surigao del Norte (Province), Region XIII",
+    "province": "Surigao del Norte",
+    "region": "Region XIII",
+    "latitude": 9.7833,
+    "longitude": 125.4833
+  },
+  {
+    "displayName": "Surigao del Sur (Province), Region XIII",
+    "province": "Surigao del Sur",
+    "region": "Region XIII",
+    "latitude": 9.0667,
+    "longitude": 126.1833
+  },
+  {
+    "displayName": "Tarlac (Province), Region III",
+    "province": "Tarlac",
+    "region": "Region III",
+    "latitude": 15.4869,
+    "longitude": 120.5988
+  },
+  {
+    "displayName": "Bongao, Tawi-Tawi",
+    "province": "Tawi-Tawi",
+    "region": "BARMM",
+    "latitude": 5.0292,
+    "longitude": 119.7731
+  },
+  {
+    "displayName": "Languyan, Tawi-Tawi",
+    "province": "Tawi-Tawi",
+    "region": "BARMM",
+    "latitude": 5.2667,
+    "longitude": 120.0833
+  },
+  {
+    "displayName": "Mapun, Tawi-Tawi",
+    "province": "Tawi-Tawi",
+    "region": "BARMM",
+    "latitude": 7.0167,
+    "longitude": 118.5
+  },
+  {
+    "displayName": "Panglima Sugala, Tawi-Tawi",
+    "province": "Tawi-Tawi",
+    "region": "BARMM",
+    "latitude": 5.0833,
+    "longitude": 119.9
+  },
+  {
+    "displayName": "Sapa-Sapa, Tawi-Tawi",
+    "province": "Tawi-Tawi",
+    "region": "BARMM",
+    "latitude": 5.1,
+    "longitude": 120.0833
+  },
+  {
+    "displayName": "Sibutu, Tawi-Tawi",
+    "province": "Tawi-Tawi",
+    "region": "BARMM",
+    "latitude": 4.85,
+    "longitude": 119.4667
+  },
+  {
+    "displayName": "Simunul, Tawi-Tawi",
+    "province": "Tawi-Tawi",
+    "region": "BARMM",
+    "latitude": 4.9,
+    "longitude": 119.8167
+  },
+  {
+    "displayName": "Sitangkai, Tawi-Tawi",
+    "province": "Tawi-Tawi",
+    "region": "BARMM",
+    "latitude": 4.6667,
+    "longitude": 119.3833
+  },
+  {
+    "displayName": "South Ubian, Tawi-Tawi",
+    "province": "Tawi-Tawi",
+    "region": "BARMM",
+    "latitude": 5.1833,
+    "longitude": 120.4833
+  },
+  {
+    "displayName": "Tandubas, Tawi-Tawi",
+    "province": "Tawi-Tawi",
+    "region": "BARMM",
+    "latitude": 5.1333,
+    "longitude": 120.35
+  },
+  {
+    "displayName": "Tawi-Tawi (Province), BARMM",
+    "province": "Tawi-Tawi",
+    "region": "BARMM",
+    "latitude": 5.0292,
+    "longitude": 119.7731
+  },
+  {
+    "displayName": "Turtle Islands, Tawi-Tawi",
+    "province": "Tawi-Tawi",
+    "region": "BARMM",
+    "latitude": 6.0833,
+    "longitude": 118.3167
+  },
+  {
+    "displayName": "Zambales (Province), Region III",
+    "province": "Zambales",
+    "region": "Region III",
+    "latitude": 15.3333,
+    "longitude": 119.9833
+  },
+  {
+    "displayName": "Zamboanga Sibugay (Province), Region IX",
+    "province": "Zamboanga Sibugay",
+    "region": "Region IX",
+    "latitude": 7.7833,
+    "longitude": 122.5833
+  },
+  {
+    "displayName": "Zamboanga del Norte (Province), Region IX",
+    "province": "Zamboanga del Norte",
+    "region": "Region IX",
+    "latitude": 8.5881,
+    "longitude": 123.3414
+  },
+  {
+    "displayName": "Zamboanga del Sur (Province), Region IX",
+    "province": "Zamboanga del Sur",
+    "region": "Region IX",
+    "latitude": 7.8258,
+    "longitude": 123.437
+  }
+]

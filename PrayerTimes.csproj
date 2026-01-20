@@ -22,9 +22,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Content Include="Assets\Data\locations.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+
+	<ItemGroup>
 		<Folder Include="AppCore\" />
 		<Folder Include="Assets\Audio\" />
-		<Folder Include="Assets\Data\" />
 		<Folder Include="Models\" />
 	</ItemGroup>
 
