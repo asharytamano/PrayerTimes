@@ -203,10 +203,36 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <TextBlock Grid.Row="0" Text="TODAY'S TIMES" Style="{StaticResource TitleH2}"/>
+                    <Grid Margin="0,0,0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Column="0"
+               Text="TODAY'S TIMES"
+               FontFamily="{DynamicResource TitleFont}"
+               FontSize="26"
+               FontWeight="SemiBold"
+               Foreground="{DynamicResource AccentBrush}"/>
+
+                        <StackPanel Grid.Column="1"
+                Orientation="Horizontal"
+                VerticalAlignment="Center"
+                Margin="10,0,0,0">
+                            <Button Content="Generate/Print"
+                Height="26"
+                MinWidth="120"
+                Padding="14,0"
+                Click="ScrollToMonthlyPrint_Click"
+                ToolTip="Jump to Monthly Prayer Times"
+                VerticalAlignment="Center"
+                Foreground="{DynamicResource AccentBrush}"/>
+                        </StackPanel>
+                    </Grid>
 
                     <!-- Prayer time cards -->
-                    <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                    <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" x:Name="TodayTimesScrollViewer">
                         <StackPanel>
                             <Button Style="{StaticResource PrayerTimeButton}" Focusable="False">
                                 <Grid>
@@ -627,7 +653,7 @@
                             CornerRadius="12"
                             Background="{DynamicResource ParchmentSoftBrush}"
                             BorderBrush="{DynamicResource GoldBrush}"
-                            BorderThickness="1.5">
+                            BorderThickness="1.5" x:Name="MonthlyPrintSection">
 
                                 <StackPanel>
                                     <TextBlock Text="Monthly Prayer Times"
