@@ -11,6 +11,12 @@ namespace PrayerTimes.Settings
 
         public string SettingsPath { get; }
 
+        public static string AppFolderPath =>
+    System.IO.Path.Combine(
+        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+        AppFolderName
+    );
+
         public SettingsStore()
         {
             var dir = Path.Combine(

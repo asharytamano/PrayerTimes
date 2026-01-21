@@ -46,6 +46,8 @@
 
 	<ItemGroup>
 		<Resource Include="Assets\Audio\Hamza_Al_Majale.mp3" />
+		<Resource Include="Assets\Audio\Qassas-Madinah.mp3" />
+		<Resource Include="Assets\Audio\Mullah-Makkah.mp3" />
 		<Resource Include="Assets\Audio\Mishary_Al-Afasy.mp3" />
 		<Resource Include="Assets\Audio\Rabeh_Al_Jazairi.mp3" />
 		<Resource Include="Assets\Fonts\TrajanPro-Bold.otf" />

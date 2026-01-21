@@ -70,7 +70,9 @@ namespace PrayerTimes.ViewModels
         public ICommand OpenSettingsCommand { get; }
 
         public ICommand TestAdhanCommand { get; }
+        public ICommand StopAdhanCommand { get; }
 
+        public ICommand ToggleWaktAdhanCommand { get; }
         // Draft values for Settings window (strings for safe input)
         public string DraftCityName { get => _draftCityName; set => Set(ref _draftCityName, value); }
         public string DraftLatitude { get => _draftLatitude; set => Set(ref _draftLatitude, value); }
@@ -127,7 +129,9 @@ namespace PrayerTimes.ViewModels
         {
             "Hamza Al Majale",
             "Rabeh Al Jazairi",
-            "Mishary Al-Afasy"
+            "Mishary Al-Afasy",
+            "Mullah-Makkah",
+            "Qassas-Madinah"
         };
 
         public bool AzanEnabled
@@ -137,6 +141,19 @@ namespace PrayerTimes.ViewModels
             {
                 if (_settings.AzanEnabled == value) return;
                 _settings.AzanEnabled = value;
+                SaveSettings();
+                OnPropertyChanged();
+            }
+        }
+
+
+        public bool NotificationsEnabled
+        {
+            get => _settings.NotificationsEnabled;
+            set
+            {
+                if (_settings.NotificationsEnabled == value) return;
+                _settings.NotificationsEnabled = value;
                 SaveSettings();
                 OnPropertyChanged();
             }
@@ -193,6 +210,43 @@ namespace PrayerTimes.ViewModels
 
         // Adhan playback
         private readonly MediaPlayer _azanPlayer = new();
+        private bool _isAdhanPlaying;
+        private string _playingAdhanText = "";
+
+        public bool IsAdhanPlaying { get => _isAdhanPlaying; set => Set(ref _isAdhanPlaying, value); }
+        public string PlayingAdhanText { get => _playingAdhanText; set => Set(ref _playingAdhanText, value); }
+
+        private bool _azanEventsHooked;
+
+
+        private void HookAzanPlayerEvents()
+        {
+            if (_azanEventsHooked) return;
+            _azanEventsHooked = true;
+
+            // Ensure UI state resets when playback ends or fails
+            _azanPlayer.MediaEnded += (_, __) =>
+            {
+                // Media events may be raised off-UI thread; marshal back
+                System.Windows.Application.Current?.Dispatcher?.BeginInvoke(new Action(() =>
+                {
+                    try { _azanPlayer.Stop(); } catch { }
+                    IsAdhanPlaying = false;
+                    PlayingAdhanText = "";
+                }));
+            };
+
+            _azanPlayer.MediaFailed += (_, __) =>
+            {
+                System.Windows.Application.Current?.Dispatcher?.BeginInvoke(new Action(() =>
+                {
+                    try { _azanPlayer.Stop(); } catch { }
+                    IsAdhanPlaying = false;
+                    PlayingAdhanText = "";
+                }));
+            };
+        }
+
         private readonly HashSet<string> _azanFiredKeys = new();
         private string? _lastAzanDateKey;
         public MainViewModel()
@@ -207,7 +261,13 @@ namespace PrayerTimes.ViewModels
             OpenSettingsCommand = new SimpleCommand(OpenSettings);
 
             TestAdhanCommand = new SimpleCommand(TestAdhan);
+            StopAdhanCommand = new SimpleCommand(StopAdhan);
 
+            HookAzanPlayerEvents();
+
+
+
+            ToggleWaktAdhanCommand = new SimpleCommand(ToggleWaktAdhan);
             Refresh();
 
             _timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
@@ -260,6 +320,46 @@ namespace PrayerTimes.ViewModels
 
 
 
+
+
+        // ----------------------------
+        // UI: "Pill button" toggles (QM-style)
+        // Clicking the time pill toggles per-wakt Adhan enable/disable.
+        // Sunrise is ignored (no Adhan).
+        // ----------------------------
+        private void ToggleWaktAdhan(object? parameter)
+        {
+            var key = (parameter ?? "").ToString()?.Trim();
+            if (string.IsNullOrWhiteSpace(key)) return;
+
+            switch (key)
+            {
+                case "Fajr":
+                    FajrAzanEnabled = !FajrAzanEnabled;
+                    break;
+
+                case "Sunrise":
+                    // Sunrise should never play Adhan
+                    SunriseAzanEnabled = false;
+                    break;
+
+                case "Dhuhr":
+                    DhuhrAzanEnabled = !DhuhrAzanEnabled;
+                    break;
+
+                case "Asr":
+                    AsrAzanEnabled = !AsrAzanEnabled;
+                    break;
+
+                case "Maghrib":
+                    MaghribAzanEnabled = !MaghribAzanEnabled;
+                    break;
+
+                case "Isha":
+                    IshaAzanEnabled = !IshaAzanEnabled;
+                    break;
+            }
+        }
         private void TestAdhan()
         {
             Log("TestAdhan button clicked");
@@ -268,6 +368,23 @@ namespace PrayerTimes.ViewModels
             var voice = ResolveVoice(null);
             Log($"Using voice: {voice}");
             PlayAzan(voice);
+        }
+
+
+        void StopAdhan()
+        {
+            try
+            {
+                _azanPlayer.Stop();
+                IsAdhanPlaying = false;
+                PlayingAdhanText = "";
+                DetectStatus = "Adhan stopped.";
+                Log("StopAdhan: MediaPlayer stopped");
+            }
+            catch (Exception ex)
+            {
+                Log($"StopAdhan error: {ex.Message}");
+            }
         }
 
         private void SeedDraftFromSettings()
@@ -434,21 +551,20 @@ namespace PrayerTimes.ViewModels
 
                 DetectStatus = $"Playing Adhan: {voice}";
 
-                // Set up event handlers for debugging
-                _azanPlayer.MediaOpened += (s, e) => Log("MediaPlayer: MediaOpened event fired");
-                _azanPlayer.MediaFailed += (s, e) => Log($"MediaPlayer: MediaFailed - {e.ErrorException?.Message}");
-                _azanPlayer.MediaEnded += (s, e) => Log("MediaPlayer: MediaEnded event fired");
-
                 // Play from temp file
                 Log($"Opening and playing from temp file: {tempFile}");
                 _azanPlayer.Stop();
                 _azanPlayer.Open(new Uri(tempFile, UriKind.Absolute));
                 _azanPlayer.Volume = 1.0; // Full volume
                 _azanPlayer.Play();
+                IsAdhanPlaying = true;
+                PlayingAdhanText = $"Playing: {voice}";
                 Log("Play command sent to MediaPlayer");
             }
             catch (Exception ex)
             {
+                IsAdhanPlaying = false;
+                PlayingAdhanText = "";
                 DetectStatus = $"Adhan play failed: {ex.Message}";
                 Log(DetectStatus);
                 Log($"Full error: {ex}");
@@ -462,6 +578,8 @@ namespace PrayerTimes.ViewModels
                 "Hamza Al Majale" => "Hamza_Al_Majale.mp3",
                 "Rabeh Al Jazairi" => "Rabeh_Al_Jazairi.mp3",
                 "Mishary Al-Afasy" => "Mishary_Al-Afasy.mp3",
+                "Mullah-Makkah" => "Mullah-Makkah.mp3",
+                "Qassas-Madinah" => "Qassas-Madinah.mp3",
                 _ => "Mishary_Al-Afasy.mp3"
             };
         }
@@ -631,11 +749,25 @@ namespace PrayerTimes.ViewModels
 
         private sealed class SimpleCommand : ICommand
         {
-            private readonly Action _run;
+            private readonly Action? _run;
+            private readonly Action<object?>? _runWithParam;
+
             public SimpleCommand(Action run) => _run = run;
 
+            public SimpleCommand(Action<object?> runWithParam) => _runWithParam = runWithParam;
+
             public bool CanExecute(object? parameter) => true;
-            public void Execute(object? parameter) => _run();
+
+            public void Execute(object? parameter)
+            {
+                if (_runWithParam != null)
+                {
+                    _runWithParam(parameter);
+                    return;
+                }
+
+                _run?.Invoke();
+            }
 
             public event EventHandler? CanExecuteChanged { add { } remove { } }
         }

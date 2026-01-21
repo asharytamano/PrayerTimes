@@ -78,7 +78,7 @@
                     <Grid Margin="16">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="18"/>
+                            <ColumnDefinition Width="28"/>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
@@ -189,8 +189,8 @@
         <!-- TIMES + ADHAN PANEL -->
         <Grid Grid.Row="4">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="2.2*"/>
-                <ColumnDefinition Width="18"/>
+                <ColumnDefinition Width="1.55*"/>
+                <ColumnDefinition Width="28"/>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
 
@@ -208,11 +208,13 @@
                     <!-- Prayer time cards -->
                     <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                         <StackPanel>
-                            <Button Style="{StaticResource PrayerTimeButton}">
+                            <Button Style="{StaticResource PrayerTimeButton}" Focusable="False">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="10"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
 
                                     <TextBlock Grid.Column="0"
@@ -222,26 +224,71 @@
                                                Opacity="0.90"
                                                VerticalAlignment="Center"/>
 
-                                    <Border Grid.Column="1"
+                                    <Button Grid.Column="2"
                                             Background="#FFFFFF"
                                             BorderBrush="{DynamicResource GoldBrush}"
                                             BorderThickness="1"
-                                            CornerRadius="999"
                                             Padding="14,6"
-                                            VerticalAlignment="Center">
-                                        <TextBlock Text="{Binding Fajr}"
-                                                   FontSize="16"
-                                                   FontWeight="Bold"
-                                                   HorizontalAlignment="Right"/>
-                                    </Border>
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Left"
+                                            FontSize="16"
+                                            FontWeight="Bold"
+                                            Content="{Binding Fajr}"
+                                            Focusable="False"
+                                            Command="{Binding ToggleWaktAdhanCommand}"
+                                            CommandParameter="Fajr"
+                                            IsEnabled="True">
+                                        <Button.Style>
+                                            <Style TargetType="Button">
+                                                <Setter Property="Opacity" Value="1"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding FajrAzanEnabled}" Value="False">
+                                                        <Setter Property="Opacity" Value="0.55"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Button.Style>
+                                        <Button.Template>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border Background="{TemplateBinding Background}"
+                                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                                        CornerRadius="999">
+                                                    <ContentPresenter HorizontalAlignment="Center"
+                                                                      VerticalAlignment="Center"
+                                                                      Margin="{TemplateBinding Padding}"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Button.Template>
+                                    </Button>
+
+                                    <TextBlock Grid.Column="3"
+           Margin="10,0,0,0"
+           VerticalAlignment="Center"
+           FontSize="12"
+           Opacity="0.70"
+           Text="Muted">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding FajrAzanEnabled}" Value="False">
+                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
                                 </Grid>
                             </Button>
 
-                            <Button Style="{StaticResource PrayerTimeButton}">
-                                <Grid>
+                            <Button Style="{StaticResource PrayerTimeButton}" Focusable="False">
+                                <Grid Opacity="0.70">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="10"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
 
                                     <TextBlock Grid.Column="0"
@@ -251,26 +298,41 @@
                                                Opacity="0.90"
                                                VerticalAlignment="Center"/>
 
-                                    <Border Grid.Column="1"
+                                    <Button Grid.Column="2"
                                             Background="#FFFFFF"
                                             BorderBrush="{DynamicResource GoldBrush}"
                                             BorderThickness="1"
-                                            CornerRadius="999"
                                             Padding="14,6"
-                                            VerticalAlignment="Center">
-                                        <TextBlock Text="{Binding Sunrise}"
-                                                   FontSize="16"
-                                                   FontWeight="Bold"
-                                                   HorizontalAlignment="Right"/>
-                                    </Border>
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Left"
+                                            FontSize="16"
+                                            FontWeight="Bold"
+                                            Content="{Binding Sunrise}"
+                                            Focusable="False"
+                                            IsEnabled="False">
+                                        <Button.Template>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border Background="{TemplateBinding Background}"
+                                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                                        CornerRadius="999">
+                                                    <ContentPresenter HorizontalAlignment="Center"
+                                                                      VerticalAlignment="Center"
+                                                                      Margin="{TemplateBinding Padding}"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Button.Template>
+                                    </Button>
                                 </Grid>
                             </Button>
 
-                            <Button Style="{StaticResource PrayerTimeButton}">
+                            <Button Style="{StaticResource PrayerTimeButton}" Focusable="False">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="10"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
 
                                     <TextBlock Grid.Column="0"
@@ -280,26 +342,71 @@
                                                Opacity="0.90"
                                                VerticalAlignment="Center"/>
 
-                                    <Border Grid.Column="1"
+                                    <Button Grid.Column="2"
                                             Background="#FFFFFF"
                                             BorderBrush="{DynamicResource GoldBrush}"
                                             BorderThickness="1"
-                                            CornerRadius="999"
                                             Padding="14,6"
-                                            VerticalAlignment="Center">
-                                        <TextBlock Text="{Binding Dhuhr}"
-                                                   FontSize="16"
-                                                   FontWeight="Bold"
-                                                   HorizontalAlignment="Right"/>
-                                    </Border>
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Left"
+                                            FontSize="16"
+                                            FontWeight="Bold"
+                                            Content="{Binding Dhuhr}"
+                                            Focusable="False"
+                                            Command="{Binding ToggleWaktAdhanCommand}"
+                                            CommandParameter="Dhuhr"
+                                            IsEnabled="True">
+                                        <Button.Style>
+                                            <Style TargetType="Button">
+                                                <Setter Property="Opacity" Value="1"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding DhuhrAzanEnabled}" Value="False">
+                                                        <Setter Property="Opacity" Value="0.55"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Button.Style>
+                                        <Button.Template>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border Background="{TemplateBinding Background}"
+                                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                                        CornerRadius="999">
+                                                    <ContentPresenter HorizontalAlignment="Center"
+                                                                      VerticalAlignment="Center"
+                                                                      Margin="{TemplateBinding Padding}"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Button.Template>
+                                    </Button>
+
+                                    <TextBlock Grid.Column="3"
+           Margin="10,0,0,0"
+           VerticalAlignment="Center"
+           FontSize="12"
+           Opacity="0.70"
+           Text="Muted">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding DhuhrAzanEnabled}" Value="False">
+                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
                                 </Grid>
                             </Button>
 
-                            <Button Style="{StaticResource PrayerTimeButton}">
+                            <Button Style="{StaticResource PrayerTimeButton}" Focusable="False">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="10"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
 
                                     <TextBlock Grid.Column="0"
@@ -309,26 +416,71 @@
                                                Opacity="0.90"
                                                VerticalAlignment="Center"/>
 
-                                    <Border Grid.Column="1"
+                                    <Button Grid.Column="2"
                                             Background="#FFFFFF"
                                             BorderBrush="{DynamicResource GoldBrush}"
                                             BorderThickness="1"
-                                            CornerRadius="999"
                                             Padding="14,6"
-                                            VerticalAlignment="Center">
-                                        <TextBlock Text="{Binding Asr}"
-                                                   FontSize="16"
-                                                   FontWeight="Bold"
-                                                   HorizontalAlignment="Right"/>
-                                    </Border>
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Left"
+                                            FontSize="16"
+                                            FontWeight="Bold"
+                                            Content="{Binding Asr}"
+                                            Focusable="False"
+                                            Command="{Binding ToggleWaktAdhanCommand}"
+                                            CommandParameter="Asr"
+                                            IsEnabled="True">
+                                        <Button.Style>
+                                            <Style TargetType="Button">
+                                                <Setter Property="Opacity" Value="1"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding AsrAzanEnabled}" Value="False">
+                                                        <Setter Property="Opacity" Value="0.55"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Button.Style>
+                                        <Button.Template>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border Background="{TemplateBinding Background}"
+                                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                                        CornerRadius="999">
+                                                    <ContentPresenter HorizontalAlignment="Center"
+                                                                      VerticalAlignment="Center"
+                                                                      Margin="{TemplateBinding Padding}"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Button.Template>
+                                    </Button>
+
+                                    <TextBlock Grid.Column="3"
+           Margin="10,0,0,0"
+           VerticalAlignment="Center"
+           FontSize="12"
+           Opacity="0.70"
+           Text="Muted">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding AsrAzanEnabled}" Value="False">
+                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
                                 </Grid>
                             </Button>
 
-                            <Button Style="{StaticResource PrayerTimeButton}">
+                            <Button Style="{StaticResource PrayerTimeButton}" Focusable="False">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="10"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
 
                                     <TextBlock Grid.Column="0"
@@ -338,26 +490,71 @@
                                                Opacity="0.90"
                                                VerticalAlignment="Center"/>
 
-                                    <Border Grid.Column="1"
+                                    <Button Grid.Column="2"
                                             Background="#FFFFFF"
                                             BorderBrush="{DynamicResource GoldBrush}"
                                             BorderThickness="1"
-                                            CornerRadius="999"
                                             Padding="14,6"
-                                            VerticalAlignment="Center">
-                                        <TextBlock Text="{Binding Maghrib}"
-                                                   FontSize="16"
-                                                   FontWeight="Bold"
-                                                   HorizontalAlignment="Right"/>
-                                    </Border>
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Left"
+                                            FontSize="16"
+                                            FontWeight="Bold"
+                                            Content="{Binding Maghrib}"
+                                            Focusable="False"
+                                            Command="{Binding ToggleWaktAdhanCommand}"
+                                            CommandParameter="Maghrib"
+                                            IsEnabled="True">
+                                        <Button.Style>
+                                            <Style TargetType="Button">
+                                                <Setter Property="Opacity" Value="1"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding MaghribAzanEnabled}" Value="False">
+                                                        <Setter Property="Opacity" Value="0.55"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Button.Style>
+                                        <Button.Template>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border Background="{TemplateBinding Background}"
+                                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                                        CornerRadius="999">
+                                                    <ContentPresenter HorizontalAlignment="Center"
+                                                                      VerticalAlignment="Center"
+                                                                      Margin="{TemplateBinding Padding}"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Button.Template>
+                                    </Button>
+
+                                    <TextBlock Grid.Column="3"
+           Margin="10,0,0,0"
+           VerticalAlignment="Center"
+           FontSize="12"
+           Opacity="0.70"
+           Text="Muted">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding MaghribAzanEnabled}" Value="False">
+                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
                                 </Grid>
                             </Button>
 
-                            <Button Style="{StaticResource PrayerTimeButton}">
+                            <Button Style="{StaticResource PrayerTimeButton}" Focusable="False">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="10"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
 
                                     <TextBlock Grid.Column="0"
@@ -367,18 +564,61 @@
                                                Opacity="0.90"
                                                VerticalAlignment="Center"/>
 
-                                    <Border Grid.Column="1"
+                                    <Button Grid.Column="2"
                                             Background="#FFFFFF"
                                             BorderBrush="{DynamicResource GoldBrush}"
                                             BorderThickness="1"
-                                            CornerRadius="999"
                                             Padding="14,6"
-                                            VerticalAlignment="Center">
-                                        <TextBlock Text="{Binding Isha}"
-                                                   FontSize="16"
-                                                   FontWeight="Bold"
-                                                   HorizontalAlignment="Right"/>
-                                    </Border>
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Left"
+                                            FontSize="16"
+                                            FontWeight="Bold"
+                                            Content="{Binding Isha}"
+                                            Focusable="False"
+                                            Command="{Binding ToggleWaktAdhanCommand}"
+                                            CommandParameter="Isha"
+                                            IsEnabled="True">
+                                        <Button.Style>
+                                            <Style TargetType="Button">
+                                                <Setter Property="Opacity" Value="1"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IshaAzanEnabled}" Value="False">
+                                                        <Setter Property="Opacity" Value="0.55"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Button.Style>
+                                        <Button.Template>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border Background="{TemplateBinding Background}"
+                                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                                        CornerRadius="999">
+                                                    <ContentPresenter HorizontalAlignment="Center"
+                                                                      VerticalAlignment="Center"
+                                                                      Margin="{TemplateBinding Padding}"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Button.Template>
+                                    </Button>
+
+                                    <TextBlock Grid.Column="3"
+           Margin="10,0,0,0"
+           VerticalAlignment="Center"
+           FontSize="12"
+           Opacity="0.70"
+           Text="Muted">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IshaAzanEnabled}" Value="False">
+                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
                                 </Grid>
                             </Button>
                         </StackPanel>
@@ -407,29 +647,67 @@
                       FontWeight="SemiBold"
                       Margin="0,0,0,10"/>
 
+
+                        <CheckBox Content="Enable Notifications"
+                      IsChecked="{Binding NotificationsEnabled}"
+                      FontSize="13"
+                      FontWeight="SemiBold"
+                      Margin="0,0,0,10"/>
                         <TextBlock Text="Default Mu’adhdhin"
                        FontSize="12"
                        Opacity="0.75"/>
 
                         <Grid Margin="0,6,0,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="8"/>
                                 <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="8"/>
+                                <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
 
-                            <ComboBox Grid.Column="0"
+                            <ComboBox Grid.Row="0" Grid.Column="0"
                           ItemsSource="{Binding AzanVoiceOptions}"
                           SelectedItem="{Binding DefaultAzanVoice}"
                           Height="34"/>
 
-                            <Button Grid.Column="2"
+                            <Button Grid.Row="0" Grid.Column="2"
                         Content="Test"
                         Command="{Binding TestAdhanCommand}"
                         Height="34"
                         MinWidth="70"
-                        Padding="14,0"
-                        FontWeight="SemiBold"/>
+                        Padding="14,0"/>
+
+                            <Button Grid.Row="0" Grid.Column="4"
+                        Content="Stop"
+                        Command="{Binding StopAdhanCommand}"
+                        IsEnabled="{Binding IsAdhanPlaying}"
+                        Height="34"
+                        MinWidth="70"
+                        Padding="14,0"/>
+
+                            <TextBlock Grid.Row="1" Grid.Column="0"
+                               Grid.ColumnSpan="5"
+                               Margin="0,6,0,0"
+                               FontSize="12"
+                               Opacity="0.75"
+                               Text="{Binding PlayingAdhanText}">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsAdhanPlaying}" Value="True">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+
                         </Grid>
                     </StackPanel>
 
