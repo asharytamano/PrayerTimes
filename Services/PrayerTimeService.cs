@@ -26,6 +26,13 @@ namespace PrayerTimes.Services
         public PrayerTimesResult GetToday(double latitude, double longitude, CalcMethod method, AsrMadhhab madhhab, TimeZoneInfo tz)
         {
             var nowLocal = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, tz);
+            return GetForDate(nowLocal.Date, latitude, longitude, method, madhhab, tz);
+        }
+
+
+        public PrayerTimesResult GetForDate(DateTime dateLocal, double latitude, double longitude, CalcMethod method, AsrMadhhab madhhab, TimeZoneInfo tz)
+        {
+            var nowLocal = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, tz);
             var coords = new Coordinates(latitude, longitude);
 
             var calcMethod = ResolveCalcMethod(method);
@@ -33,7 +40,7 @@ namespace PrayerTimes.Services
 
             SetMadhab(parameters, madhhab);
 
-            object dateComponents = CreateDateComponents(nowLocal.Date);
+            object dateComponents = CreateDateComponents(dateLocal.Date);
             object pt = CreatePrayerTimes(coords, dateComponents, parameters);
 
             var pFajr = ResolvePrayer("Fajr");
@@ -50,36 +57,21 @@ namespace PrayerTimes.Services
             DateTime maghrib = ToLocal(InvokeTimeForPrayer(pt, pMaghrib), tz);
             DateTime isha = ToLocal(InvokeTimeForPrayer(pt, pIsha), tz);
 
-            var nextPrayer = (Prayer)InvokeNoArg(pt, "NextPrayer");
-            var nextTimeObj = InvokeTimeForPrayer(pt, nextPrayer);
-            DateTime nextTime = ToLocal(nextTimeObj, tz);
-
-            if (nextTime <= nowLocal)
-            {
-                var tomorrowNoon = nowLocal.Date.AddDays(1).AddHours(12);
-                object dc2 = CreateDateComponents(tomorrowNoon.Date);
-                object pt2 = CreatePrayerTimes(coords, dc2, parameters);
-
-                nextPrayer = pFajr;
-                nextTime = ToLocal(InvokeTimeForPrayer(pt2, pFajr), tz);
-            }
-
-            var remaining = nextTime - nowLocal;
-            if (remaining < TimeSpan.Zero) remaining = TimeSpan.Zero;
-
+            // Monthly printing: Next prayer is not computed for arbitrary dates.
             return new PrayerTimesResult
             {
-                DateLocal = nowLocal.Date,
+                DateLocal = dateLocal.Date,
                 Fajr = fajr,
                 Sunrise = sunrise,
                 Dhuhr = dhuhr,
                 Asr = asr,
                 Maghrib = maghrib,
                 Isha = isha,
-                NextPrayerName = nextPrayer.ToString(),
-                TimeToNextPrayer = remaining
+                NextPrayerName = "",
+                TimeToNextPrayer = TimeSpan.Zero,
             };
         }
+
 
         private static object CreateDateComponents(DateTime localDate)
         {

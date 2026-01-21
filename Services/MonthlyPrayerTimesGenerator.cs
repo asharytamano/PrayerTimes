@@ -2,85 +2,90 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
-using System.Windows.Media;
-using PrayerTimesApp.Models;
 
-namespace PrayerTimesApp.Services
+// WPF aliases to avoid System.Drawing and WinForms ambiguities
+using WpfBrush = System.Windows.Media.Brush;
+using WpfBrushes = System.Windows.Media.Brushes;
+using WpfColor = System.Windows.Media.Color;
+using WpfColorConverter = System.Windows.Media.ColorConverter;
+using WpfSolidColorBrush = System.Windows.Media.SolidColorBrush;
+
+using PrayerTimes.Models;
+
+namespace PrayerTimes.Services
 {
     public static class MonthlyPrayerTimesGenerator
     {
-        // Theme colors (you can tweak later)
-        private static readonly Brush HeaderBg = (Brush)new BrushConverter().ConvertFromString("#1F6B3A")!;
-        private static readonly Brush FooterBg = (Brush)new BrushConverter().ConvertFromString("#C9A23A")!;
-        private static readonly Brush HeaderFg = Brushes.White;
-        private static readonly Brush BodyFg = (Brush)new BrushConverter().ConvertFromString("#1B1B1B")!;
+        private static readonly WpfBrush HeaderBg = new WpfSolidColorBrush((WpfColor)WpfColorConverter.ConvertFromString("#1F6B3A"));
+        private static readonly WpfBrush FooterBg = new WpfSolidColorBrush((WpfColor)WpfColorConverter.ConvertFromString("#C9A23A"));
+        private static readonly WpfBrush HeaderFg = WpfBrushes.White;
+        private static readonly WpfBrush BodyFg = new WpfSolidColorBrush((WpfColor)WpfColorConverter.ConvertFromString("#1B1B1B"));
 
-        public static FixedDocument BuildFixedDocument(MonthlyPrayerTimesPrintModel model, PagePreset preset)
+        // pagePreset: "LegalUS" or "A3"
+        public static FixedDocument BuildFixedDocument(MonthlyPrayerTimesPrintModel model, string pagePreset)
         {
             if (model == null) throw new ArgumentNullException(nameof(model));
 
-            var pageSize = GetPageSize(preset);
+            System.Windows.Size pageSize = GetPageSize(pagePreset);
 
             var doc = new FixedDocument();
             doc.DocumentPaginator.PageSize = pageSize;
 
-            var pageContent = new PageContent();
             var fixedPage = new FixedPage
             {
                 Width = pageSize.Width,
                 Height = pageSize.Height,
-                Background = Brushes.White
+                Background = WpfBrushes.White
             };
 
-            // Margins
-            double margin = 36; // 0.5 inch at 72 dpi
-            double contentWidth = pageSize.Width - margin * 2;
+            double margin = 36;
+            double contentWidth = pageSize.Width - (margin * 2);
 
-            // HEADER
-            var header = BuildHeader(model, contentWidth);
+            const double headerHeight = 120;
+            const double footerHeight = 72;
+            const double gap = 18;
+
+            var header = BuildHeader(model, contentWidth, headerHeight);
             FixedPage.SetLeft(header, margin);
             FixedPage.SetTop(header, margin);
             fixedPage.Children.Add(header);
 
-            // FOOTER
-            var footer = BuildFooter(model, contentWidth);
+            double footerTop = pageSize.Height - margin - footerHeight;
+            var footer = BuildFooter(model, contentWidth, footerHeight);
             FixedPage.SetLeft(footer, margin);
-            FixedPage.SetBottom(footer, margin);
+            FixedPage.SetTop(footer, footerTop);
             fixedPage.Children.Add(footer);
 
-            // TABLE AREA
-            double headerHeight = 120;
-            double footerHeight = 72;
-            double tableTop = margin + headerHeight + 18;
-            double tableHeight = pageSize.Height - (margin + headerHeight + 18) - (margin + footerHeight);
-            var table = BuildTable(model, contentWidth, tableHeight);
+            double tableTop = margin + headerHeight + gap;
+            double tableBottom = footerTop - gap;
+            double tableHeight = Math.Max(120, tableBottom - tableTop);
 
+            var table = BuildTable(model, contentWidth, tableHeight);
             FixedPage.SetLeft(table, margin);
             FixedPage.SetTop(table, tableTop);
             fixedPage.Children.Add(table);
 
-            pageContent.Child = fixedPage;
+            var pageContent = new PageContent { Child = fixedPage };
             doc.Pages.Add(pageContent);
 
             return doc;
         }
 
-        private static Size GetPageSize(PagePreset preset)
+        private static System.Windows.Size GetPageSize(string preset)
         {
-            // WPF device-independent units: 96 units per inch
-            return preset switch
-            {
-                PagePreset.LegalUS => new Size(8.5 * 96, 14.0 * 96), // 816 x 1344
-                PagePreset.A3 => new Size(11.69 * 96, 16.54 * 96),   // ~1122 x 1588 (portrait)
-                _ => new Size(8.5 * 96, 14.0 * 96)
-            };
+            preset = (preset ?? "").Trim().ToUpperInvariant();
+            if (preset == "A3")
+                return new System.Windows.Size(11.69 * 96, 16.54 * 96); // A3 portrait
+
+            return new System.Windows.Size(8.5 * 96, 14.0 * 96); // Legal US portrait
         }
 
-        private static Border BuildHeader(MonthlyPrayerTimesPrintModel model, double width)
+        private static Border BuildHeader(MonthlyPrayerTimesPrintModel model, double width, double height)
         {
-            var grid = new Grid { Width = width, Height = 120 };
-            grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+            var grid = new Grid { Width = width, Height = height };
             grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+            grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+            grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
 
             var title = new TextBlock
             {
@@ -88,23 +93,30 @@ namespace PrayerTimesApp.Services
                 Foreground = HeaderFg,
                 FontSize = 28,
                 FontWeight = FontWeights.Bold,
-                Margin = new Thickness(18, 14, 18, 4)
+                Margin = new Thickness(18, 14, 18, 0)
             };
 
-            var sub = new TextBlock
+            var location = new TextBlock
             {
-                Text = string.IsNullOrWhiteSpace(model.SubTitle) ? model.LocationName : $"{model.LocationName} • {model.SubTitle}",
+                Text = model.LocationName,
                 Foreground = HeaderFg,
                 FontSize = 14,
                 Opacity = 0.95,
-                Margin = new Thickness(18, 0, 18, 14)
+                Margin = new Thickness(18, 4, 18, 0)
             };
 
-            grid.Children.Add(title);
-            Grid.SetRow(title, 0);
+            var hijri = new TextBlock
+            {
+                Text = model.HijriMonthTitle,
+                Foreground = HeaderFg,
+                FontSize = 13,
+                Opacity = 0.92,
+                Margin = new Thickness(18, 4, 18, 14)
+            };
 
-            grid.Children.Add(sub);
-            Grid.SetRow(sub, 1);
+            grid.Children.Add(title); Grid.SetRow(title, 0);
+            grid.Children.Add(location); Grid.SetRow(location, 1);
+            grid.Children.Add(hijri); Grid.SetRow(hijri, 2);
 
             return new Border
             {
@@ -114,36 +126,33 @@ namespace PrayerTimesApp.Services
             };
         }
 
-        private static Border BuildFooter(MonthlyPrayerTimesPrintModel model, double width)
+        private static Border BuildFooter(MonthlyPrayerTimesPrintModel model, double width, double height)
         {
-            var grid = new Grid { Width = width, Height = 72 };
+            var grid = new Grid { Width = width, Height = height };
             grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
             grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
 
             var left = new TextBlock
             {
                 Text = model.FooterLeft,
-                Foreground = Brushes.White,
+                Foreground = WpfBrushes.White,
                 FontSize = 12,
                 Margin = new Thickness(14, 10, 14, 10),
-                VerticalAlignment = VerticalAlignment.Center
+                VerticalAlignment = System.Windows.VerticalAlignment.Center
             };
 
             var right = new TextBlock
             {
                 Text = model.FooterRight,
-                Foreground = Brushes.White,
+                Foreground = WpfBrushes.White,
                 FontSize = 12,
                 Margin = new Thickness(14, 10, 14, 10),
-                VerticalAlignment = VerticalAlignment.Center,
+                VerticalAlignment = System.Windows.VerticalAlignment.Center,
                 TextAlignment = TextAlignment.Right
             };
 
-            grid.Children.Add(left);
-            Grid.SetColumn(left, 0);
-
-            grid.Children.Add(right);
-            Grid.SetColumn(right, 1);
+            grid.Children.Add(left); Grid.SetColumn(left, 0);
+            grid.Children.Add(right); Grid.SetColumn(right, 1);
 
             return new Border
             {
@@ -159,28 +168,26 @@ namespace PrayerTimesApp.Services
             {
                 Width = width,
                 Height = height,
-                BorderBrush = (Brush)new BrushConverter().ConvertFromString("#D4D4D4")!,
+                BorderBrush = new WpfSolidColorBrush((WpfColor)WpfColorConverter.ConvertFromString("#D4D4D4")),
                 BorderThickness = new Thickness(1),
                 CornerRadius = new CornerRadius(10),
                 Padding = new Thickness(10),
-                Background = Brushes.White
+                Background = WpfBrushes.White
             };
 
             var grid = new Grid();
             outer.Child = grid;
 
-            // Columns: AH | AD | DAY | FAJR | SUN | DHUHR | ASR | MAGHRIB | ISHA
-            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1.1, GridUnitType.Star) }); // AH
+            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1.2, GridUnitType.Star) }); // AH
             grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(0.7, GridUnitType.Star) }); // AD
             grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(0.7, GridUnitType.Star) }); // DAY
-            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(0.9, GridUnitType.Star) }); // Fajr
-            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(0.9, GridUnitType.Star) }); // Sun
-            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(0.9, GridUnitType.Star) }); // Dhuhr
-            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(0.9, GridUnitType.Star) }); // Asr
-            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1.0, GridUnitType.Star) }); // Maghrib
-            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(0.9, GridUnitType.Star) }); // Isha
+            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(0.9, GridUnitType.Star) }); // FAJR
+            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(0.9, GridUnitType.Star) }); // SUN
+            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(0.9, GridUnitType.Star) }); // DHUHR
+            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(0.9, GridUnitType.Star) }); // ASR
+            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1.0, GridUnitType.Star) }); // MAGHRIB
+            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(0.9, GridUnitType.Star) }); // ISHA
 
-            // Header row
             grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
 
             AddHeaderCell(grid, 0, "AH");
@@ -221,15 +228,15 @@ namespace PrayerTimesApp.Services
                 Text = text,
                 FontWeight = FontWeights.Bold,
                 FontSize = 12,
-                Foreground = Brushes.White,
-                HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Center,
+                Foreground = WpfBrushes.White,
+                HorizontalAlignment = System.Windows.HorizontalAlignment.Center,
+                VerticalAlignment = System.Windows.VerticalAlignment.Center,
                 Margin = new Thickness(6, 6, 6, 6)
             };
 
             var b = new Border
             {
-                Background = (Brush)new BrushConverter().ConvertFromString("#2C7A49")!,
+                Background = new WpfSolidColorBrush((WpfColor)WpfColorConverter.ConvertFromString("#2C7A49")),
                 CornerRadius = new CornerRadius(6),
                 Child = tb,
                 Margin = new Thickness(2)
@@ -248,14 +255,14 @@ namespace PrayerTimesApp.Services
                 FontSize = 12,
                 Foreground = BodyFg,
                 TextTrimming = TextTrimming.CharacterEllipsis,
-                HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Center,
+                HorizontalAlignment = System.Windows.HorizontalAlignment.Center,
+                VerticalAlignment = System.Windows.VerticalAlignment.Center,
                 Margin = new Thickness(6, 4, 6, 4)
             };
 
             var b = new Border
             {
-                BorderBrush = (Brush)new BrushConverter().ConvertFromString("#E6E6E6")!,
+                BorderBrush = new WpfSolidColorBrush((WpfColor)WpfColorConverter.ConvertFromString("#E6E6E6")),
                 BorderThickness = new Thickness(1),
                 CornerRadius = new CornerRadius(6),
                 Child = tb,

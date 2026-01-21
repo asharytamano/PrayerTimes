@@ -11,6 +11,7 @@ using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using System.Windows.Threading;
 using System.Windows.Media;
+using System.Windows.Documents;
 
 namespace PrayerTimes.ViewModels
 {
@@ -72,7 +73,36 @@ namespace PrayerTimes.ViewModels
         public ICommand TestAdhanCommand { get; }
         public ICommand StopAdhanCommand { get; }
 
-        public ICommand ToggleWaktAdhanCommand { get; }
+        public bool IsAdhanPlaying
+        {
+            get => _isAdhanPlaying;
+            private set => Set(ref _isAdhanPlaying, value);
+        }
+        private bool _isAdhanPlaying;
+
+        public string PlayingAdhanText
+        {
+            get => _playingAdhanText;
+            private set => Set(ref _playingAdhanText, value);
+        }
+        private string _playingAdhanText = "";
+
+        // -------------------- Monthly Print (NEW) --------------------
+        public int PrintYear { get => _printYear; set => Set(ref _printYear, value); }
+        private int _printYear = DateTime.Now.Year;
+
+        public int PrintMonth { get => _printMonth; set => Set(ref _printMonth, value); }
+        private int _printMonth = DateTime.Now.Month; // 1-12
+
+        public string PrintPagePreset { get => _printPagePreset; set => Set(ref _printPagePreset, value); }
+        private string _printPagePreset = "LegalUS"; // or "A3"
+
+        public ICommand GenerateMonthlyCommand { get; }
+        public ICommand PrintMonthlyCommand { get; }
+
+        private FixedDocument? _monthlyDocument;
+
+
         // Draft values for Settings window (strings for safe input)
         public string DraftCityName { get => _draftCityName; set => Set(ref _draftCityName, value); }
         public string DraftLatitude { get => _draftLatitude; set => Set(ref _draftLatitude, value); }
@@ -146,19 +176,6 @@ namespace PrayerTimes.ViewModels
             }
         }
 
-
-        public bool NotificationsEnabled
-        {
-            get => _settings.NotificationsEnabled;
-            set
-            {
-                if (_settings.NotificationsEnabled == value) return;
-                _settings.NotificationsEnabled = value;
-                SaveSettings();
-                OnPropertyChanged();
-            }
-        }
-
         public string DefaultAzanVoice
         {
             get => _settings.DefaultAzanVoice;
@@ -210,43 +227,6 @@ namespace PrayerTimes.ViewModels
 
         // Adhan playback
         private readonly MediaPlayer _azanPlayer = new();
-        private bool _isAdhanPlaying;
-        private string _playingAdhanText = "";
-
-        public bool IsAdhanPlaying { get => _isAdhanPlaying; set => Set(ref _isAdhanPlaying, value); }
-        public string PlayingAdhanText { get => _playingAdhanText; set => Set(ref _playingAdhanText, value); }
-
-        private bool _azanEventsHooked;
-
-
-        private void HookAzanPlayerEvents()
-        {
-            if (_azanEventsHooked) return;
-            _azanEventsHooked = true;
-
-            // Ensure UI state resets when playback ends or fails
-            _azanPlayer.MediaEnded += (_, __) =>
-            {
-                // Media events may be raised off-UI thread; marshal back
-                System.Windows.Application.Current?.Dispatcher?.BeginInvoke(new Action(() =>
-                {
-                    try { _azanPlayer.Stop(); } catch { }
-                    IsAdhanPlaying = false;
-                    PlayingAdhanText = "";
-                }));
-            };
-
-            _azanPlayer.MediaFailed += (_, __) =>
-            {
-                System.Windows.Application.Current?.Dispatcher?.BeginInvoke(new Action(() =>
-                {
-                    try { _azanPlayer.Stop(); } catch { }
-                    IsAdhanPlaying = false;
-                    PlayingAdhanText = "";
-                }));
-            };
-        }
-
         private readonly HashSet<string> _azanFiredKeys = new();
         private string? _lastAzanDateKey;
         public MainViewModel()
@@ -263,11 +243,12 @@ namespace PrayerTimes.ViewModels
             TestAdhanCommand = new SimpleCommand(TestAdhan);
             StopAdhanCommand = new SimpleCommand(StopAdhan);
 
+            GenerateMonthlyCommand = new SimpleCommand(GenerateMonthly);
+            PrintMonthlyCommand = new SimpleCommand(PrintMonthly);
+
             HookAzanPlayerEvents();
 
 
-
-            ToggleWaktAdhanCommand = new SimpleCommand(ToggleWaktAdhan);
             Refresh();
 
             _timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
@@ -320,46 +301,6 @@ namespace PrayerTimes.ViewModels
 
 
 
-
-
-        // ----------------------------
-        // UI: "Pill button" toggles (QM-style)
-        // Clicking the time pill toggles per-wakt Adhan enable/disable.
-        // Sunrise is ignored (no Adhan).
-        // ----------------------------
-        private void ToggleWaktAdhan(object? parameter)
-        {
-            var key = (parameter ?? "").ToString()?.Trim();
-            if (string.IsNullOrWhiteSpace(key)) return;
-
-            switch (key)
-            {
-                case "Fajr":
-                    FajrAzanEnabled = !FajrAzanEnabled;
-                    break;
-
-                case "Sunrise":
-                    // Sunrise should never play Adhan
-                    SunriseAzanEnabled = false;
-                    break;
-
-                case "Dhuhr":
-                    DhuhrAzanEnabled = !DhuhrAzanEnabled;
-                    break;
-
-                case "Asr":
-                    AsrAzanEnabled = !AsrAzanEnabled;
-                    break;
-
-                case "Maghrib":
-                    MaghribAzanEnabled = !MaghribAzanEnabled;
-                    break;
-
-                case "Isha":
-                    IshaAzanEnabled = !IshaAzanEnabled;
-                    break;
-            }
-        }
         private void TestAdhan()
         {
             Log("TestAdhan button clicked");
@@ -370,22 +311,100 @@ namespace PrayerTimes.ViewModels
             PlayAzan(voice);
         }
 
+        private void HookAzanPlayerEvents()
+        {
+            // Avoid multiple subscriptions; MediaPlayer allows duplicates if called repeatedly.
+            _azanPlayer.MediaEnded -= AzanPlayer_MediaEnded;
+            _azanPlayer.MediaFailed -= AzanPlayer_MediaFailed;
 
-        void StopAdhan()
+            _azanPlayer.MediaEnded += AzanPlayer_MediaEnded;
+            _azanPlayer.MediaFailed += AzanPlayer_MediaFailed;
+        }
+
+        private void AzanPlayer_MediaEnded(object? sender, EventArgs e)
+        {
+            IsAdhanPlaying = false;
+            PlayingAdhanText = "";
+        }
+
+        private void AzanPlayer_MediaFailed(object? sender, ExceptionEventArgs e)
+        {
+            IsAdhanPlaying = false;
+            PlayingAdhanText = "";
+            DetectStatus = $"Adhan error: {e.ErrorException?.Message}";
+        }
+
+        private void StopAdhan()
         {
             try
             {
                 _azanPlayer.Stop();
-                IsAdhanPlaying = false;
-                PlayingAdhanText = "";
-                DetectStatus = "Adhan stopped.";
-                Log("StopAdhan: MediaPlayer stopped");
+            }
+            catch { }
+
+            IsAdhanPlaying = false;
+            PlayingAdhanText = "";
+            DetectStatus = "Stopped Adhan.";
+        }
+
+        private void GenerateMonthly()
+        {
+            try
+            {
+                if (PrintMonth < 1 || PrintMonth > 12) { DetectStatus = "Invalid month."; return; }
+                if (PrintYear < 1900 || PrintYear > 2200) { DetectStatus = "Invalid year."; return; }
+                if (_settings.Latitude == 0 || _settings.Longitude == 0) { DetectStatus = "Please set a location first."; return; }
+
+                var vm = new MonthlyPrintViewModel
+                {
+                    Year = PrintYear,
+                    Month = PrintMonth,
+                    PagePreset = PrintPagePreset,
+                    LocationName = string.IsNullOrWhiteSpace(_settings.CityName) ? "Selected Location" : _settings.CityName,
+                    FooterLeft = "PrayerTimes Windows App",
+                    FooterRight = $"Generated: {DateTime.Now:yyyy-MM-dd HH:mm}"
+                };
+
+                vm.GetTimesForDate = (date) =>
+                {
+                    var r = _service.GetForDate(date, _settings.Latitude, _settings.Longitude, _settings.Method, _settings.Madhhab, _tz);
+                    return (r.Fajr, r.Sunrise, r.Dhuhr, r.Asr, r.Maghrib, r.Isha);
+                };
+
+                vm.Generate();
+                _monthlyDocument = vm.BuildDocument();
+
+                DetectStatus = "Monthly schedule generated. Click Print.";
             }
             catch (Exception ex)
             {
-                Log($"StopAdhan error: {ex.Message}");
+                DetectStatus = $"Monthly generation failed: {ex.Message}";
             }
         }
+
+        private void PrintMonthly()
+        {
+            try
+            {
+                if (_monthlyDocument == null)
+                {
+                    GenerateMonthly();
+                    if (_monthlyDocument == null) return;
+                }
+
+                var dlg = new System.Windows.Controls.PrintDialog();
+                if (dlg.ShowDialog() == true)
+                {
+                    dlg.PrintDocument(_monthlyDocument.DocumentPaginator, "Prayer Times Monthly");
+                    DetectStatus = "Print job sent.";
+                }
+            }
+            catch (Exception ex)
+            {
+                DetectStatus = $"Printing failed: {ex.Message}";
+            }
+        }
+
 
         private void SeedDraftFromSettings()
         {
@@ -551,6 +570,11 @@ namespace PrayerTimes.ViewModels
 
                 DetectStatus = $"Playing Adhan: {voice}";
 
+                // Set up event handlers for debugging
+                _azanPlayer.MediaOpened += (s, e) => Log("MediaPlayer: MediaOpened event fired");
+                _azanPlayer.MediaFailed += (s, e) => Log($"MediaPlayer: MediaFailed - {e.ErrorException?.Message}");
+                _azanPlayer.MediaEnded += (s, e) => Log("MediaPlayer: MediaEnded event fired");
+
                 // Play from temp file
                 Log($"Opening and playing from temp file: {tempFile}");
                 _azanPlayer.Stop();
@@ -563,8 +587,6 @@ namespace PrayerTimes.ViewModels
             }
             catch (Exception ex)
             {
-                IsAdhanPlaying = false;
-                PlayingAdhanText = "";
                 DetectStatus = $"Adhan play failed: {ex.Message}";
                 Log(DetectStatus);
                 Log($"Full error: {ex}");
@@ -749,25 +771,11 @@ namespace PrayerTimes.ViewModels
 
         private sealed class SimpleCommand : ICommand
         {
-            private readonly Action? _run;
-            private readonly Action<object?>? _runWithParam;
-
+            private readonly Action _run;
             public SimpleCommand(Action run) => _run = run;
 
-            public SimpleCommand(Action<object?> runWithParam) => _runWithParam = runWithParam;
-
             public bool CanExecute(object? parameter) => true;
-
-            public void Execute(object? parameter)
-            {
-                if (_runWithParam != null)
-                {
-                    _runWithParam(parameter);
-                    return;
-                }
-
-                _run?.Invoke();
-            }
+            public void Execute(object? parameter) => _run();
 
             public event EventHandler? CanExecuteChanged { add { } remove { } }
         }

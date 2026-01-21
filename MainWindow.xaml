@@ -621,6 +621,110 @@
                                     </TextBlock>
                                 </Grid>
                             </Button>
+                            <!-- ===================== MONTHLY PRINT (NEW) ===================== -->
+                            <Border Margin="0,18,0,0"
+                            Padding="12"
+                            CornerRadius="12"
+                            Background="{DynamicResource ParchmentSoftBrush}"
+                            BorderBrush="{DynamicResource GoldBrush}"
+                            BorderThickness="1.5">
+
+                                <StackPanel>
+                                    <TextBlock Text="Monthly Prayer Times"
+                            FontFamily="{DynamicResource TitleFont}"
+                            FontSize="13"
+                            FontWeight="SemiBold"
+                            Foreground="{DynamicResource AccentBrush}"
+                            Margin="0,0,0,10"/>
+
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1.35*"/>
+                                            <ColumnDefinition Width="0.85*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+
+                                        <!-- Month -->
+                                        <TextBlock Grid.Row="0" Grid.Column="0"
+                            Text="Month"
+                            FontSize="12"
+                            Opacity="0.75"
+                            Margin="0,0,0,6"/>
+
+                                        <ComboBox Grid.Row="1" Grid.Column="0"
+                            SelectedValue="{Binding PrintMonth, Mode=TwoWay}"
+                            SelectedValuePath="Tag"
+                            Height="32"
+                            Margin="0,0,10,0">
+                                            <ComboBoxItem Content="January" Tag="1"/>
+                                            <ComboBoxItem Content="February" Tag="2"/>
+                                            <ComboBoxItem Content="March" Tag="3"/>
+                                            <ComboBoxItem Content="April" Tag="4"/>
+                                            <ComboBoxItem Content="May" Tag="5"/>
+                                            <ComboBoxItem Content="June" Tag="6"/>
+                                            <ComboBoxItem Content="July" Tag="7"/>
+                                            <ComboBoxItem Content="August" Tag="8"/>
+                                            <ComboBoxItem Content="September" Tag="9"/>
+                                            <ComboBoxItem Content="October" Tag="10"/>
+                                            <ComboBoxItem Content="November" Tag="11"/>
+                                            <ComboBoxItem Content="December" Tag="12"/>
+                                        </ComboBox>
+
+                                        <!-- Year -->
+                                        <TextBlock Grid.Row="0" Grid.Column="1"
+                            Text="Year"
+                            FontSize="12"
+                            Opacity="0.75"
+                            Margin="0,0,0,6"/>
+
+                                        <TextBox Grid.Row="1" Grid.Column="1"
+                            Text="{Binding PrintYear, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Height="32"/>
+
+                                        <!-- Page preset -->
+                                        <TextBlock Grid.Row="2" Grid.Column="0"
+                            Text="Page"
+                            FontSize="12"
+                            Opacity="0.75"
+                            Margin="0,10,0,6"/>
+
+                                        <ComboBox Grid.Row="3" Grid.Column="0"
+                            SelectedValue="{Binding PrintPagePreset, Mode=TwoWay}"
+                            SelectedValuePath="Tag"
+                            Height="32"
+                            Margin="0,0,10,0">
+                                            <ComboBoxItem Content="Legal US" Tag="LegalUS"/>
+                                            <ComboBoxItem Content="A3" Tag="A3"/>
+                                        </ComboBox>
+                                    </Grid>
+
+                                    <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
+                                        <Button Content="Generate"
+                            Command="{Binding GenerateMonthlyCommand}"
+                            Height="34"
+                            MinWidth="92"
+                            Padding="14,0"
+                            Margin="0,0,10,0"/>
+
+                                        <Button Content="Print"
+                            Command="{Binding PrintMonthlyCommand}"
+                            Height="34"
+                            MinWidth="72"
+                            Padding="14,0"/>
+                                    </StackPanel>
+
+                                    <TextBlock Text="Tip: Generate first, then Print."
+                            FontSize="11"
+                            Opacity="0.65"
+                            Margin="0,10,0,0"/>
+                                </StackPanel>
+                            </Border>
+                            <!-- =================== END MONTHLY PRINT (NEW) =================== -->
                         </StackPanel>
                     </ScrollViewer>
                 </Grid>
@@ -832,6 +936,8 @@
                            FontSize="11"
                            Opacity="0.65"
                            Margin="0,14,0,0"/>
+
+
                         </StackPanel>
                     </ScrollViewer>
                 </Grid>
