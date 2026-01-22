@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Threading;
 using System.Windows.Media;
 using System.Windows.Documents;
+using PrayerTimes.ViewModels;
 
 namespace PrayerTimes.ViewModels
 {
@@ -101,6 +102,8 @@ namespace PrayerTimes.ViewModels
         public ICommand PrintMonthlyCommand { get; }
 
         private FixedDocument? _monthlyDocument;
+        private string? _monthlyXpsPath;
+        private string? _monthlyPdfPath;
 
 
         // Draft values for Settings window (strings for safe input)
@@ -160,6 +163,8 @@ namespace PrayerTimes.ViewModels
             "Hamza Al Majale",
             "Rabeh Al Jazairi",
             "Mishary Al-Afasy",
+            "Mishary-Fajr",
+            "Abdussamad-Fajr",
             "Mullah-Makkah",
             "Qassas-Madinah"
         };
@@ -355,7 +360,7 @@ namespace PrayerTimes.ViewModels
                 if (PrintYear < 1900 || PrintYear > 2200) { DetectStatus = "Invalid year."; return; }
                 if (_settings.Latitude == 0 || _settings.Longitude == 0) { DetectStatus = "Please set a location first."; return; }
 
-                var vm = new MonthlyPrintViewModel
+                var vm = new MonthlyPrintViewModel(_service)
                 {
                     Year = PrintYear,
                     Month = PrintMonth,
@@ -365,16 +370,34 @@ namespace PrayerTimes.ViewModels
                     FooterRight = $"Generated: {DateTime.Now:yyyy-MM-dd HH:mm}"
                 };
 
-                vm.GetTimesForDate = (date) =>
+                _monthlyDocument = vm.BuildDocument(
+                    _settings.Latitude,
+                    _settings.Longitude,
+                    _settings.Method,
+                    _settings.Madhhab,
+                    _tz
+                );
+
+                var outDir = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "PrayerTimes");
+                var city = PrintService.SanitizeFilePart(string.IsNullOrWhiteSpace(_settings.CityName) ? "Location" : _settings.CityName);
+                var baseName = $"PrayerTimes_{city}_{PrintYear:0000}-{PrintMonth:00}";
+
+                _monthlyXpsPath = PrintService.TrySaveAsXps(_monthlyDocument, outDir, baseName);
+
+                if (!string.IsNullOrWhiteSpace(_monthlyXpsPath))
                 {
-                    var r = _service.GetForDate(date, _settings.Latitude, _settings.Longitude, _settings.Method, _settings.Madhhab, _tz);
-                    return (r.Fajr, r.Sunrise, r.Dhuhr, r.Asr, r.Maghrib, r.Isha);
-                };
+                    var pdfPath = System.IO.Path.Combine(outDir, baseName + ".pdf");
+                    _monthlyPdfPath = PrintService.TryConvertXpsToPdf(_monthlyXpsPath, pdfPath);
 
-                vm.Generate();
-                _monthlyDocument = vm.BuildDocument();
-
-                DetectStatus = "Monthly schedule generated. Click Print.";
+                    if (_monthlyPdfPath != null)
+                        DetectStatus = $"Monthly generated: XPS + PDF saved to {outDir}";
+                    else
+                        DetectStatus = $"Monthly generated: XPS saved to {outDir} (PDF export not available)";
+                }
+                else
+                {
+                    DetectStatus = "Monthly generated (in-memory). XPS export not available.";
+                }
             }
             catch (Exception ex)
             {
@@ -386,18 +409,23 @@ namespace PrayerTimes.ViewModels
         {
             try
             {
-                if (_monthlyDocument == null)
+                if (!string.IsNullOrWhiteSpace(_monthlyXpsPath) && System.IO.File.Exists(_monthlyXpsPath))
                 {
-                    GenerateMonthly();
-                    if (_monthlyDocument == null) return;
+                    if (PrintService.TryPrintFromXps(_monthlyXpsPath, "Prayer Times Monthly"))
+                    {
+                        DetectStatus = "Print job sent (from XPS).";
+                        return;
+                    }
                 }
 
-                var dlg = new System.Windows.Controls.PrintDialog();
-                if (dlg.ShowDialog() == true)
+                if (_monthlyDocument == null)
                 {
-                    dlg.PrintDocument(_monthlyDocument.DocumentPaginator, "Prayer Times Monthly");
-                    DetectStatus = "Print job sent.";
+                    DetectStatus = "Please click Generate first.";
+                    return;
                 }
+
+                PrintService.Print(_monthlyDocument);
+                DetectStatus = "Print job sent.";
             }
             catch (Exception ex)
             {
@@ -600,6 +628,8 @@ namespace PrayerTimes.ViewModels
                 "Hamza Al Majale" => "Hamza_Al_Majale.mp3",
                 "Rabeh Al Jazairi" => "Rabeh_Al_Jazairi.mp3",
                 "Mishary Al-Afasy" => "Mishary_Al-Afasy.mp3",
+                "Mishary-Fajr" => "Mishary-Fajr.mp3",
+                "Abdussamad-Fajr" => "Abdussamad-Fajr.mp3",
                 "Mullah-Makkah" => "Mullah-Makkah.mp3",
                 "Qassas-Madinah" => "Qassas-Madinah.mp3",
                 _ => "Mishary_Al-Afasy.mp3"

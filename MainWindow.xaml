@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="clr-namespace:PrayerTimes.ViewModels"
         Title="Prayer Times" Height="650" Width="900"
+        Icon="Assets/Icons/logo.ico"
         FontSize="14"
         WindowStartupLocation="CenterScreen">
     <Window.DataContext>
@@ -210,24 +211,25 @@
                         </Grid.ColumnDefinitions>
 
                         <TextBlock Grid.Column="0"
-               Text="TODAY'S TIMES"
-               FontFamily="{DynamicResource TitleFont}"
-               FontSize="26"
-               FontWeight="SemiBold"
-               Foreground="{DynamicResource AccentBrush}"/>
+                                Text="TODAY'S TIMES"
+                                FontFamily="{DynamicResource TitleFont}"
+                                FontSize="26"
+                                FontWeight="SemiBold"
+                                Foreground="{DynamicResource AccentBrush}"/>
 
                         <StackPanel Grid.Column="1"
-                Orientation="Horizontal"
-                VerticalAlignment="Center"
-                Margin="10,0,0,0">
+                                Orientation="Horizontal"
+                                VerticalAlignment="Center"
+                                Margin="10,0,0,0">
                             <Button Content="Generate/Print"
-                Height="26"
-                MinWidth="120"
-                Padding="14,0"
-                Click="ScrollToMonthlyPrint_Click"
-                ToolTip="Jump to Monthly Prayer Times"
-                VerticalAlignment="Center"
-                Foreground="{DynamicResource AccentBrush}"/>
+                            Command="{Binding ScrollToMonthlyCommand}"
+                            Height="26"
+                            MinWidth="120"
+                            Padding="14,0"
+                            Click="ScrollToMonthlyPrint_Click"
+                            ToolTip="Jump to Monthly Prayer Times"
+                            VerticalAlignment="Center"
+                            Foreground="{DynamicResource AccentBrush}"/>
                         </StackPanel>
                     </Grid>
 
@@ -289,11 +291,11 @@
                                     </Button>
 
                                     <TextBlock Grid.Column="3"
-           Margin="10,0,0,0"
-           VerticalAlignment="Center"
-           FontSize="12"
-           Opacity="0.70"
-           Text="Muted">
+                                            Margin="10,0,0,0"
+                                            VerticalAlignment="Center"
+                                            FontSize="12"
+                                            Opacity="0.70"
+                                            Text="Muted">
                                         <TextBlock.Style>
                                             <Style TargetType="TextBlock">
                                                 <Setter Property="Visibility" Value="Collapsed"/>
@@ -407,11 +409,11 @@
                                     </Button>
 
                                     <TextBlock Grid.Column="3"
-           Margin="10,0,0,0"
-           VerticalAlignment="Center"
-           FontSize="12"
-           Opacity="0.70"
-           Text="Muted">
+                                            Margin="10,0,0,0"
+                                            VerticalAlignment="Center"
+                                            FontSize="12"
+                                            Opacity="0.70"
+                                            Text="Muted">
                                         <TextBlock.Style>
                                             <Style TargetType="TextBlock">
                                                 <Setter Property="Visibility" Value="Collapsed"/>
@@ -481,11 +483,11 @@
                                     </Button>
 
                                     <TextBlock Grid.Column="3"
-           Margin="10,0,0,0"
-           VerticalAlignment="Center"
-           FontSize="12"
-           Opacity="0.70"
-           Text="Muted">
+                                               Margin="10,0,0,0"
+                                               VerticalAlignment="Center"
+                                               FontSize="12"
+                                               Opacity="0.70"
+                                               Text="Muted">
                                         <TextBlock.Style>
                                             <Style TargetType="TextBlock">
                                                 <Setter Property="Visibility" Value="Collapsed"/>
@@ -555,11 +557,11 @@
                                     </Button>
 
                                     <TextBlock Grid.Column="3"
-           Margin="10,0,0,0"
-           VerticalAlignment="Center"
-           FontSize="12"
-           Opacity="0.70"
-           Text="Muted">
+                                            Margin="10,0,0,0"
+                                            VerticalAlignment="Center"
+                                            FontSize="12"
+                                            Opacity="0.70"
+                                            Text="Muted">
                                         <TextBlock.Style>
                                             <Style TargetType="TextBlock">
                                                 <Setter Property="Visibility" Value="Collapsed"/>
@@ -629,11 +631,11 @@
                                     </Button>
 
                                     <TextBlock Grid.Column="3"
-           Margin="10,0,0,0"
-           VerticalAlignment="Center"
-           FontSize="12"
-           Opacity="0.70"
-           Text="Muted">
+                                            Margin="10,0,0,0"
+                                            VerticalAlignment="Center"
+                                            FontSize="12"
+                                            Opacity="0.70"
+                                            Text="Muted">
                                         <TextBlock.Style>
                                             <Style TargetType="TextBlock">
                                                 <Setter Property="Visibility" Value="Collapsed"/>
@@ -730,18 +732,9 @@
                                     </Grid>
 
                                     <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
-                                        <Button Content="Generate"
-                            Command="{Binding GenerateMonthlyCommand}"
-                            Height="34"
-                            MinWidth="92"
-                            Padding="14,0"
-                            Margin="0,0,10,0"/>
+                                        <Button Content="Generate" Height="34" MinWidth="92" Padding="14,0" Margin="0,0,10,0" Click="MonthlyGenerateComingSoon_Click"/>
 
-                                        <Button Content="Print"
-                            Command="{Binding PrintMonthlyCommand}"
-                            Height="34"
-                            MinWidth="72"
-                            Padding="14,0"/>
+                                        <Button Content="Print" Height="34" MinWidth="72" Padding="14,0" Click="MonthlyPrintComingSoon_Click"/>
                                     </StackPanel>
 
                                     <TextBlock Text="Tip: Generate first, then Print."

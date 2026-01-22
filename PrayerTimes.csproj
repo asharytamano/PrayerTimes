@@ -9,6 +9,7 @@
 		<UseWPF>true</UseWPF>
 		<UseWindowsForms>true</UseWindowsForms>
 		<StartupObject>PrayerTimes.App</StartupObject>
+		<ApplicationIcon>Assets\Icons\logo.ico</ApplicationIcon>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -16,12 +17,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<None Remove="Assets\Audio\Abdussamad-Fajr.mp3" />
 		<None Remove="Assets\Audio\Hamza_Al_Majale.mp3" />
+		<None Remove="Assets\Audio\Mishary-Fajr.mp3" />
 		<None Remove="Assets\Audio\Mishary_Al-Afasy.mp3" />
 		<None Remove="Assets\Audio\Rabeh_Al_Jazairi.mp3" />
 		<None Remove="Assets\Fonts\TrajanPro-Bold.otf" />
 		<None Remove="Assets\Fonts\TrajanPro-Regular.ttf" />
 		<None Remove="Assets\Header\header.png" />
+		<None Remove="Assets\Icons\logo.ico" />
 		<None Remove="Assets\Images\HabibTamano.png" />
 	</ItemGroup>
 
@@ -44,7 +48,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Resource Include="Assets\Audio\Abdussamad-Fajr.mp3" />
 		<Resource Include="Assets\Audio\Hamza_Al_Majale.mp3" />
+		<Resource Include="Assets\Audio\Mishary-Fajr.mp3" />
 		<Resource Include="Assets\Audio\Qassas-Madinah.mp3" />
 		<Resource Include="Assets\Audio\Mullah-Makkah.mp3" />
 		<Resource Include="Assets\Audio\Mishary_Al-Afasy.mp3" />
@@ -52,6 +58,7 @@
 		<Resource Include="Assets\Fonts\TrajanPro-Bold.otf" />
 		<Resource Include="Assets\Fonts\TrajanPro-Regular.ttf" />
 		<Resource Include="Assets\Header\header.png" />
+		<Resource Include="Assets\Icons\logo.ico" />
 		<Resource Include="Assets\Images\HabibTamano.png" />
 	</ItemGroup>
 
