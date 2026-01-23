@@ -27,6 +27,7 @@
 		<None Remove="Assets\Header\header.png" />
 		<None Remove="Assets\Icons\logo.ico" />
 		<None Remove="Assets\Images\HabibTamano.png" />
+		<None Remove="Assets\Images\splashscreen.png" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -60,6 +61,7 @@
 		<Resource Include="Assets\Header\header.png" />
 		<Resource Include="Assets\Icons\logo.ico" />
 		<Resource Include="Assets\Images\HabibTamano.png" />
+		<Resource Include="Assets\Images\splashscreen.png" />
 	</ItemGroup>
 
 	<ItemGroup>

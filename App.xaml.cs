@@ -1,47 +1,61 @@
 ﻿using System;
 using System.Windows;
-using PrayerTimes.Shell;
-using PrayerTimes.ViewModels;
+using System.Windows.Media.Animation;
 
 namespace PrayerTimes
 {
     public partial class App : System.Windows.Application
     {
-        private TrayService? _tray;
-
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
 
-            try
+            // ✅ Prevent app from exiting when SplashWindow closes
+            ShutdownMode = ShutdownMode.OnExplicitShutdown;
+
+            var splash = new SplashWindow();
+            splash.Show();
+
+            var sb = new Storyboard();
+
+            var fadeIn = new DoubleAnimation
             {
+                From = 0,
+                To = 1,
+                Duration = TimeSpan.FromSeconds(0.6),
+                BeginTime = TimeSpan.Zero
+            };
+            Storyboard.SetTarget(fadeIn, splash);
+            Storyboard.SetTargetProperty(fadeIn, new PropertyPath(Window.OpacityProperty));
+            sb.Children.Add(fadeIn);
+
+            // ✅ Visible for 5 seconds AFTER fade-in (0.6s + 5s = 5.6s)
+            var fadeOut = new DoubleAnimation
+            {
+                From = 1,
+                To = 0,
+                Duration = TimeSpan.FromSeconds(0.6),
+                BeginTime = TimeSpan.FromSeconds(5.6)
+            };
+            Storyboard.SetTarget(fadeOut, splash);
+            Storyboard.SetTargetProperty(fadeOut, new PropertyPath(Window.OpacityProperty));
+            sb.Children.Add(fadeOut);
+
+            sb.Completed += (_, __) =>
+            {
+                // ✅ Create and show MainWindow FIRST
                 var main = new MainWindow();
-
-                // Ensure DataContext exists (some setups set it in XAML; others do it in code-behind).
-                var vm = main.DataContext as MainViewModel;
-                if (vm == null)
-                {
-                    vm = new MainViewModel();
-                    main.DataContext = vm;
-                }
-
-                // Wire tray behavior (minimize/close to tray + menu + tooltip).
-                _tray = new TrayService(main, vm);
-
-                MainWindow = main;
+                MainWindow = main;      // important
                 main.Show();
-            }
-            catch (Exception ex)
-            {
-                System.Windows.MessageBox.Show(ex.ToString(), "OnStartup crash");
-                Shutdown();
-            }
-        }
 
-        protected override void OnExit(ExitEventArgs e)
-        {
-            try { _tray?.Dispose(); } catch { /* ignore */ }
-            base.OnExit(e);
+                // ✅ Now close splash
+                splash.Close();
+
+                // ✅ Switch shutdown mode to normal behavior
+                ShutdownMode = ShutdownMode.OnMainWindowClose;
+            };
+
+            sb.Begin();
         }
     }
 }
